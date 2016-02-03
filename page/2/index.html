@@ -81,28 +81,50 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/03/hello-world/" title="Hello" itemprop="url">Hello</a>
+      <a href="/2016/02/03/OS X/" title="OS X内存管理：从源码进行分析（一）" itemprop="url">OS X内存管理：从源码进行分析（一）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T09:38:19.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    <time datetime="2016-02-03T11:58:05.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>通过对《Objective-C高级编程》的学习，就来总结一下。</p>
+<p>在Objective-C中的内存管理中，autorelease就是自动释放，看上去很像ARC对不对？但是呢，却并不是，其实有点像我们曾经在学习C语言中的局部变量</p>
+<p>##GNUstep的实现</p>
+<p>就下来就详细的总结一下autorelease的实现原理。由于NSObject类的Foundation框架并没有被开源，所以我们就研究一下GNUstep这个开源软件。</p>
+<p>首先看一个源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[obj autorelease]</span><br></pre></td></tr></table></figure>
+<p>这个源代码实际是调用了 NSObject类的autorelease方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(id)autorelease&#10;&#123;&#10;&#9;[NSAutoreleasePool addObject:self];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>从以上这个代码中我们就可以分析出来，其实autorelease实际上就是调用了NSAutoreleasePool中的addObject方法</p>
+<p>看到了以上的内容，我们就需要详细的探讨一下NSAutoreleasePool的实现原理。以下是我摘要的源代码，因为NSAutoreleasePool的源代码的实现太复杂了，所以这里的源代码是经过简化后的</p>
+<p>NSAutoreleasePool.m addObject</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(void)addObject:(id)anObj&#10;&#123;&#10;&#9;NSAutoreleasePool *pool = &#21462;&#24471;&#25105;&#20204;&#27491;&#22312;&#36816;&#29992;&#30340;NSAutoreleasePool;&#10;&#9;if&#65288;pool&#65281;=nil&#65289;&#123;&#10;&#9;&#9;[pool addObject: anObj];&#10;&#9;&#125; else &#123;&#10;&#9;&#9;NSLog(@&#34;NSAutoreleasePool&#23545;&#35937;&#19981;&#23384;&#22312;&#34;);&#10;&#9;&#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>addObject 类方法调用正在使用的NSAutoreleasePool对象的addObject，这句话可能会有一些难理解，没关系，接着看一组源代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];&#10;id obj = [[NSObject alloc] init];&#10;[obj autorelease];</span><br></pre></td></tr></table></figure>
+<p>通过上面的代码我们就可以看出，被赋予pool变量，那么就是正在使用NSAutoreleasePool的实例化对象。</p>
+<p>在我自己学习的过程中，还看到另外一种嵌套的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSAutoreleasePool *pool0 = [[NSAutoreleasePool alloc] init];&#10;&#9;NSAutoreleasePool *pool1 = [[NSAutoreleasePool alloc] init];&#10;&#9;&#9;NSAutoreleasePool *pool2 = [[NSAutoreleasePool alloc] init];&#10;&#9;&#9;&#10;&#9;&#9;id obj = [[NSObject alloc] init];&#10;&#9;&#9;[obj autorelease];&#10;&#9;&#9;&#10;&#9;&#9;[pool2 drain];&#10;&#9;[pool1 drain];&#10;[pool0 drain];</span><br></pre></td></tr></table></figure>
+<p>在这种嵌套结构中，pool2为NSAutoreleasePool的使用对象，遵循使用最内测的对象想这个原则。</p>
+<p>看一下addObject的实现原理。其实就是调用了array的addObject方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-&#65288;void&#65289;addObject &#65306;&#65288;id&#65289;anObj&#10;&#123;&#10;&#9;[array addObject : anObj];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>以上就是GNUstep实现，其实GNUstep使用的就是连接列表，这跟NSNutableArray对象的中追加的原理是一样的，就是说如果我们调用了autorelease方法，这个调用autorelease方法的对象就会被追加到NSAutoreleasePool的数组中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[pool drain];</span><br></pre></td></tr></table></figure>
+<p>通过drain就可以删除正在使用NSAutoreleasePool的对象</p>
+<p>看一下drain的实现原理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-&#65288;void&#65289;drain&#10;&#123;&#10;&#9;for(id obj in array)&#123;&#10;&#9;&#9;[obj release];&#10;&#9;&#125;&#10;&#9;[array release];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>通过每次的循环都在调用release方法来实现释放。</p>
+<p>##苹果的实现</p>
+<p>以下为objc4库中的autorelease实现原理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class AutoreleasePoolPage&#10;&#123;&#10;&#9;static inline void *push()&#10;&#9;&#123;&#10;&#9;&#9;//&#22312;&#36825;&#37324;&#36827;&#34892;NSAutoreleasePool&#30340;&#29983;&#25104;&#10;&#9;&#125;&#10;&#9;&#10;&#9;static inline void *pop()&#10;&#9;&#123;&#10;&#9;&#9;//&#24223;&#24323;&#25481;NSAutoreleasePool&#31867;&#23545;&#35937;&#10;&#9;&#9;releaseAll();&#10;&#9;&#125;&#10;&#9;static inline id autorelease(id obj)&#10;&#9;&#123;&#10;&#9;&#9;//&#36825;&#37324;&#23601;&#30456;&#24403;&#20110;NSAutoreleasePool&#31867;&#30340;addObject&#26041;&#27861;&#10;&#9;&#9;AutoreleasePoolPage * autoreleasePoolPage = &#21462;&#24471;&#27491;&#22312;&#20351;&#29992;AutoreleasePoolPage&#31867;&#30340;&#23545;&#35937;&#65307;&#10;&#9;&#9;autoreleasePoolPage-&#62;add(obj);&#10;&#9;&#9;&#10;&#9;&#125;&#10;&#9;id *add(id obj)&#10;&#9;&#123;&#10;&#9;&#9;//&#35762;&#23545;&#35937;&#36861;&#21152;&#21040;&#25968;&#32452;&#20013;&#10;&#9;&#125;&#10;&#9;void releaseAll()&#10;&#9;&#123;&#10;&#9;&#9;//&#35843;&#29992;release&#23454;&#20363;&#10;&#9;&#125;&#10;&#125;&#10;&#10;void *obj_ autoreleasePoolPush(void)&#10;&#123;&#10;&#9;return autoreleasePoolPage::push();&#10;&#125;&#10;void *obj_ autoreleasePoolPop(void)&#10;&#123;&#10;&#9;return autoreleasePoolPage::pop(void *ctxt);&#10;&#125;&#10;void *obj_ autorelease(id obj)&#10;&#123;&#10;&#9;return autoreleasePoolPage::autorelease(obj);&#10;&#125;&#10;&#10;c++&#20013;&#34429;&#28982;&#26377;&#31867;&#20284;NSNutableArray&#30340;&#21160;&#24577;&#25968;&#32452;&#65292;&#20294;&#26159;&#34892;&#20026;&#21364;&#21644;GNUstep&#30340;&#23454;&#29616;&#23436;&#20840;&#19981;&#21516;&#12290;</span><br></pre></td></tr></table></figure>
+<p>首先先来看一下NSAutoreleasePool类方法和autorelease方法的运行过程。以及和从从从c++的对象关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];&#10;//&#30456;&#24403;&#20110;obj_ autoreleasePoolPush()&#10;&#10;id obj = [[NSObject alloc] init];&#10;&#10;&#10;[obj autorelease];&#10;//&#30456;&#24403;&#20110;*obj_ autorelease(obj)&#10;&#10;[pool drain];&#10;//&#30456;&#24403;&#20110;*obj_ autoreleasePoolPop(pool)</span><br></pre></td></tr></table></figure>
 
         
         
@@ -122,7 +144,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/02/03/hello-world/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/03/hello-world/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/02/03/OS X/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/03/OS X/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
