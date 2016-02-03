@@ -11,16 +11,22 @@
     
 
     
-    <meta name="description" content="一步一步搭建自己的iOS网络请求库（一）">
+    <meta name="description" content="一步一步搭建自己的iOS网络请求库（一）大家好，我是LastDay，很久没有写博客了，这周会分享一个的HTTP请求库的编写经验。
+简单的介绍介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一步一步搭建自己的iOS网络请求库（一）--测试NSURLSession">
 <meta property="og:url" content="http://yoursite.com/2016/02/03/Http-Library/index.html">
 <meta property="og:site_name" content="Lastdays">
-<meta property="og:description" content="一步一步搭建自己的iOS网络请求库（一）">
-<meta property="og:updated_time" content="2016-02-03T12:31:02.000Z">
+<meta property="og:description" content="一步一步搭建自己的iOS网络请求库（一）大家好，我是LastDay，很久没有写博客了，这周会分享一个的HTTP请求库的编写经验。
+简单的介绍介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候，">
+<meta property="og:image" content="http://img.blog.csdn.net/20151130224816040">
+<meta property="og:image" content="http://img.blog.csdn.net/20151130225055403">
+<meta property="og:image" content="http://img.blog.csdn.net/20151130230141398">
+<meta property="og:updated_time" content="2016-02-03T12:32:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一步一步搭建自己的iOS网络请求库（一）--测试NSURLSession">
-<meta name="twitter:description" content="一步一步搭建自己的iOS网络请求库（一）">
+<meta name="twitter:description" content="一步一步搭建自己的iOS网络请求库（一）大家好，我是LastDay，很久没有写博客了，这周会分享一个的HTTP请求库的编写经验。
+简单的介绍介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候，">
 
     
     <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
@@ -87,7 +93,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T12:31:02.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    <time datetime="2016-02-03T12:32:19.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
     
   </p>
 </header>
@@ -96,11 +102,26 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（一）</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B80_u5355_u7684_u4ECB_u7ECD"><span class="toc-number">1.1.</span> <span class="toc-text">简单的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D4B_u8BD5NSURLSession"><span class="toc-number">1.2.</span> <span class="toc-text">测试NSURLSession</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6D4B_u8BD5_u5B8C_u6210"><span class="toc-number">1.2.1.</span> <span class="toc-text">测试完成</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（一）"></a>一步一步搭建自己的iOS网络请求库（一）</h2>  
+		<h1 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（一）"></a>一步一步搭建自己的iOS网络请求库（一）</h1><p>大家好，我是LastDay，很久没有写博客了，这周会分享一个的HTTP请求库的编写经验。</p>
+<h2 id="u7B80_u5355_u7684_u4ECB_u7ECD"><a href="#u7B80_u5355_u7684_u4ECB_u7ECD" class="headerlink" title="简单的介绍"></a>简单的介绍</h2><p>介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候，Background Session会更加灵活</p>
+<h2 id="u6D4B_u8BD5NSURLSession"><a href="#u6D4B_u8BD5NSURLSession" class="headerlink" title="测试NSURLSession"></a>测试NSURLSession</h2><p>首先我们来新建一个工程，起名为LyHttp，在页面上放置一个按钮 ，起名为”测试”。</p>
+<p><img src="http://img.blog.csdn.net/20151130224816040" alt=""></p>
+<p>将按钮关联到我们的ViewController.m，起名为test。</p>
+<p><img src="http://img.blog.csdn.net/20151130225055403" alt=""></p>
+<p>添加以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)test:(id)sender &#123;&#10;    NSURL *url = [NSURL URLWithString:@&#34;http://cityuit.sinaapp.com/1.php&#34;];&#10;&#10;    NSURLSession *session = [NSURLSession sharedSession];&#10;    NSURLRequest *request = [NSURLRequest requestWithURL:url];&#10;    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;&#10;        &#10;        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];&#10;        NSLog(@&#34;%@&#34;,string);&#10;    &#125;];&#10;    [task resume];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><a href="http://cityuit.sinaapp.com/1.php" target="_blank" rel="external">http://cityuit.sinaapp.com/1.php</a></strong>是我自己写的一个接口用来测试的，会返回succeed。</p>
+<p>我们来看一下触发效果：</p>
+<p><img src="http://img.blog.csdn.net/20151130230141398" alt="这里写图片描述"></p>
+<h3 id="u6D4B_u8BD5_u5B8C_u6210"><a href="#u6D4B_u8BD5_u5B8C_u6210" class="headerlink" title="测试完成"></a>测试完成</h3><p>接下来我们来看看我们的NSURLSession是否为异步？OK，我们来简单的修改一下我们的程序吧。讲两个阻塞，来看看我们的主线程变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)test:(id)sender &#123;&#10;    NSURL *url = [NSURL URLWithString:@&#34;http://cityuit.sinaapp.com/1.php&#34;];&#10;&#10;    NSURLSession *session = [NSURLSession sharedSession];&#10;    NSURLRequest *request = [NSURLRequest requestWithURL:url];&#10;    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;&#10;    &#9;//&#38459;&#22622;3&#31186;&#10;        [NSThread sleepForTimeInterval:3];&#10;        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];&#10;        NSLog(@&#34;%@&#34;,string);&#10;    &#125;];&#10;    [task resume];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看见效果就是连续点击3次，每隔三秒进行一次输出，直到三次执行完事，这就说明我们的主线程没有被阻塞，验证说明NSURLSession为异步。</p>
+<p>曾将看过一篇文章中，介绍过，那篇文章里介绍NSURLSession 采用的是 “异步阻塞” 模型，即所有请求在发出后都进入 2# 线程执行，在 2# 线程内部按照阻塞队列模式执行。初步判断，此阻塞特性为 [NSURLSession sharedSession] 单例模式的结果。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -148,7 +169,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（一）</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B80_u5355_u7684_u4ECB_u7ECD"><span class="toc-number">1.1.</span> <span class="toc-text">简单的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D4B_u8BD5NSURLSession"><span class="toc-number">1.2.</span> <span class="toc-text">测试NSURLSession</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6D4B_u8BD5_u5B8C_u6210"><span class="toc-number">1.2.1.</span> <span class="toc-text">测试完成</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
