@@ -4,26 +4,37 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello | Lastdays</title>
+    <title>一步一步搭建自己的iOS网络请求库（三）--POST | Lastdays</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Lastdays">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="#一步一步搭建自己的iOS网络请求库（三）
+大家好，我是LastDay，上一次分享了简单的封装，和GET请求。这次带给大家POST方法
+我的博客地址：http://lastday.github.io
+##POST方法
+POST 下很很多协议可提供我们选择，因为我们没有写文件的上传，所以我们就采用 application/x-www-form-urlencoded 这种简单的方式发送请求吧。requ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello">
-<meta property="og:url" content="http://yoursite.com/2016/02/03/hello-world/index.html">
+<meta property="og:title" content="一步一步搭建自己的iOS网络请求库（三）--POST">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/2015-12-4-HttpLibrary3/index.html">
 <meta property="og:site_name" content="Lastdays">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-02-03T09:38:19.000Z">
+<meta property="og:description" content="#一步一步搭建自己的iOS网络请求库（三）
+大家好，我是LastDay，上一次分享了简单的封装，和GET请求。这次带给大家POST方法
+我的博客地址：http://lastday.github.io
+##POST方法
+POST 下很很多协议可提供我们选择，因为我们没有写文件的上传，所以我们就采用 application/x-www-form-urlencoded 这种简单的方式发送请求吧。requ">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113618660">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203232722166">
+<meta property="og:updated_time" content="2016-02-03T11:59:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="一步一步搭建自己的iOS网络请求库（三）--POST">
+<meta name="twitter:description" content="#一步一步搭建自己的iOS网络请求库（三）
+大家好，我是LastDay，上一次分享了简单的封装，和GET请求。这次带给大家POST方法
+我的博客地址：http://lastday.github.io
+##POST方法
+POST 下很很多协议可提供我们选择，因为我们没有写文件的上传，所以我们就采用 application/x-www-form-urlencoded 这种简单的方式发送请求吧。requ">
 
     
     <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
@@ -83,14 +94,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/03/hello-world/" title="Hello" itemprop="url">Hello</a>
+      <a href="/2016/02/03/2015-12-4-HttpLibrary3/" title="一步一步搭建自己的iOS网络请求库（三）--POST" itemprop="url">一步一步搭建自己的iOS网络请求库（三）--POST</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T09:38:19.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    <time datetime="2016-02-03T11:59:40.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
     
   </p>
 </header>
@@ -99,19 +110,26 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<p>#一步一步搭建自己的iOS网络请求库（三）</p>
+<p>大家好，我是LastDay，上一次分享了简单的封装，和GET请求。这次带给大家POST方法</p>
+<p>我的博客地址：<a href="http://lastday.github.io" target="_blank" rel="external">http://lastday.github.io</a></p>
+<p>##POST方法</p>
+<p>POST 下很很多协议可提供我们选择，因为我们没有写文件的上传，所以我们就采用 application/x-www-form-urlencoded 这种简单的方式发送请求吧。requestMethod 中进行一些修改，增加POST方法。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(NSString *)method&#10;                 URL:(NSString *)URL&#10;          parameters:(id) parameters&#10;             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success&#10;             failure:(void (^)(NSError *__nullable error))failure&#10;&#123;&#10;    NSString *newURL;&#10;    if ([method isEqual:@&#34;GET&#34;]) &#123;&#10;        newURL = [[URL stringByAppendingString:@&#34;?&#34;] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];&#10;        NSLog(@&#34;%@&#34;,newURL);&#10;    &#125;else&#123;&#10;        newURL = URL;&#10;    &#125;&#10;    &#10;    NSURL *url = [NSURL URLWithString:newURL];&#10;    NSURLSession *session = [NSURLSession sharedSession];&#10;    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];&#10;    request.HTTPMethod = method;&#10;    &#10;    if([method isEqual:@&#34;POST&#34;])&#123;&#10;        [request addValue:@&#34;application/x-www-form-urlencoded&#34; forHTTPHeaderField:@&#34;Content-Type&#34;];&#10;        request.HTTPBody =[[LYURLRequestSerialization LYQueryStringFromParameters:parameters] dataUsingEncoding:NSUTF8StringEncoding];&#10;    &#125;&#10;    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;&#10;        if (error) &#123;&#10;            failure(error);&#10;        &#125;else&#123;&#10;            if (success) &#123;&#10;                success(data,response);&#10;            &#125;&#10;        &#125;&#10;    &#125;];&#10;    [task resume];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们进行测试，原来的那个接口不支持POST请求，为了测试我就新写了一个借口，有两个参数为username和password，只有当两个参数都为1的时候返回ok，其余返回no</p>
+<p>我们给出POST请求测试代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)test:(id)sender &#123;&#10;    &#10;    NSString *URL = @&#34;http://cityuit.sinaapp.com/p.php&#34;;&#10;    id parmenters = @&#123;&#10;                      @&#34;username&#34;:@&#34;1&#34;,&#10;                      @&#34;password&#34;:@&#34;1&#34;&#10;                      &#125;;&#10;    &#10;&#10;    [LyNetWork requestMethod:@&#34;POST&#34;&#10;                         URL:URL&#10;                  parameters:parmenters&#10;                     success:^(NSData *data,NSURLResponse *response)&#123;&#10;                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];&#10;                         NSLog(@&#34;%@&#34;,string);&#10;                     &#125;&#10;                     failure:^(NSError *error)&#123;&#10;                         NSLog(@&#34;%@&#34;,error);&#10;                     &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>查看结果为：</p>
+<p><img src="http://img.blog.csdn.net/20151203113618660" alt=""></p>
+<p>若parmenters为1，222</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id parmenters = @&#123;&#10;                      @&#34;username&#34;:@&#34;1&#34;,&#10;                      @&#34;password&#34;:@&#34;222&#34;&#10;                      &#125;;</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<p><img src="http://img.blog.csdn.net/20151203232722166" alt=""></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -124,7 +142,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/02/03/hello-world/" data-title="Hello | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/02/03/2015-12-4-HttpLibrary3/" data-title="一步一步搭建自己的iOS网络请求库（三）--POST | Lastdays" data-tsina="5848341536" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -138,18 +156,18 @@ Quick">
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/02/03/OS X/" title="OS X内存管理：从源码进行分析（一）">
+ <a href="/2016/02/03/2015-12-4-HttpLibrary4/" title="一步一步搭建自己的iOS网络请求库（四）--解耦处理">
   <strong>上一篇：</strong><br/>
   <span>
-  OS X内存管理：从源码进行分析（一）</span>
+  一步一步搭建自己的iOS网络请求库（四）--解耦处理</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/02/03/hello-l/"  title="Hello World">
+<a href="/2016/02/03/2015-12-3-HttpLibrary2/"  title="一步一步搭建自己的iOS网络请求库（二）--封装接口">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>一步一步搭建自己的iOS网络请求库（二）--封装接口
 </span>
 </a>
 </div>
@@ -158,7 +176,7 @@ Quick">
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/02/03/hello-world/" data-title="Hello" data-url="http://yoursite.com/2016/02/03/hello-world/"></div>
+	<div class="ds-thread" data-thread-key="2016/02/03/2015-12-4-HttpLibrary3/" data-title="一步一步搭建自己的iOS网络请求库（三）--POST" data-url="http://yoursite.com/2016/02/03/2015-12-4-HttpLibrary3/"></div>
 </section>
 
 
@@ -168,7 +186,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ 
  
   </div>
 

@@ -1,0 +1,615 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>IP协议总结 | Lastdays</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。
+##网络层概述
+###IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
+
+无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IP协议总结">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/2015-10-14-first-IP/index.html">
+<meta property="og:site_name" content="Lastdays">
+<meta property="og:description" content="#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。
+##网络层概述
+###IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
+
+无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的">
+<meta property="og:image" content="http://img.blog.csdn.net/20150809211053157">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811121717075">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811121838596">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811121920417">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811122731873">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811122637878">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811122852036">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811123013217">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811123030527">
+<meta property="og:image" content="http://img.blog.csdn.net/20150811123044978">
+<meta property="og:image" content="http://img.blog.csdn.net/20150812131618110">
+<meta property="og:updated_time" content="2016-02-03T11:58:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IP协议总结">
+<meta name="twitter:description" content="#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。
+##网络层概述
+###IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
+
+无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays" title="Lastdays"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays">Lastdays</a></h1>
+				<h2 class="blog-motto">欢迎来到白菜的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/03/2015-10-14-first-IP/" title="IP协议总结" itemprop="url">IP协议总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-03T11:58:32.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</p>
+<p>##网络层概述</p>
+<p>###IP服务特点:<br>IP协议为上层协议提供无状态，无连接，不可靠的服务。</p>
+<ul>
+<li>无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的状态也是有优点的，它简单高效，因为我们无需为保证它的状态而分配一些内核数据结构。</li>
+<li>无连接：通信双方都不长久的维持对方的任何信息，那么就需要上层协议去指定传输的IP地址。</li>
+<li>不可靠服务：不可靠指的是IP协议不能保证IP数据报完整并且准确的到达接收端。因此使用IP的上层协议需要自己做数据确认，超时重传等可靠传输机制。</li>
+</ul>
+<p>…</p>
+<p>###IPv4头部结构:</p>
+<p>图一：</p>
+<p><img src="http://img.blog.csdn.net/20150809211053157" alt="这里写图片描述"></p>
+<p>IPv4头部结构包含20个字节。另外最多包含40个选项字节。</p>
+<ul>
+<li>4位版本号：指定IP协议的版本</li>
+<li>4位头部长度：标识有多少个四字节。</li>
+<li>8位服务类型（TOS）：包括一个3位的优先权字段（现在已经被忽律），4位TOS字段（最小延时，最大吞吐量，最高可靠性，最小费用），1位保留字段。以上信息决定了IP协议的可弹性。</li>
+<li>16位总长度（字节数）：整个IP数据报的长度。就是说IP数据报的最大程度就是2^16－1。因为MTU的限制。最大传输不可能达到这个值。</li>
+</ul>
+<p>＝＝＝＝＝＝分片传输实现原理＝＝＝＝＝＝＝＝＝</p>
+<ul>
+<li>16位标识别：唯一标识主机发送的每一个数据报。初始值有系统随机生成。每发送一个数据报，该值就＋1.因此同一个数据报的分片都具有相同的标识值</li>
+<li><p>3位标志：</p>
+<p>（1）第一位是有保留的</p>
+<p>（2）第二位表示禁止分片（如果对这位进行了设置，IP模块将不会对数据报进行分片，所以可以想象一下我们刚才提到的，如果这个数据报的长度超过MTU，这段数据报就会被丢弃，返回ICMP差错报文）</p>
+<p>（3）第三位表示等多分片（除了IP数据报的最后一个分片外，其他分片都设置为1）。</p>
+</li>
+<li>13位偏移：是分片相对原始IP数据报开始处的偏移。</li>
+</ul>
+<p>这三个字段协同工作行形成了IP分段的功能。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<ul>
+<li>8位生存时间（TTL）：它是数据报到达目的地前允许经过的路由跳数。在发送过程中，每经过一个路由，该值就减1.当TTL位0时，路由器会丢弃这个数据报，返回ICMP差错报文。它可以防止数据陷入路由循环。</li>
+<li>8位协议涌来区分上层协议。ICMP位1，TCP为6，UDP位17</li>
+<li>16位头部校验和：它是由发送端进行填充。接收端对其进行CRC校验算法，来检验头信息在传输过程中是否被损坏。</li>
+<li>32位原端IP：表示发送端IP</li>
+<li>32位目的IP：表示接受端IP</li>
+<li>IPv4头部可变长的选项部分，最多包含401个字节，可选的IP选项包括：（1）纪录路由，（2）时间戳，（3）松散源路由选择，（4）严格路由选择   （这些的介绍会在以后进行分享）</li>
+</ul>
+<p>IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。<br>我们接着在<a href="http://blog.csdn.net/lastdays_l/article/details/47395921" target="_blank" rel="external">IP协议解读（一）</a>继续学习</p>
+<p>##网络层作用</p>
+<p>###IP分片：</p>
+<ul>
+<li><p>IP数据报的长度超过帧的MTU时，将会被分片传输。分片可能发生在发送端，也可能发生在中转路由器上，并且可能在传输过程中被多次分片。最终会在接收器上被IP模块重新组装。</p>
+</li>
+<li><p>在<a href="http://blog.csdn.net/lastdays_l/article/details/47395921" target="_blank" rel="external">IP协议解读（一）</a>中讲述了16位数据报标识、3位的标识，13位的片偏移给分片和重组提供了足够的信息。一个IP数据报的每个分片都具有自己的头部。他们具有相同的标识值，但具有不同的片偏移。</p>
+</li>
+<li><p>以太网的MTU位1500字节，因此它能携带的最大字节量位1480字节，因为IP头部包含20个字节。假如我们使用以太网帧传输用IP数据报封装的1481个字节的ICMP数据报。这个时候&gt;1480字节，所以就会出现分片现象</p>
+<p>  ###那么1481个字节的数据+20字节的IP头部=1501字节的IP数据报=IP分片（1500字节）+IP分片（21字节）<br>  结构如图所示：</p>
+</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20150811121717075" alt="这里写图片描述"></p>
+<p>从以上的图片我可以分析出来，ICMP头部的8个字节被分配到第一个分片中，其中1472字节的ICMP的数据也被分配到第一个分片中，这样IP头+ICMP头部结构+部分ICMP数据组成了最大的IP分片（1500字节），剩下的一个个字节的ICMP数据被分配到第二个IP分片中（21字节）</p>
+<p>下面我们用实例演示：</p>
+<p>我们使用ping命令指定每次发送的大小位1473个字节</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping www.baidu.com -s 1473</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20150811121838596" alt="这里写图片描述"></p>
+<p>我们使用tcpdump命令抓取ping过程中的icmp数据包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -ntv -i eth0 icmp</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20150811121920417" alt="这里写图片描述"></p>
+<p>===============查看分析抓去结果=====================</p>
+<p>结果如图所示：</p>
+<p><img src="http://img.blog.csdn.net/20150811122731873" alt="这里写图片描述"></p>
+<p>从图片中我们可以看出，前两个数据报的ip分片id（标识值）都是27300，说明这两个是同一个分片，第一个分片的offset（偏移值）为0，第二个分片的offset（偏移值）为0位1480.根据信息显示，第一个ICMP占1480个字节，第二个长度为21.</p>
+<p>###IP路由选择机制：</p>
+<p>路由选择是IP协议的核心任务，指定了发送数据报到目标路径的途径</p>
+<p><img src="http://img.blog.csdn.net/20150811122637878" alt="这里写图片描述"></p>
+<ul>
+<li>当IP模块接受到来自网络驱动程序发来的IP数据报时，首先对头部进行CRC校验，确定这个数据包在传输过程中没有被损坏。</li>
+<li>如果发现IP头部信息中带有<strong>源站选路</strong>选项，那么IP模块调用数据报转发子模块处理这个数据报。</li>
+<li>如果这个IP数据报头部结构中目标IP地址是本机的IP地址或是广播地址，就是说明这个数据报是发送给本机的IP模块就必须根据数据报的头部结构协议字段将它发给哪个上层应用。</li>
+<li>如果IP模块发现这个数据报不是发送给本机的，同样也掉中转发子模块处理这个数据报，转发子模块首先需要检验这个数据报是否被允许转发。不允许的话这个数据报就会被丢弃。允许的话数据报转发子模块将对这个数据报进行一系列的操作，然后将它交给IP数据报输出子模块。</li>
+<li>其实呢，IP数据报应该发送到哪一个吓一跳路由，经过哪个网卡来发送，是<strong>计算吓一跳</strong>路由这个模块完成的。</li>
+<li>IP模块实现数据报路由的核心数据结构就是<strong>路由表</strong>，这个表是按照目的IP进行分类。</li>
+<li>IP输出队列中是所有等待发出的数据报。</li>
+<li>虚线箭头是整个路由表的更新过程</li>
+</ul>
+<p>IP路由选择过程：</p>
+<ul>
+<li>查找完全匹配的主机地址，如果找到就是用该路由项，如果未找到，进入下一个步骤</li>
+<li>查找相同网络ID的网络IP地址，如果找到就是用该路由项，如果未找到，进入下第三个步骤</li>
+<li>选择默认路由项，这意味着下一跳的路由地址是网关</li>
+</ul>
+<p>###IP转发过程：</p>
+<p>路由器转发模块的执行过程如下：</p>
+<ul>
+<li>检查数据报头部的TTL值（TTL为0丢弃这个数据报）。</li>
+<li>查看数据包的严格源路由的选择选项，如果被设置，检测数据报的目的IP地址是否和本机的某个IP地址相同，如果不是，发送一个ICMP差错报文。</li>
+<li>给源端发送一个ICMP重定向报文（下一个文章分享）。</li>
+<li>将TTL值减1</li>
+<li>处理IP头部选项</li>
+<li>如果有必要，执行IP分片操作</li>
+</ul>
+<p>###路由表更新：</p>
+<p>路由表必须具备更新，反应网络中的连接的变化，这样IP模块才能准确，高效的转发数据报。</p>
+<p>进行实例演示。</p>
+<p>Linux下使用明route命令查看当前主机下的路由表信息。<br><img src="http://img.blog.csdn.net/20150811122852036" alt="这里写图片描述"></p>
+<p>第一行表示子系统下的默认路由</p>
+<p>使用route命令添加路由表</p>
+<p><img src="http://img.blog.csdn.net/20150811123013217" alt="这里写图片描述"></p>
+<p>删除对应项</p>
+<p><img src="http://img.blog.csdn.net/20150811123030527" alt="这里写图片描述"></p>
+<p>删除默认路由项，这样做的后果就是无法访问因特网。</p>
+<p><img src="http://img.blog.csdn.net/20150811123044978" alt="这里写图片描述"></p>
+<p>今天我们来介绍网络层中的ICMP协议</p>
+<p>##ICMP报文格式</p>
+<p>图一：</p>
+<p><img src="http://img.blog.csdn.net/20150812131618110" alt="这里写图片描述"></p>
+<p>从图片上我们可以分析出，前三位的字段都是固定的，8位类型字段，8位代码字段，16位校验和字段。其他字段因ICMP报文类型不同而不同。8位类型和8位代码一起决定了报文的类型。</p>
+<p>##ICMP查询格式</p>
+<p>###ICMP查询报文共有4种</p>
+<ul>
+<li>回送请求和回答：由主机和路由器向一个特定的主机和路由器发送询问，收到请求的主机必须给源主机发送回送应答报文，用来测试目标主机是否可达以及了解其他状态</li>
+<li>时间戳请求和回答：它允许系统向另一个系统查询当前的时间，该ICMP的好处是他提供了毫秒级的分辨率。</li>
+<li>掩码地址请求和回答：主机使用ICMP地址掩码地址请求报文可以向子网掩码服务器得到某个接口的地址掩码。系统广播他的ICMP请求报文。</li>
+<li>路由器询问和通过报文：主机使用ICMP路由器询问连接在本网络上的路由器是否正常工作。</li>
+</ul>
+<p>##ICMP差错报文</p>
+<p>###ICMP差错报文共有5种：</p>
+<ul>
+<li>终点不可达：网络不可达，主机不可达，协议不可达，端口不可达，源路由失败</li>
+<li>源站抑制：当路由器或主机因为拥塞丢弃数据包时，就向源站发送源站抑制报文，使源站知道应当将发送数据报的速度放慢。</li>
+<li>时间超过：路由器收到生存时间为0的数据报时，除丢弃该数据报外还要向源站发送时间超时报文</li>
+<li>参数问题差：当路由器的目的主机收到的数据报首部中的字段不正确的时候，丢弃该数据报，同时向源地址发送ICMP参数问题报文。</li>
+<li>重定向报文：路由器将改变路由报文，将发送给主机，让主机知道，下一次的数据报应该发送给另一个路由器。</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/02/03/2015-10-14-first-IP/" data-title="IP协议总结 | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/03/2015-10-19-iOS9 Core Data教学/" title="iOS9 Core Data教学">
+  <strong>上一篇：</strong><br/>
+  <span>
+  iOS9 Core Data教学</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/03/2015-10-6-TCP/"  title="TCP协议总结">
+ <strong>下一篇：</strong><br/> 
+ <span>TCP协议总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/03/2015-10-14-first-IP/" data-title="IP协议总结" data-url="http://yoursite.com/2016/02/03/2015-10-14-first-IP/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="MrLoong" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 你们好 ,我叫Lastdays，一个喜欢白菜，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Lastday_s"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?359a67e4b1b43ca291f946419c2423c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>在Swift中怎样创建CocoaPod | Lastdays</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="#这周看的一篇比较好的文章，然后将它翻译了，分享出来
+
+在制作这个美味的冰淇凌中的教程中学会如何使用自己的CocoaPod
+你可能熟悉一些众所周知的东西，开源的open-sourceCocoaPods，例如Alamofire或MBProgressHUD，但有的时候你并不能找到一个符合你要求的pod，或者你可能想要把一个大的项目分成小的项目，或是可复用组建。
+幸运的是创建自己的CocoaPods很容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Swift中怎样创建CocoaPod">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/2015-10-25-CocoaPod教学/index.html">
+<meta property="og:site_name" content="Lastdays">
+<meta property="og:description" content="#这周看的一篇比较好的文章，然后将它翻译了，分享出来
+
+在制作这个美味的冰淇凌中的教程中学会如何使用自己的CocoaPod
+你可能熟悉一些众所周知的东西，开源的open-sourceCocoaPods，例如Alamofire或MBProgressHUD，但有的时候你并不能找到一个符合你要求的pod，或者你可能想要把一个大的项目分成小的项目，或是可复用组建。
+幸运的是创建自己的CocoaPods很容">
+<meta property="og:image" content="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/ice_cream_shop_logo.png">
+<meta property="og:image" content="http://cdn3.raywenderlich.com/wp-content/uploads/2015/03/storyboard_annotated-427x500.png">
+<meta property="og:image" content="http://cdn1.raywenderlich.com/wp-content/uploads/2014/11/SuperDev.jpg">
+<meta property="og:image" content="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/cocoa_touch_framework-480x284.png">
+<meta property="og:updated_time" content="2016-02-03T11:59:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Swift中怎样创建CocoaPod">
+<meta name="twitter:description" content="#这周看的一篇比较好的文章，然后将它翻译了，分享出来
+
+在制作这个美味的冰淇凌中的教程中学会如何使用自己的CocoaPod
+你可能熟悉一些众所周知的东西，开源的open-sourceCocoaPods，例如Alamofire或MBProgressHUD，但有的时候你并不能找到一个符合你要求的pod，或者你可能想要把一个大的项目分成小的项目，或是可复用组建。
+幸运的是创建自己的CocoaPods很容">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays" title="Lastdays"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays">Lastdays</a></h1>
+				<h2 class="blog-motto">欢迎来到白菜的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/03/2015-10-25-CocoaPod教学/" title="在Swift中怎样创建CocoaPod" itemprop="url">在Swift中怎样创建CocoaPod</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-03T11:59:09.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5F00_u59CB"><span class="toc-number">1.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5EFA_u7ACB_u4F60_u81EA_u5DF1_u7684Pod"><span class="toc-number">2.</span> <span class="toc-text"> 建立你自己的Pod</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1"><span class="toc-number"></span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2"><span class="toc-number"></span> <span class="toc-text">2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3"><span class="toc-number"></span> <span class="toc-text">3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4_-_Replace_with_your_name_and_e-mail_address"><span class="toc-number"></span> <span class="toc-text">4 - Replace with your name and e-mail address</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For_example_2C"><span class="toc-number"></span> <span class="toc-text">For example,</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#s-author__3D__7B__u201CJoshua_Greene_u201D__3D_26gt_3B__u201Cjrg-developer@gmail-com_u201D__7D"><span class="toc-number"></span> <span class="toc-text">s.author = { “Joshua Greene” => “jrg.developer@gmail.com” }</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5_-_Replace_this_URL_with_your_own_Github_page_u2019s_URL__28from_the_address_bar_29"><span class="toc-number"></span> <span class="toc-text">5 - Replace this URL with your own Github page’s URL (from the address bar)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For_example_2C-1"><span class="toc-number"></span> <span class="toc-text">For example,</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#s-homepage__3D__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor_u201C"><span class="toc-number"></span> <span class="toc-text">s.homepage = “https://github.com/JRG-Developer/RWPickFlavor“</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6_-_Replace_this_URL_with_your_own_Git_URL_from__u201CQuick_Setup_u201D"><span class="toc-number"></span> <span class="toc-text">6 - Replace this URL with your own Git URL from “Quick Setup”</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For_example_2C-2"><span class="toc-number"></span> <span class="toc-text">For example,</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#s-source__3D__7B__3Agit__3D_26gt_3B__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor-git_u201C_2C__3Atag__3D_26gt_3B__u201C_23_7Bs-version_7D_u201D_7D"><span class="toc-number"></span> <span class="toc-text">s.source = { :git => “https://github.com/JRG-Developer/RWPickFlavor.git“, :tag => “#{s.version}”}</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7"><span class="toc-number"></span> <span class="toc-text">7</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8"><span class="toc-number"></span> <span class="toc-text">8</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9"><span class="toc-number"></span> <span class="toc-text">9</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F55_u53BB_u4F55_u4ECE_3F"><span class="toc-number">1.</span> <span class="toc-text">   何去何从?</span></a></li></ol>
+		
+		</div>
+		
+		<p>#这周看的一篇比较好的文章，然后将它翻译了，分享出来</p>
+<p><a href="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/ice_cream_shop_logo.png" target="_blank" rel="external"><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/ice_cream_shop_logo.png" alt="Learn how to make your own
+CocoaPod!"></a></p>
+<p>在制作这个美味的冰淇凌中的教程中学会如何使用自己的CocoaPod</p>
+<p>你可能熟悉一些众所周知的东西，开源的<a href="https://github.com/CocoaPods/Specs/tree/master/Specs" target="_blank" rel="external">open-source<br>CocoaPods</a>，例如<a href="https://github.com/Alamofire/Alamofire" target="_blank" rel="external">Alamofire</a>或<a href="https://github.com/jdg/MBProgressHUD" target="_blank" rel="external">MBProgressHUD</a>，但有的时候你并不能找到一个符合你要求的pod，或者你可能想要把一个大的项目分成小的项目，或是可复用组建。</p>
+<p>幸运的是创建自己的CocoaPods很容易。</p>
+<p>如果你已经针对你的元件创建一个Cocoa Touch框架，那么你已经完成了大部分困难的工作。如果你没有创建过，不要惊慌，因为他确实很简单。</p>
+<p>如果你仅仅是创建了IOS应用的一部分，那也是ok的。你可以很轻松的创建一些新的pod用于特殊环境下使用的推送类和功能。</p>
+<p>本教程以<a href="http://www.raywenderlich.com/97014" target="_blank" rel="external">How to Use CocoaPods with<br>Swift</a>结束。如果你之前从来没有使用过CocoaPods，然而这是本教程的一先决条件。</p>
+<h2 id="u5F00_u59CB"><a href="#u5F00_u59CB" class="headerlink" title="开始"></a>开始</h2><p>你的顶级客户是一个冰淇凌店，他们的冰淇凌是如此的受欢迎，他们的柜台跟不上客户的订单。他们需要创建一个简洁的IOS应用。让用户使用他们的Phone订购冰淇凌。你将开始开发这个应用程序。</p>
+<p>从<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/IceCreamShop_Final1.zip" target="_blank" rel="external">这</a>下载这个开始的项目</p>
+<p>这是<a href="http://www.raywenderlich.com/97014" target="_blank" rel="external">How to Use CocoaPods with<br>Swift</a>最终版本</p>
+<p>这个应用有一些pod开发包已经包含在下载中，所以你不需要运行pod install去安装他们。</p>
+<p>打开<em>IceCreamShop.xcworkspace</em>然后点击<em>Main.storyboard</em>，在<em>Views\Storyboards &amp; Nibs</em>看看这个应用是如何布局的。</p>
+<p>下面是快速<em>Choose Your Flavor</em>的应用场景，核心功能如下</p>
+<ul>
+<li><em>PickFlavorViewController</em>: handles user interaction, such as when<br>the user selects an ice cream flavor.    </li>
+<li><em>PickFlavorViewController</em>：处理用户交互，例如当用户选择一个口味的冰淇凌的时候</li>
+<li><em>PickFlavorDataSource</em>: is the data source for the collection view<br>that displays ice cream flavors.</li>
+<li><em>PickFlavorDataSource</em>:是选择冰淇凌口味试图的数据源。</li>
+<li><em>IceCreamView</em>: is a custom view that displays an ice cream cone and<br>is backed by a <code>Flavor</code> model.</li>
+<li><em>IceCreamView</em>: 是一个冰淇凌自定义模型。</li>
+<li><em>ScoopCell</em>: is a custom collection view cell that contains a<br><em>ScoopView</em>, which is also backed by an instance of the <code>Flavor</code><br>model class.</li>
+<li><em>ScoopCell</em>:自定义集合试图集合单元包含一个<em>ScoopView</em>，也是风味模型的一个支持类。</li>
+</ul>
+<p><a href="http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/storyboard_annotated.png" target="_blank" rel="external"><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2015/03/storyboard_annotated-427x500.png" alt="Storyboard
+Annotated" title="Storyboard Annotated"></a></p>
+<p>这个冰淇凌店的老板非常喜欢这个应用程序，但他们又添加了一个新的要求：在他们的应用程序中需要有相同的口味风格选择。</p>
+<p>等等，那不是最初的设计，但是，应该没有问题的对于一个NB的开发者来说。</p>
+<p><a href="http://cdn1.raywenderlich.com/wp-content/uploads/2014/11/SuperDev.jpg" target="_blank" rel="external"><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/11/SuperDev.jpg" alt="SuperDev"></a></p>
+<p>你能猜猜这个功能是怎么做的吗？是的，你讲把这个功能集成到你自己的CocoaPod！。</p>
+<h2 id="u5EFA_u7ACB_u4F60_u81EA_u5DF1_u7684Pod"><a href="#u5EFA_u7ACB_u4F60_u81EA_u5DF1_u7684Pod" class="headerlink" title="建立你自己的Pod"></a> 建立你自己的Pod</h2><p>创建一个新的Xcode项目并且选择<em>iOS\Framework &amp; Library\Cocoa<br>Touch Framework</em>然后点击下一步。</p>
+<p><a href="http://cdn3.raywenderlich.com/wp-content/uploads/2015/03/cocoa_touch_framework.png" target="_blank" rel="external"><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/cocoa_touch_framework-480x284.png" alt="Create Cocoa Touch
+Framework" title="Create Cocoa Touch Framework"></a></p>
+<p>将工程命名为<em>RWPickFlavor</em>并且选择<em>Swift</em>语言，点击<em>Next</em></p>
+<p>这个教程的工程将创建在<em>~/Documents/Libraries</em>，在你的主目录中选择<em>Documents</em>文件夹。如果你没有<em>Libraries</em>文件夹，在底部点击新建文件夹按钮并且创建它。</p>
+<p>完成，选择<em>Libraries</em>文件夹并且单价创建</p>
+<p>保存你开发的pods这个目录非常重要，因为你将引用这个目录在你本地开发你的Podfile期间</p>
+<p>正常情况下，当你使用CocoaPods，你在你的Podfile包含的关系</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod &#39; PodName &#39;, &#39;~&#62; 1.0&#39;                                                &#10;~~~</span><br></pre></td></tr></table></figure>
+<p>pod ‘ MyPodName ‘, :path =&gt; ‘ ~/Path/To/Folder/Containing/My/Pod ‘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> &#10;&#20294;&#26159;&#24403;&#20320;&#24320;&#21457;&#20320;&#33258;&#24049;&#30340;CocoaPod&#65292;&#20320;&#35762;&#22312;&#26412;&#22320;&#24314;&#31435;&#19968;&#20010;&#29305;&#27530;&#30340;&#36335;&#24452;&#65292;&#20687;&#36825;&#26679;&#65306;&#10;&#10;&#10;&#10;&#36825;&#31181;&#26041;&#27861;&#26377;&#20004;&#31181;&#22909;&#22788;&#65306;&#10;&#10;&#10;    &#10;    1.&#20182;&#20351;&#29992;&#20320;&#26412;&#22320;&#26426;&#22120;&#19978;&#30340;&#25991;&#20214;&#23545;&#20110;&#20320;&#30340;pod&#65292;&#32780;&#19981;&#26159;&#20174;&#36828;&#31243;&#20179;&#24211;&#20013;&#33719;&#21462;&#12290;&#10;    &#10;    2.&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;&#20320;&#19981;&#38656;&#35201;&#36873;&#25321;&#19968;&#20010;pod&#21253;&#21547;&#21040;&#20320;&#30340;app&#20013;&#65292;&#22240;&#20026;&#36825;&#20123;&#36873;&#25321;&#23558;&#22312;&#20320;&#19979;&#19968;&#27425;&#36816;&#34892;pod install       &#26102;&#34987;&#35206;&#30422;&#65292;pod&#23558;&#20250;&#37325;&#26032;&#20174;&#36828;&#31243;&#20179;&#24211;&#35835;&#21462;&#24182;&#19988;&#35206;&#30422;&#26356;&#25913;&#30340;&#25991;&#20214;&#12290;&#10;&#10;&#10;&#20320;&#21487;&#20197;&#20351;&#29992;&#19981;&#21516;&#30340;&#20301;&#32622;&#23545;&#20320;&#30340;pods&#36827;&#34892;&#24320;&#21457;&#65292;&#19968;&#33324;&#24773;&#20917;&#19979;&#25105;&#24314;&#35758;&#36824;&#26159;&#23558;&#20182;&#20204;&#25918;&#22312;*\~/Documents/Libraries*&#12290;&#22914;&#26524;&#20320;&#21644;&#19968;&#20010;&#22242;&#38431;&#21512;&#20316;&#24320;&#21457;&#65292;CocoaPods&#25193;&#23637;&#20316;&#20026;&#25193;&#23637;&#20027;&#30446;&#24405;&#12290;&#22240;&#27492;&#20320;&#19981;&#38656;&#35201;&#21162;&#21147;&#26500;&#24314;&#32477;&#23545;&#36335;&#24452;&#22312;Podfile&#30446;&#24405;&#20013;&#12290;&#10;&#65292;&#10;&#10;&#10;&#20320;&#20063;&#33021;&#20351;&#29992;&#20854;&#20182;&#30340;CocoaPods&#22312;&#20320;&#30340;&#24037;&#31243;&#20013;&#20316;&#20026;&#39033;&#30446;&#30340;&#20381;&#36182;&#23545;&#20110;&#20320;&#21019;&#24314;CocoaPod&#12290;&#20320;&#21482;&#38656;&#35201;&#19968;&#20010;Podfile&#26469;&#31649;&#29702;&#20320;&#30340;CocoaPod&#20381;&#36182;&#20851;&#31995;&#12290;&#10;&#10;&#10;&#10;&#20851;&#38381;Xcode&#65292;&#28982;&#21518;&#22312;&#32456;&#31471;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;&#10;&#10;&#10; ~~~                            &#10; cd ~/Documents/Libraries/RWPickFlavor                                    &#10; pod init                                                                 &#10; open -a Xcode Podfile&#10;                                                     &#10; ~~~                                                                   &#10; &#10;&#10;&#10;&#36825;&#26159;&#21019;&#24314;&#19968;&#20010;&#26032;&#30340;Podfile&#24182;&#19988;&#22312;Xcode&#20013;&#25171;&#24320;&#23427;&#12290;&#10;&#10;&#10;&#20351;&#29992;&#19979;&#38754;&#30340;&#21629;&#20196;&#23545;Podfile&#36827;&#34892;&#26356;&#26032;&#65306;&#10;&#10;~~~                               &#10; platform :ios, &#39;8.0&#39;                                                     &#10; use_frameworks!                                                         &#10; &#160;                                                                        &#10; target &#39;RWPickFlavor&#39; do                                                 &#10;   pod &#39;Alamofire&#39;, &#39;~&#62; 1.2&#39;                                              &#10;   pod &#39;MBProgressHUD&#39;, &#39;~&#62; 0.9.0&#39;                                        &#10; end                                                                      &#10;~~~                                                                   &#10;&#10;&#10;&#36825;&#22768;&#26126;*RWPickFlavor*&#23558;&#22312;[Alamofire](https://github.com/Alamofire/Alamofire) &#21644;&#10;[MBProgressHUD](https://github.com/jdg/MBProgressHUD)&#25552;&#20379;&#20381;&#36182;&#20851;&#31995;&#10;&#10;&#10;&#20445;&#23384;&#24182;&#19988;&#20851;&#38381;Podfile&#65292;&#28982;&#21518;&#22312;&#32456;&#31471;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;&#10;&#10;~~~                         &#10;pod install&#10;~~~                                                                  &#10; &#10;&#10;&#10;&#27491;&#22914;&#20320;&#25152;&#26399;&#26395;&#30340;&#65292;&#36825;&#23558;&#21019;&#24314;&#19968;&#20010;&#24037;&#20316;&#21306;&#38388;&#24182;&#19988;&#23433;&#35013;&#20320;&#25152;&#38656;&#35201;&#30340;&#21508;&#31181;&#25991;&#20214;&#12290;&#10;&#10;&#10;&#10;&#27880;&#24847;&#65306;&#22914;&#26524;*pod install* &#32473;&#20320;&#20219;&#20309;&#35686;&#21578;&#65292;&#36825;&#26679;&#30340;&#35805;&#20320;&#21487;&#33021;&#20351;&#29992;&#30340;&#26159;&#26087;&#29256;&#26412;&#12290;Swift&#22522;&#20110;CocoaPods&#65292;&#23588;&#20854;&#26159;Alamofire&#65292;&#38656;&#35201; 0.36 CocoaPods&#29256;&#26412;&#25110;&#26356;&#26032;&#12290;&#26681;&#25454;&#20197;&#19979;&#21629;&#20196;&#65292;&#20320;&#21487;&#20197;&#26816;&#27979;&#20320;&#24050;&#32463;&#23433;&#35013;&#30340;CocoaPods&#29256;&#26412;&#12290;</span><br></pre></td></tr></table></figure></p>
+<p>pod –version</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#22914;&#26524;&#26159;&#29256;&#26412;&#36807;&#20302;&#30340;&#21407;&#22240;&#65292;&#36755;&#20837;&#20197;&#19979;&#32456;&#31471;&#21629;&#20196;&#26469;&#23433;&#35013;&#26368;&#26032;&#30340;&#29256;&#26412;&#12290;</span><br></pre></td></tr></table></figure>
+<p>sudo gem install CocoaPods</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;&#65292;&#25171;&#24320;&#24182;&#19988;&#21019;&#24314;&#19968;&#20010;&#26032;&#30340;*RWPickFlavor*&#24037;&#20316;&#21306;&#38388;&#12290;</span><br></pre></td></tr></table></figure>
+<p>open RWPickflavor.xcworkspace<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#20320;&#30340;&#39033;&#30446;&#23548;&#33322;&#22120;&#30475;&#36215;&#26469;&#24212;&#35813;&#26159;&#36825;&#20010;&#26679;&#23376;&#12290;&#10;&#10;[![RWPickFlavor New Pod Files&#10;Hierarchy](http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/rwpickflavor_new_pod_files-255x320.png &#34;RWPickFlavor New Pod Files Hierarchy&#34;)](http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/rwpickflavor_new_pod_files.png)&#10;&#10;&#10;&#20320;&#29616;&#22312;&#38656;&#35201;&#20174;*IceCreamShop*&#22797;&#21046;&#19968;&#20123;&#24050;&#32463;&#23384;&#22312;&#30340;&#25991;&#20214;&#22312;*RWPickFlavor*&#24037;&#20316;&#21306;&#38388;&#12290;&#10;&#10;&#10;&#10;&#39318;&#20808;&#22312;*RWPickFlavor.xcworkspace*&#21019;&#24314;&#19968;&#20010;&#32452;&#65292;&#25226;&#20320;&#38656;&#35201;&#30340;&#25991;&#20214;&#22797;&#21046;&#36827;&#21435;&#12290;&#10;&#10;Categories&#10;&#10;Controllers&#10;&#10;Factories&#10;&#10;Models&#10;&#10;Views&#10;&#10;-   Ice Cream&#10;-   Storyboards &#38; Nibs&#10;&#10;&#10;&#10;&#29616;&#22312;&#25302;&#25341;&#27599;&#19968;&#20010;&#25991;&#20214;&#65292;&#38500;&#20102; *AppDelegate.swift*&#21644;*LaunchScreen.xib*&#65292;&#20174;*IceCreamShop.xcworkspace*&#25302;&#25341;&#36827;*RWPickFlavor.xcworkspace*&#65292;&#23601;&#20687;&#36825;&#26679;&#10;&#10;[![Copy Workspace&#10;Files](http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/copy_workspace_files.gif)](http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/copy_workspace_files.gif)&#10;&#10;&#10;&#24403;&#34987;&#25552;&#31034;&#26102;&#65292;&#30830;&#20445;&#27599;&#19968;&#20010;&#38656;&#35201;&#34987;&#22797;&#21046;&#30340;&#26465;&#30446;&#34987;&#22797;&#21046;&#23433;&#35013;&#20102;&#32780;&#19981;&#26159;&#31616;&#21333;&#30340;&#38142;&#25509;&#12290;&#10;&#10;&#10;&#10;&#24403;&#20320;&#23436;&#25104;&#20102;&#65292;*RWPickFlavor*&#24212;&#35813;&#26377;&#20197;&#19979;&#25991;&#20214;&#65306;&#10;&#10;*RWPickFlavor*&#10;&#10;RWPickFlavor.h&#10;&#10;*Categories*&#10;&#10;-   RGBAColorFromString.swift&#10;&#10;*Controllers*&#10;&#10;-   PickFlavorDataSource.swift&#10;-   PickFlavorViewController.swift&#10;&#10;*Factories*&#10;&#10;*Models*&#10;&#10;*Supporting Files*&#10;&#10;*Views*&#10;&#10;*Ice Cream*&#10;&#10;-   IceCreamView.swift&#10;-   ScoopCell.swift&#10;-   ScoopView.swift&#10;&#10;*Storyboard &#38; Nibs*&#10;&#10;-   Main.storyboard&#10;&#10;Once you&#8217;re sure all the files have been copied over, *delete* the&#10;originals and any empty groups from *IceCreamShop*, leaving just the&#10;files in *RWPickFlavor*. Take care not to delete any of the following:&#10;&#10;-   AppDelegate.swift&#10;-   LaunchScreen.xib&#10;-   Images.xcassets&#10;-   Anything under the *Supporting Files* group&#10;&#10;&#10;&#29616;&#22312;&#25171;&#24320;*Info.plist*&#65292;&#25214;&#21040;*Supporting Files*&#32452;&#65292;&#24182;&#19988;&#21024;&#38500;*Main storyboard file base name*&#10;&#10;&#10;&#10;&#26500;&#24314;&#24182;&#36816;&#34892;&#65292;&#20320;&#19981;&#24212;&#35813;&#30475;&#35265;&#20219;&#20309;&#38169;&#35823;&#65292;&#24182;&#19988;&#20320;&#20250;&#30475;&#35265;&#8220;Ice Cream Shop&#8221;&#30340;&#22270;&#26631;&#21644;&#40657;&#33394;&#30340;&#32972;&#26223;&#12290;&#10;&#10;&#22270;&#20687;&#21602;&#65311;&#10;----------------------&#10;&#10;&#10;&#10;&#20320;&#21487;&#33021;&#20250;&#27880;&#24847;&#65292;&#20320;&#24182;&#27809;&#26377;&#22797;&#21046;*Resources*&#32452;&#65292;&#36825;&#26159;&#22240;&#20026;&#20320;&#38656;&#35201;&#22797;&#21046;&#30340;&#20165;&#20165;&#26159;*background.jpg*&#20182;&#33258;&#24049;&#26412;&#36523;&#21040;*Resources*&#25991;&#20214;&#22841;&#20013;&#12290;&#19981;&#23436;&#25972;&#30340;*Images.xcassets*&#36164;&#28304;&#25991;&#20214;&#12290;&#10;&#10;&#10;&#39318;&#20808;&#22312;*RWPickFlavor*&#21019;&#24314;&#19968;&#20010;*Resources*&#32452;&#10;&#10;&#10;&#10;&#19979;&#19968;&#27493;&#65292;&#36873;&#25321;*Images.xcassets*&#22312;*IceCreamShop*&#65292;&#28857;&#20987;&#21491;&#20391;*background*&#65292;&#24182;&#19988;&#36873;&#25321;*Show In Finder*&#65292;&#20687;&#36825;&#26679;&#12290;&#10;&#10;[![Background Show In&#10;Finder](http://cdn5.raywenderlich.com/wp-content/uploads/2015/03/background_show_in_finder-480x267.png &#34;Background Show In Finder&#34;)](http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/background_show_in_finder.png)&#10;&#10;&#10;&#10;&#29616;&#22312;&#25302;&#25341;*background.jpg*&#21040;*RWPickFlavor*&#30340; *Resources*&#32452;&#20013;&#12290;&#24403;&#25552;&#31034;&#30340;&#26102;&#20505;&#20381;&#28982;&#26816;&#27979;&#27599;&#19968;&#20010;&#26465;&#30446;&#26159;&#21542;&#34987;&#23433;&#35013;&#12290;&#24403;&#20320;&#22797;&#21046;&#21518;&#65292;&#20174;*IceCreamShop*&#20013;&#21024;&#38500;*Images.xcassets*&#21407;&#26469;&#30340;&#32972;&#26223;&#10;&#10;&#10;&#10;&#26368;&#21518;&#65292;&#22312;*RWPickFlavor*&#26356;&#26032;&#35270;&#22270;&#30340;&#22270;&#20687;&#19978;&#36873;&#25321;&#20320;&#30340;&#22330;&#26223;&#22312;*Main.storyboard*&#65292;&#25152;&#20197;&#24341;&#29992;*background.jpg*&#26367;&#20195;*background*&#10;&#10;[![Update PickFlavorViewController Image View&#10;Image](http://cdn4.raywenderlich.com/wp-content/uploads/2015/03/update_pickflavorviewcontroller_imageview-411x320.png &#34;Update PickFlavorViewController Image View Image&#34;)](http://cdn3.raywenderlich.com/wp-content/uploads/2015/03/update_pickflavorviewcontroller_imageview.png)&#10;&#10;&#10;&#20449;&#19981;&#20449;&#65292;&#26368;&#38590;&#21019;&#36896;&#30340;&#26159;&#20320;&#30340;pod&#12290;&#10;&#10;[![High&#10;Five!](http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/high_five_kitten-349x500.jpg)](http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/high_five_kitten.jpg)&#10;&#10;CocoaPods and Git &#10;-----------------&#10;&#10;&#10;&#33258;&#20174;CocoaPods&#20667;&#29916;&#24335;&#24341;&#23548;&#65292;&#27599;&#19968;&#20010;pod&#23558;&#38656;&#35201;&#26377;&#20182;&#33258;&#24049;&#30340;git&#20179;&#24211;&#12290;&#22914;&#26524;&#20320;&#24050;&#32463;&#26377;&#19968;&#20010;&#39318;&#36873;&#30340;git&#25176;&#31649;&#65292;&#22909;&#30340;&#65292;&#20320;&#21487;&#20197;&#29992;&#23427;&#26469;&#20316;&#20026;&#20320;&#30340;&#20179;&#24211;&#12290;&#10;&#10;&#10;&#10;&#22914;&#26524;&#27809;&#26377;&#65292;[GitHub](https://github.com)&#26159;&#19968;&#20010;&#24456;&#22909;&#30340;&#30340;&#36873;&#25321;&#22240;&#20026;&#23427;&#26159;&#20247;&#25152;&#21608;&#30693;&#30340;&#24320;&#21457;&#24179;&#21488;&#65292;&#19982;&#24456;&#22810;&#33258;&#30001;&#30340;&#24320;&#28304;&#39033;&#30446;&#12290;&#10;&#10;&#10;&#36825;&#20010;&#25945;&#31243;&#20351;&#29992;[GitHub](https://github.com)&#65292;&#20294;&#20320;&#20063;&#21487;&#20197;&#20351;&#29992;&#20320;&#30340;git&#20179;&#24211;&#12290;&#10;&#10; GitHub&#35774;&#32622;&#10;-----------------&#10;&#10;First, [Sign up](https://github.com/join) or&#10;[Login](https://github.com/login) to your GitHub account.&#10;&#10;&#39318;&#20808;[&#21019;&#24314;](https://github.com/join)&#25110;[&#30331;&#38470;](https://github.com/login)&#20320;&#30340;GitHub&#36134;&#25143;&#12290;&#10;&#10;&#10;&#10;&#19979;&#19968;&#27493;&#65292;&#28857;&#20987;&#39030;&#37096;&#21491;&#20391;*+* (create new)&#22270;&#26631;&#24182;&#19988;&#36873;&#25321; New repository&#23637;&#31034;&#22914;&#19979;&#65306;&#10;&#10; [![Github: New&#10;Repository](http://cdn3.raywenderlich.com/wp-content/uploads/2015/03/github_new_repository-480x152.png &#34;Github: New Repository&#34;)](http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/github_new_repository.png)&#10;&#10;&#10;&#10;&#36827;&#20837;*RWPickFlavor*&#20179;&#24211;&#65292;&#24182;&#19988;&#36873;&#25321;*Create repository*&#10;&#10;&#10;&#10;Github&#23558;&#21019;&#24314;&#19968;&#20010;&#26032;&#30340;&#20179;&#24211;&#22312;&#20320;&#30340;&#36134;&#25143;&#19979;&#12290;&#28982;&#21518;&#20320;&#20250;&#30475;&#21040;&#19979;&#38754;&#30340;&#23631;&#24149;&#19982;&#19968;&#20010;&#24555;&#36895;&#35774;&#32622;&#65292;&#29616;&#23454;&#24744;&#20648;&#23384;&#30340;&#20179;&#24211;&#32593;&#22336;&#12290;&#10;&#10;[![Github Quick&#10;Setup](http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/github_quick_setup-480x56.png &#34;Github Quick Setup&#34;)](http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/github_quick_setup.png)&#10;&#10;&#10;&#10;&#25152;&#20197;&#36317;&#31163;&#25171;&#24320;&#21040;&#29616;&#22312;&#20320;&#38656;&#35201;&#36825;&#20010;URL&#22312;&#30701;&#30701;&#30340;&#19968;&#30636;&#38388;&#12290;&#10;&#10;&#10;&#10;&#29616;&#22312;&#20320;&#38656;&#35201;&#31532;&#20108;&#20010;&#20179;&#24211;&#28044;&#26469;&#23384;&#25918;&#20320;&#25152;&#26377;&#31169;&#26377;&#30340;pod&#65292;&#20320;&#23558;&#22312;&#26412;&#25945;&#31243;&#20013;&#20351;&#29992;&#12290;&#10;&#10;&#10;&#25171;&#24320;[github.com](http://github.com)&#22312;&#20320;&#20010;&#26032;&#30340;&#26639;&#30446;&#12290;&#20877;&#19968;&#27425;&#28857;&#20987;*Create new*&#22270;&#26631;&#65292;&#24182;&#19988;&#36873;&#25321;*New repository*&#12290;&#20179;&#24211;&#21517;&#20026;*RWPodSpecs*&#65292;&#24182;&#19988;&#36873;&#25321;*Create repository*&#10;&#10;&#10;&#10;&#31163;&#24320;&#36825;&#20010;&#26631;&#31614;&#65292;&#36825;&#26679;&#24403;&#20320;&#38656;&#35201;&#20351;&#29992;&#23427;&#30340;&#26102;&#20505;&#24456;&#31616;&#21333;&#21435;&#20351;&#29992;&#20102;&#12290;&#10;&#10;Podspec &#35774;&#32622;&#10;-------------&#10;&#10;&#10;&#10;&#29616;&#22312;&#20320;&#38656;&#35201;&#21019;&#24314;*RWPickFlavor.podspec*&#25991;&#20214;&#23545;&#20110;*RWPickFlavor*&#65292;*Podspec*&#21253;&#21547;&#22522;&#30784;&#20449;&#24687;&#65292;&#23588;&#20854;&#26159;pod&#30340;&#21517;&#23383;&#65292;&#29256;&#26412;&#21644;Git&#19979;&#36733;&#30340;URL&#10;&#10;&#10;&#22312;&#32456;&#31471;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;&#12290;</span><br></pre></td></tr></table></figure></p>
+<p>cd ~/Documents/Libraries/RWPickFlavor<br>pod spec create RWPickFlavor<br>open -a Xcode RWPickFlavor.podspec</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#36825;&#26159;&#21019;&#24314;&#30340;*RWPickFlavor.podspec*&#24182;&#19988;&#25171;&#24320;&#23427;&#22312;Xcode&#10;&#10;&#10;&#10;&#40664;&#35748;&#24773;&#20917;&#19979;&#26377;&#24456;&#22810;&#20248;&#31168;&#30340;&#20363;&#23376;&#21644;&#25991;&#26723;&#65292;&#28982;&#32780;&#20320;&#24182;&#19981;&#38656;&#35201;&#22823;&#37096;&#20998;&#30340;&#20182;&#20204;&#12290;&#10;&#10;&#10;&#10;&#20197;&#19979;*RWPickFlavor.podspec*&#20195;&#26367;&#20102;&#19968;&#20999;&#12290;</span><br></pre></td></tr></table></figure>
+<p>Pod::Spec.new do |s|</p>
+<h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><p>  s.platform = :ios<br>  s.ios.deployment_target = ‘8.0’<br>  s.name = “RWPickFlavor”<br>  s.summary = “RWPickFlavor lets a user select an ice cream flavor.”<br>  s.requires_arc = true</p>
+<h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><p>  s.version = “0.1.0”</p>
+<h1 id="3"><a href="#3" class="headerlink" title="3"></a>3</h1><p>  s.license = { :type =&gt; “MIT”, :file =&gt; “LICENSE” }</p>
+<h1 id="4_-_Replace_with_your_name_and_e-mail_address"><a href="#4_-_Replace_with_your_name_and_e-mail_address" class="headerlink" title="4 - Replace with your name and e-mail address"></a>4 - Replace with your name and e-mail address</h1><p>  s.author = { “[Your Name Goes Here]” =&gt; “[Your_Email@Your_Email_Domain.com]” }</p>
+<h1 id="For_example_2C"><a href="#For_example_2C" class="headerlink" title="For example,"></a>For example,</h1><h1 id="s-author__3D__7B__u201CJoshua_Greene_u201D__3D_26gt_3B__u201Cjrg-developer@gmail-com_u201D__7D"><a href="#s-author__3D__7B__u201CJoshua_Greene_u201D__3D_26gt_3B__u201Cjrg-developer@gmail-com_u201D__7D" class="headerlink" title="s.author = { “Joshua Greene” =&gt; “jrg.developer@gmail.com” }"></a>s.author = { “Joshua Greene” =&gt; “jrg.developer@gmail.com” }</h1><h1 id="5_-_Replace_this_URL_with_your_own_Github_page_u2019s_URL__28from_the_address_bar_29"><a href="#5_-_Replace_this_URL_with_your_own_Github_page_u2019s_URL__28from_the_address_bar_29" class="headerlink" title="5 - Replace this URL with your own Github page’s URL (from the address bar)"></a>5 - Replace this URL with your own Github page’s URL (from the address bar)</h1><p>  s.homepage = “[Your RWPickFlavor Homepage URL Goes Here]”</p>
+<h1 id="For_example_2C-1"><a href="#For_example_2C-1" class="headerlink" title="For example,"></a>For example,</h1><h1 id="s-homepage__3D__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor_u201C"><a href="#s-homepage__3D__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor_u201C" class="headerlink" title="s.homepage = “https://github.com/JRG-Developer/RWPickFlavor“"></a>s.homepage = “<a href="https://github.com/JRG-Developer/RWPickFlavor" target="_blank" rel="external">https://github.com/JRG-Developer/RWPickFlavor</a>“</h1><h1 id="6_-_Replace_this_URL_with_your_own_Git_URL_from__u201CQuick_Setup_u201D"><a href="#6_-_Replace_this_URL_with_your_own_Git_URL_from__u201CQuick_Setup_u201D" class="headerlink" title="6 - Replace this URL with your own Git URL from “Quick Setup”"></a>6 - Replace this URL with your own Git URL from “Quick Setup”</h1><p>  s.source = { :git =&gt; “[Your RWPickFlavor Git URL Goes Here]”, :tag =&gt; “#{s.version}”}</p>
+<h1 id="For_example_2C-2"><a href="#For_example_2C-2" class="headerlink" title="For example,"></a>For example,</h1><h1 id="s-source__3D__7B__3Agit__3D_26gt_3B__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor-git_u201C_2C__3Atag__3D_26gt_3B__u201C_23_7Bs-version_7D_u201D_7D"><a href="#s-source__3D__7B__3Agit__3D_26gt_3B__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor-git_u201C_2C__3Atag__3D_26gt_3B__u201C_23_7Bs-version_7D_u201D_7D" class="headerlink" title="s.source = { :git =&gt; “https://github.com/JRG-Developer/RWPickFlavor.git“, :tag =&gt; “#{s.version}”}"></a>s.source = { :git =&gt; “<a href="https://github.com/JRG-Developer/RWPickFlavor.git" target="_blank" rel="external">https://github.com/JRG-Developer/RWPickFlavor.git</a>“, :tag =&gt; “#{s.version}”}</h1><h1 id="7"><a href="#7" class="headerlink" title="7"></a>7</h1><p>  s.framework = “UIKit”<br>  s.dependency ‘Alamofire’, ‘~&gt; 1.1’<br>  s.dependency ‘MBProgressHUD’, ‘~&gt; 0.9.0’</p>
+<h1 id="8"><a href="#8" class="headerlink" title="8"></a>8</h1><p>  s.source_files = “RWPickFlavor/<em>*/</em>.{swift}”</p>
+<h1 id="9"><a href="#9" class="headerlink" title="9"></a>9</h1><p>  s.resources = “RWPickFlavor/<em>*/</em>.{png,jpeg,jpg,storyboard,xib}”<br>end</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#23601;&#20687;&#19968;&#20010;Podfile&#65292;Podspec&#26159;&#29992;Ruby&#20889;&#30340;&#12290;&#35201;&#26684;&#22806;&#23567;&#24515;&#65292;&#19981;&#35201;&#20570;&#20219;&#20309;&#38169;&#35823;&#65292;&#21542;&#21017;&#23558;&#21487;&#33021;&#26080;&#27861;&#39564;&#35777;&#23433;&#35013;&#21518;&#26159;&#21542;&#25104;&#21151;.&#10;&#10;&#10;&#10;&#36825;&#26159;&#21457;&#29983;&#20102;&#20160;&#20040;&#65311;&#10;&#10;    &#10;1.    &#39318;&#20808;&#20320;&#35814;&#32454;&#35828;&#26126;&#20102;pod&#30340;&#22522;&#26412;&#20449;&#24687;&#12290;Swift&#24517;&#39035;&#26368;&#20302;&#22522;&#20110;CocoaPods8.0&#29256;&#26412;&#25110;&#32773;&#26356;&#39640;&#12290;&#10;    &#22914;&#26524;&#20320;&#25351;&#23450;&#20102;&#36739;&#20302;&#30340;&#29256;&#26412;&#65292;pod&#26080;&#27861;&#27491;&#24120;&#23433;&#35013;&#12290;&#10;    &#10;    &#10;2.    &#23545;&#20110;&#20320;&#25351;&#23450;&#30340;CocoaPod&#29256;&#26412;&#22909;&#65292;&#26412;&#36136;&#19978;Podspec&#26159;&#19968;&#20010;&#24555;&#29031;&#12290;&#24403;&#20320;&#26356;&#26032;&#19968;&#20010;pod&#65292;&#20320;&#20063;&#23558;&#38656;&#35201;&#26356;&#10;    &#26032;Podspec&#30340;&#29256;&#26412;&#12290;&#25152;&#26377;&#30340;&#39640;&#29256;&#26412;&#24230;&#36981;&#24490;[Semantic Versioning](http://semver.org/)&#12290;&#10;    &#22914;&#26524;&#20320;&#24182;&#27809;&#26377;&#30456;&#20284;&#30340;&#29256;&#26412;&#65292;&#30475;[&#22914;&#20309;&#20351;&#29992;CocoaPods&#22312;Swift&#20013;]&#10;    (http://www.raywenderlich.com/97014)&#10;    &#10;    &#10;3.  &#25152;&#26377;pods&#24517;&#39035;&#25351;&#23450;&#19968;&#20010;&#35768;&#21487;&#35777;&#12290;&#22914;&#26524;&#20320;&#27809;&#26377;&#65292;CocoaPods&#23558;&#22312;&#20320;&#23433;&#35013;&#30340;&#26102;&#20505;&#25552;&#20986;&#35686;&#21578;&#12290;&#24182;&#19988;&#20320;&#10;    &#19981;&#33021;&#25226;&#23427;&#19978;&#20256;&#21040;&#20998;&#25903;&#12290;&#10;    &#10;&#10;4.    &#22312;&#36825;&#37324;&#65292;&#24744;&#21487;&#20197;&#25351;&#23450;&#20851;&#20110;&#33258;&#24049;&#30340;&#20449;&#24687;&#65292;pod&#20316;&#32773;&#12290;&#36755;&#20837;&#20320;&#30340;&#21517;&#23383;&#21644;e-mail&#22320;&#22336;&#12290;&#26367;&#20195;&#37027;&#20123;&#21344;&#10;    &#20301;&#31526;&#25991;&#26412;&#10;    &#10;    &#10;5.    &#22312;&#36825;&#37324;&#20320;&#38656;&#35201;&#25351;&#23450;&#20320;&#30340;pod&#30340;&#32593;&#39029;&#21644;&#32593;&#22336;&#12290;&#23601;&#26159;&#31616;&#21333;&#30340;&#20174;&#27983;&#35272;&#22120;&#22320;&#22336;&#26639;&#22797;&#21046;&#21644;&#31896;&#36148;&#21040;Github&#10;    &#20027;&#39029;&#10;    &#10;    &#10;6.    &#20174;&#19978;&#38754;&#21019;&#24314;&#31532;&#19968;&#20010;&#8220;Quick Setup&#8221;&#65292;&#37027;&#37096;&#20998;&#30340;git&#19979;&#36733;&#32593;&#22336;&#26367;&#20195;URL&#12290;&#26368;&#22909;&#20351;&#29992;&#19968;&#20010;HTTP&#25110;&#10;    HTTPS&#65306;URL&#26356;&#23481;&#26131;&#34987;&#20854;&#20182;&#29992;&#25143;&#22788;&#29702;&#12290;&#22914;&#26524;&#20320;&#24819;&#20320;&#20063;&#21487;&#20197;&#20351;&#29992;SSH URL&#65292;&#20294;&#26159;&#20320;&#38656;&#35201;&#30830;&#20445;&#20320;&#22242;&#10;    &#38431;&#30340;&#27599;&#19968;&#20010;&#20154;&#65293;&#26080;&#35770;&#35841;&#38656;&#35201;&#35775;&#38382;CocoaPod&#65293;&#24050;&#32463;&#26377;&#33258;&#24049;&#30340;&#20844;&#38053;&#65295;&#31169;&#38053;&#38024;&#23545;&#20320;&#30340;Git host&#10;    &#10;&#10;7.&#9; &#36825;&#37324;&#20320;&#38656;&#35201;&#35828;&#26126;&#20320;&#30340;&#26694;&#26550;&#21644;pod&#20381;&#36182;&#20851;&#31995;&#12290;&#10;&#9;&#10;&#10;    &#10;8.    &#22312;&#36825;&#37324;&#20320;&#21487;&#20197;&#35828;&#26126;&#25351;&#23450;&#22522;&#20110;&#25991;&#20214;&#25193;&#23637;&#30340;&#20844;&#20849;&#28304;&#25991;&#20214;&#65292;&#22312;&#36825;&#31181;&#24773;&#20917;&#19979;&#65292;&#20320;&#21487;&#20197;&#35828;&#26126;&#8216;.swift&#8217;&#20316;&#10;    &#20026;&#25193;&#23637;&#10;    &#10;&#10;     &#10; 9.   &#26368;&#21518;&#20320;&#21487;&#20197;&#26681;&#25454;&#25351;&#23450;&#30340;&#25991;&#20214;&#25193;&#23637;&#21517;&#25351;&#23450;&#36164;&#28304;&#12290;&#10;    &#10;&#10;&#10;  &#25512;&#36865;Git&#10;-----------&#10;&#10;&#10;&#10;&#20320;&#32456;&#20110;&#20934;&#22791;&#25512;&#36865;*RWPickFlavor* pod GitHub&#20027;&#39029;&#10;&#10;&#10;&#22312;&#32456;&#31471;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;&#65292;</span><br></pre></td></tr></table></figure>
+<p>cd ~/Documents/Libraries/RWPickFlavor<br>git init<br>git add .<br>git commit -m “Initial commit”<br>git tag 0.1.0<br>git remote add origin [Your RWPickFlavor Git URL]<br>git push -u origin master –tags</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#28982;&#21518;&#36339;&#20986;&#25552;&#31034;&#65292;&#36755;&#20837;&#20320;&#30340;&#29992;&#25143;&#21517;&#21644;&#23494;&#30721;&#21040;Github&#10;&#10;&#10;&#10;&#36825;&#25152;&#26377;&#25991;&#20214;&#22312;*RWPickFlavor*&#30446;&#24405;&#20013;&#65292;&#21019;&#24314;&#19968;&#20010;&#26032;&#30340;*0.1.0*&#26631;&#31614;&#65292;&#24182;&#19988;&#25512;&#36865;&#20320;&#27599;&#19968;&#20010;&#19996;&#35199;&#21040;&#20320;&#30340;&#36828;&#31243;&#20179;&#24211;&#10;&#10;&#10;&#10;&#31069;&#36154;&#20320;&#65292;&#20320;&#24050;&#32463;&#21019;&#24314;&#20320;&#30340;&#31532;&#19968;&#20010;CocoaPod&#65281;&#10;&#10;[![Victory&#10;Dance!](http://cdn1.raywenderlich.com/wp-content/uploads/2015/03/victory_dance-417x320.png &#34;Victory Dance!&#34;)](http://cdn2.raywenderlich.com/wp-content/uploads/2015/03/victory_dance.png)&#10;&#10;&#10;&#10;&#20320;&#24050;&#32463;&#21019;&#24314;&#20102;&#31532;&#19968;&#20010;CocoaPod&#65292;&#20294;&#26159;&#20320;&#33021;&#30495;&#27491;&#30340;&#20351;&#29992;&#21527;&#65311;&#24182;&#19981;&#33021;&#24456;&#24555;&#20351;&#29992;&#12290;&#10;&#10;&#10;&#10;&#20320;&#39318;&#20808;&#38656;&#35201;&#28155;&#21152;&#20320;&#30340;Podspec&#21435;&#31169;&#26377;&#30340;specs repo&#65292;&#24403;&#20320;&#23581;&#35797;&#21435;&#23433;&#35013;&#23427;&#36825;&#35753;CocoaPods&#21457;&#29616;pod&#12290;&#10;&#23545;&#20110;&#36825;&#20010;&#20320;&#24050;&#32463;&#21019;&#24314;&#19968;&#20010;Git repo&#65292;&#25152;&#20197;&#36825;&#26368;&#21518;&#19968;&#27493;&#27604;&#36739;&#31616;&#21333;&#12290;&#10;&#10;&#22312;&#32456;&#31471;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;&#65292;&#30830;&#20445;&#20320;&#20173;&#22312;*RWPickFlavor*&#30446;&#24405;&#20013;&#12290;</span><br></pre></td></tr></table></figure>
+<p>pod repo add RWPodSpecs [Your RWPodSpecs Git URL]<br>pod repo push RWPodSpecs RWPickFlavor.podspec</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#36825;&#23558;&#21019;&#24314;&#19968;&#20010;&#26412;&#22320;&#24341;&#29992; *RWPodSpecs*&#22312;&#20320;&#30340;&#26426;&#22120;&#19978;&#65292;&#24182;&#25512;&#36865;*RWPickFlavor.podspec*&#21040;&#23427;&#19978;&#12290;&#10;&#10;&#10;&#20320;&#29616;&#22312;&#26377;&#19968;&#20010;&#31169;&#26377;&#30340;pod specs repo&#34987;&#24314;&#31435;&#65281;&#27604;&#20320;&#24819;&#35937;&#30340;&#23481;&#26131;&#65292;&#23545;&#21527;&#65311;&#10;&#10;&#20351;&#29992;&#20320;&#30340;&#26032;CocoaPod&#10;-----------------------&#10;&#10;&#10;&#26368;&#21518;&#26469;&#20351;&#29992;&#20320;&#21019;&#24314;&#30340;pod&#10;&#10;&#10;&#23545;&#20110;*IceCreamShop*&#25171;&#24320;Podfile&#65292;&#36755;&#20837;&#20197;&#19979;&#21629;&#20196;</span><br></pre></td></tr></table></figure>
+<p>platform :ios, ‘8.0’</p>
+<p>source ‘<a href="https://github.com/CocoaPods/Specs.git" target="_blank" rel="external">https://github.com/CocoaPods/Specs.git</a>‘<br>source ‘[Your RWPodSpecs Git URL Goes Here]’</p>
+<p>use_frameworks!</p>
+<p>target ‘IceCreamShop’ do<br>  pod ‘RWPickFlavor’, :path =&gt; ‘~/Documents/Libraries/RWPickFlavor’<br>end</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#30830;&#20445;&#20320;&#26367;&#25442;&#30340;*[Your RWPodSpecs Git URL Goes Here]*Git URL&#26159;&#20320;&#30340; *RWPodSpecs* repo&#10;&#10;&#10;&#10;&#28982;&#21518;&#36816;&#34892;`pod install`&#22312;&#32456;&#31471;&#10;&#10;&#10;&#26368;&#21518;&#65292;&#29992;&#19979;&#38754;&#30340;&#26367;&#25442;`AppDelegate.swift`&#12290;</span><br></pre></td></tr></table></figure>
+<p>import UIKit<br>import RWPickFlavor</p>
+<p>@UIApplicationMain<br>class AppDelegate: UIResponder, UIApplicationDelegate {</p>
+<p>  var window: UIWindow?<br>  var rootViewController: UIViewController!</p>
+<p>  func application(application: UIApplication, didFinishLaunchingWithOptions<br>    launchOptions: [NSObject : AnyObject]?) -&gt; Bool {</p>
+<pre><code>setupRootViewController()
+
+window = UIWindow(frame: UIScreen.mainScreen().bounds)
+window?.rootViewController = rootViewController
+window?.makeKeyAndVisible()
+
+return true
+</code></pre><p>  }</p>
+<p>  func setupRootViewController() {<br>    let bundle = NSBundle(forClass: PickFlavorViewController.self)<br>    let storyboard = UIStoryboard(name: “Main”, bundle: bundle)<br>    rootViewController = storyboard.instantiateInitialViewController() as! UIViewController<br>  }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#22312;In `setupRootViewController()`&#65292;&#20320;&#24471;&#21040;&#19968;&#20010;&#21487;&#21442;&#32771;&#30340;`RWPickFlavor`&#8220;bundle&#8221;&#65292;&#36825;&#23454;&#38469;&#19978;&#26159;&#19968;&#20010;&#21160;&#24577;&#32465;&#23450;&#26694;&#26550;&#65292;&#21019;&#24314;&#19968;&#20010;`Main.storyboard`&#65292;&#24182;&#19988;&#23454;&#20363;&#21270;&#20854;&#26681;&#35270;&#22270;&#25511;&#21046;&#22120;&#12290;&#10;&#10;&#10;&#26500;&#24314;&#24182;&#19988;&#36816;&#34892;&#12290;&#20320;&#23558;&#30475;&#21040;&#20320;&#29087;&#24713;&#30340;&#8220;Choose Your Flavor&#8221;&#30028;&#38754;&#12290;&#10;&#10;![choose\_flavor](http://cdn4.raywenderlich.com/wp-content/uploads/2015/05/choose_flavor-180x320.png)&#10;&#10; &#25277;&#35937;&#25152;&#26377;&#20107;&#29289;&#10;---------------------------&#10;&#10;&#10;&#10;&#22914;&#26524;&#20320;&#20687;&#25105;&#19968;&#26679;&#65292;&#20320;&#21487;&#33021;&#20250;&#24819;&#65292;&#8220;&#21703;&#65292;App Delegate&#19968;&#23450;&#30693;&#36947;&#24456;&#22810;&#20851;&#20110;RWPickFlavor&#32467;&#26500;&#8221;&#10;&#10;&#10;&#10;&#24184;&#36816;&#30340;&#26159;&#65292;&#26377;&#19968;&#20123;&#20107;&#24773;&#20320;&#21487;&#20197;&#20570;&#26469;&#20943;&#23569;&#36825;&#31181;&#32806;&#21512;&#24615;&#65292;&#20351;&#29992;[BetterBaseClasses](https://github.com/JRG-Developer/BetterBaseClasses)&#8211; a CocoaPod&#20351;&#20854;&#21019;&#24314;CocoaPods&#26356;&#23481;&#26131;&#10;&#10;&#10;&#28155;&#21152;&#19968;&#19979;&#20195;&#30721;&#24102;&#20320;&#30340;*RWPickFlavor*&#65292;:</span><br></pre></td></tr></table></figure>
+<p>pod ‘BetterBaseClasses’, ‘~&gt; 1.0’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#21516;&#26679;&#28155;&#21152;&#21040;*RWPickFlavor.podspec*:</span><br></pre></td></tr></table></figure>
+<p>s.dependency ‘BetterBaseClasses’, ‘~&gt; 1.0’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#29616;&#22312;&#26367;&#25442;&#29256;&#26412;:</span><br></pre></td></tr></table></figure>
+<p>s.version = “0.2.0”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#22312;&#36825;&#37324;&#65292;&#20320;&#22768;&#26126;*BetterBaseClasses*&#20316;&#20026;&#19968;&#20010;&#20851;&#31995;&#65292;&#28982;&#21518;&#21152;&#20837;&#20320;&#30340;CocoaPod&#10;&#10;&#10;&#10;&#29616;&#22312;&#20320;&#22312;&#32456;&#31471;&#36816;&#34892;*pod install*&#23433;&#35013;&#36825;&#20010;&#26032;&#30340;&#20381;&#36182;&#20851;&#31995;&#12290;&#10;&#10;&#10;&#10;&#25509;&#19979;&#26469;&#28155;&#21152;&#25552;&#21462;`PickFlavorViewController`</span><br></pre></td></tr></table></figure>
+<p>import BetterBaseClasses</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#28982;&#21518;&#26367;&#25442;&#31867;&#30340;&#23450;&#20041;</span><br></pre></td></tr></table></figure>
+<p>public class PickFlavorViewController: BaseViewController, UICollectionViewDelegate {</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#36825;&#31181;`PickFlavorViewController`&#65292;&#25152;&#20197;&#23427;&#26159;`BaseViewController`&#26159;*BetterBaseClasses*&#19968;&#37096;&#20998;&#10;&#10;&#10;&#10;&#29616;&#22312;&#20320;&#38656;&#35201;&#25512;&#36865;&#36825;&#20123;&#25913;&#21464;&#21040;&#20320;&#30340;*RWPickFlavor* and*RWPodSpecs*&#20179;&#24211;&#12290;&#36816;&#34892;&#20197;&#19979;&#21629;&#20196;</span><br></pre></td></tr></table></figure>
+<p>cd ~/Documents/Libraries/RWPickFlavor<br>git add .<br>git commit -m “Added BetterBaseClasses dependency”<br>git tag 0.2.0<br>git push origin master –tags<br>pod repo push RWPodSpecs RWPickFlavor.podspec</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#25509;&#19979;&#26469;&#20320;&#38656;&#35201;&#25552;&#20132;&#36825;&#20123;&#25913;&#21464;&#21040;&#20320;&#30340;*IceCreamShop*.&#10;&#10;&#10;&#10;&#26356;&#26032;*IceCreamShop* Podfile&#65292;&#26367;&#25442;`pod &#39;RWPickFlavor&#39;&#65292;</span><br></pre></td></tr></table></figure>
+<p>pod ‘RWPickFlavor’, ‘~&gt; 0.2.0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#10;&#10;&#22312;&#36825;&#37324;&#26356;&#26032;Podfile&#35831;&#27714;&#30340;&#29256;&#26412;&#23601;&#26159;&#20320;&#21018;&#21018;&#25512;&#36865;&#30340;&#12290;&#10;&#10;&#10;&#10;&#22312;&#32456;&#31471;&#25191;&#34892;`pod install`&#21435;&#26356;&#26032;&#36825;&#31181;&#20381;&#36182;&#20851;&#31995;&#22312;*IceCreamShop*.&#10;&#10;&#10;&#10;&#26368;&#21518;&#29992;&#20197;&#19979;&#20869;&#23481;&#26367;&#25442;*AppDelegate.swift*</span><br></pre></td></tr></table></figure>
+<p>import UIKit<br>import RWPickFlavor</p>
+<p>@UIApplicationMain<br>class AppDelegate: UIResponder, UIApplicationDelegate {</p>
+<p>  var window: UIWindow?</p>
+<p>  func application(application: UIApplication, didFinishLaunchingWithOptions<br>    launchOptions: [NSObject : AnyObject]?) -&gt; Bool {</p>
+<pre><code>window = UIWindow(frame: UIScreen.mainScreen().bounds)
+window?.rootViewController = UINavigationController(rootViewController: 
+  PickFlavorViewController.instanceFromStoryboard())
+window?.makeKeyAndVisible()
+
+return true
+</code></pre><p>  }<br>}</p>
+<p>~~~</p>
+<p> 这很简单</p>
+<p><a href="https://github.com/JRG-Developer/BetterBaseClasses" target="_blank" rel="external">BetterBaseClasses</a>添加到<br><code>UIViewController</code>，<code>UITableViewController</code>和其他的UIkit类。这里包括一个<code>UIViewController+BetterBaseClasses</code>，增加了更加方便的方法，尤其是<code>instanceFromStoryboard()</code>使它更容易实例化视图控制器。无论他们在main bundle活着其他一些地方，尤其是在框架中</p>
+<p>构建并且运行，又一次，你应该看见了熟悉的界面“Choose Your Flavor”</p>
+<h2 id="u4F55_u53BB_u4F55_u4ECE_3F"><a href="#u4F55_u53BB_u4F55_u4ECE_3F" class="headerlink" title="何去何从?"></a>   何去何从?</h2><p>你能在<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/IceCreamShop_Final2.zip" target="_blank" rel="external">这</a>和<a href="http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/RWPickFlavor_Final.zip" target="_blank" rel="external">这</a>完成IceCreamShop project和RWPickFlavor pod工程的下载,</p>
+<p>你现在开始准备制作自己的CocoaPods！然而，本教程谈到的CocoaPods知识冰山一角。<br>学习<a href="http://guides.cocoapods.org/" target="_blank" rel="external">CocoaPods<br>Guides</a>去学习你需要了解的创建CocoaPods的知识。</p>
+<p>最后创建一个CocoaPod，你可能考虑添加<a href="/">CocoaPods Master Specs Repo</a>，因此他将可能通过<a href="http://blog.cocoapods.org/CocoaPods-Trunk" target="_blank" rel="external">CocoaPods<br>Trunk</a>博客到世界各地的开发商手里，</p>
+<p>关于本教程如果你有任何问题或评论，欢迎加入讨论</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/02/03/2015-10-25-CocoaPod教学/" data-title="在Swift中怎样创建CocoaPod | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/03/2015-12-1-HttpLibrary/" title="一步一步搭建自己的iOS网络请求库（一）--测试NSURLSession">
+  <strong>上一篇：</strong><br/>
+  <span>
+  一步一步搭建自己的iOS网络请求库（一）--测试NSURLSession</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/03/2015-10-19-iOS9 Core Data教学/"  title="iOS9 Core Data教学">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS9 Core Data教学
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/03/2015-10-25-CocoaPod教学/" data-title="在Swift中怎样创建CocoaPod" data-url="http://yoursite.com/2016/02/03/2015-10-25-CocoaPod教学/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5F00_u59CB"><span class="toc-number">1.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5EFA_u7ACB_u4F60_u81EA_u5DF1_u7684Pod"><span class="toc-number">2.</span> <span class="toc-text"> 建立你自己的Pod</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1"><span class="toc-number"></span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2"><span class="toc-number"></span> <span class="toc-text">2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3"><span class="toc-number"></span> <span class="toc-text">3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4_-_Replace_with_your_name_and_e-mail_address"><span class="toc-number"></span> <span class="toc-text">4 - Replace with your name and e-mail address</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For_example_2C"><span class="toc-number"></span> <span class="toc-text">For example,</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#s-author__3D__7B__u201CJoshua_Greene_u201D__3D_26gt_3B__u201Cjrg-developer@gmail-com_u201D__7D"><span class="toc-number"></span> <span class="toc-text">s.author = { “Joshua Greene” => “jrg.developer@gmail.com” }</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5_-_Replace_this_URL_with_your_own_Github_page_u2019s_URL__28from_the_address_bar_29"><span class="toc-number"></span> <span class="toc-text">5 - Replace this URL with your own Github page’s URL (from the address bar)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For_example_2C-1"><span class="toc-number"></span> <span class="toc-text">For example,</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#s-homepage__3D__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor_u201C"><span class="toc-number"></span> <span class="toc-text">s.homepage = “https://github.com/JRG-Developer/RWPickFlavor“</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6_-_Replace_this_URL_with_your_own_Git_URL_from__u201CQuick_Setup_u201D"><span class="toc-number"></span> <span class="toc-text">6 - Replace this URL with your own Git URL from “Quick Setup”</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For_example_2C-2"><span class="toc-number"></span> <span class="toc-text">For example,</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#s-source__3D__7B__3Agit__3D_26gt_3B__u201Chttps_3A//github-com/JRG-Developer/RWPickFlavor-git_u201C_2C__3Atag__3D_26gt_3B__u201C_23_7Bs-version_7D_u201D_7D"><span class="toc-number"></span> <span class="toc-text">s.source = { :git => “https://github.com/JRG-Developer/RWPickFlavor.git“, :tag => “#{s.version}”}</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7"><span class="toc-number"></span> <span class="toc-text">7</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8"><span class="toc-number"></span> <span class="toc-text">8</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9"><span class="toc-number"></span> <span class="toc-text">9</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F55_u53BB_u4F55_u4ECE_3F"><span class="toc-number">1.</span> <span class="toc-text">   何去何从?</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="MrLoong" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 你们好 ,我叫Lastdays，一个喜欢白菜，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Lastday_s"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?359a67e4b1b43ca291f946419c2423c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

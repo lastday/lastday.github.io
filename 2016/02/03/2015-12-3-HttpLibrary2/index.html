@@ -1,0 +1,541 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>一步一步搭建自己的iOS网络请求库（二）--封装接口 | Lastdays</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="#一步一步搭建自己的iOS网络请求库（二）
+大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
+我的博客地址：http://lastday.github.io
+#进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
+首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一步一步搭建自己的iOS网络请求库（二）--封装接口">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/2015-12-3-HttpLibrary2/index.html">
+<meta property="og:site_name" content="Lastdays">
+<meta property="og:description" content="#一步一步搭建自己的iOS网络请求库（二）
+大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
+我的博客地址：http://lastday.github.io
+#进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
+首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203112723345">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113021607">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113114638">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113254930">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113354825">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113503789">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113618660">
+<meta property="og:updated_time" content="2016-02-03T11:59:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一步一步搭建自己的iOS网络请求库（二）--封装接口">
+<meta name="twitter:description" content="#一步一步搭建自己的iOS网络请求库（二）
+大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
+我的博客地址：http://lastday.github.io
+#进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
+首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays" title="Lastdays"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays">Lastdays</a></h1>
+				<h2 class="blog-motto">欢迎来到白菜的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/03/2015-12-3-HttpLibrary2/" title="一步一步搭建自己的iOS网络请求库（二）--封装接口" itemprop="url">一步一步搭建自己的iOS网络请求库（二）--封装接口</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-03T11:59:32.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>#一步一步搭建自己的iOS网络请求库（二）</p>
+<p>大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。</p>
+<p>我的博客地址：<a href="http://lastday.github.io" target="_blank" rel="external">http://lastday.github.io</a></p>
+<p>#进行简单的封装<br>我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。</p>
+<p>首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，继承于NSObject类<br>。新建一个静态的request方法。将请求方式和URL传入</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(void)request :(NSString *)method URL:(NSString *)URL&#123;&#10;    NSURL *url = [NSURL URLWithString:URL];&#10;    NSURLSession *session = [NSURLSession sharedSession];&#10;    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];&#10;    request.HTTPMethod = method;&#10;    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;&#10;    &#10;        //NSdata&#36716;String&#10;        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];&#10;        NSLog(@&#34;%@&#34;,string);&#10;    &#125;];&#10;    [task resume];&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>OK</p>
+<p>让我们在ViewController中进行一下测试，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;@IBAction func mainButtonBeTapped(sender: AnyObject) &#123;&#10;    [LyNetWork request:@&#34;GET&#34; URL:@&#34;http://cityuit.sinaapp.com/1.php&#34;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来运行一下：OK 依然显示我们正确的测试结果：succeed</p>
+<p>#使用Block处理请求返回值</p>
+<p>简单的介绍下闭包(block)，对于OC来说是一个新词，但不是新的概念，不是新的东西。学过Javascript的小伙伴对闭包应该不陌生吧~学过PHP的应该也不陌生，在PHP5.3版本以后也支持闭包, 也就是OC中所提到的Block。</p>
+<p>现在对我们的request函数进行修改，LyNetWork.m代码如下：</p>
+<p><img src="http://img.blog.csdn.net/20151203112723345" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(NSString *)method&#10;                 URL:(NSString *)URL&#10;             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success&#10;             failure:(void (^)(NSError *__nullable error))failure&#10;&#123;&#10;    NSURL *url = [NSURL URLWithString:URL];&#10;    NSURLSession *session = [NSURLSession sharedSession];&#10;    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];&#10;    request.HTTPMethod = method;&#10;    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;&#10;        if (error) &#123;&#10;            failure(error);&#10;        &#125;else&#123;&#10;            if (success) &#123;&#10;                success(data,response);&#10;            &#125;&#10;        &#125;&#10;        &#10;    &#125;];&#10;    &#10;    [task resume];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来修改ViewController中的函数调用，代码修改后如下：</p>
+<p><img src="http://img.blog.csdn.net/20151203113021607" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;- (IBAction)test:(id)sender &#123;&#10;    [LyNetWork requestMethod:@&#34;GET&#34;&#10;                         URL:@&#34;http://cityuit.sinaapp.com/1.php&#34;&#10;                     success:^(NSData *data,NSURLResponse *response)&#123;&#10;                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];&#10;                         NSLog(@&#34;%@&#34;,string);&#10;                     &#125;&#10;                     failure:^(NSError *error)&#123;&#10;                         NSLog(@&#34;%@&#34;,error);&#10;                     &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20151203113114638" alt=""></p>
+<p>测试结果依然返回succeed，测试结果正确</p>
+<p>##接下来进行我们最难处理的地方，增加parameters处理能力</p>
+<p>###我们先来处理GET方法吧</p>
+<p>GET 方法下，params 在经过 url encode 之后直接附在 URL 末尾发送给服务器</p>
+<p>类似于这个样子<strong>GET /foo.php?first_name=John&amp;last_name=Doe&amp;action=Submit HTTP/1.1</strong></p>
+<p>修改我们的requestMethod方法，将其进行一下更改，引入parameters参数</p>
+<p><img src="http://img.blog.csdn.net/20151203113254930" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(nullable NSString *)method&#10;                 URL:(nullable NSString *)URL&#10;            parameters:(nullable id) parameters&#10;             success:(nullable void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success&#10;             failure:(nullable void (^)(NSError *__nullable error))failure;</span><br></pre></td></tr></table></figure>
+<p>###接下来就该处理我们的parameters参数了</p>
+<p>我们从AFNetworking中借鉴一下他的处理方案（其实这里本人就是模仿编写罢了）</p>
+<p>我们新建一个类起名为LYURLRequestSerialization，在LYURLRequestSerialization.h添加一下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(NSString *)LYQueryStringFromParameters:(NSDictionary *)parameters;</span><br></pre></td></tr></table></figure>
+<p>进入我们的LYURLRequestSerialization.m文件中，添加以下代码：</p>
+<p><img src="http://img.blog.csdn.net/20151203113354825" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#import &#34;LYURLRequestSerialization.h&#34;&#10;&#10;@interface LYURLRequestSerialization()&#10;&#10;@property (readwrite, nonatomic, strong) id  value;&#10;@property (readwrite, nonatomic, strong) id  field;&#10;&#10;&#10;@end&#10;&#10;@implementation LYURLRequestSerialization&#10;&#10;&#10;&#10;- (id)initWithField:(id)field value:(id)value &#123;&#10;    self = [super init];&#10;    if (!self) &#123;&#10;        return nil;&#10;    &#125;&#10;    &#10;    self.field = field;&#10;    self.value = value;&#10;    &#10;    return self;&#10;&#125;&#10;&#10;#pragma mark -&#10;&#10;FOUNDATION_EXPORT NSArray * LYQueryStringPairsFromDictionary(NSDictionary *dictionary);&#10;FOUNDATION_EXPORT NSArray * LYQueryStringPairsFromKeyAndValue(NSString *key, id value);&#10;&#10;+(NSString *)LYQueryStringFromParameters:(NSDictionary *)parameters &#123;&#10;    NSMutableArray *mutablePairs = [NSMutableArray array];&#10;    for (LYURLRequestSerialization *pair in LYQueryStringPairsFromDictionary(parameters)) &#123;&#10;        &#10;        [mutablePairs addObject:[pair URLEncodedStringValue]];&#10;    &#125;&#10;    &#10;    return [mutablePairs componentsJoinedByString:@&#34;&#38;&#34;];&#10;&#125;&#10;&#10;&#10;&#10;NSArray * LYQueryStringPairsFromDictionary(NSDictionary *dictionary) &#123;&#10;    return LYQueryStringPairsFromKeyAndValue(nil, dictionary);&#10;&#125;&#10;&#10;&#10;&#10;NSArray * LYQueryStringPairsFromKeyAndValue(NSString *key, id value) &#123;&#10;    NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];&#10;    &#10;    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@&#34;description&#34; ascending:YES selector:@selector(compare:)];&#10;    &#10;    if ([value isKindOfClass:[NSDictionary class]]) &#123;&#10;        NSDictionary *dictionary = value;&#10;        for (id nestedKey in [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) &#123;&#10;            id nestedValue = dictionary[nestedKey];&#10;            if (nestedValue) &#123;&#10;                [mutableQueryStringComponents addObjectsFromArray:LYQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@&#34;%@[%@]&#34;, key, nestedKey] : nestedKey), nestedValue)];&#10;            &#125;&#10;        &#125;&#10;    &#125; else if ([value isKindOfClass:[NSArray class]]) &#123;&#10;        NSArray *array = value;&#10;        for (id nestedValue in array) &#123;&#10;            [mutableQueryStringComponents addObjectsFromArray:LYQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@&#34;%@[]&#34;, key], nestedValue)];&#10;        &#125;&#10;    &#125; else if ([value isKindOfClass:[NSSet class]]) &#123;&#10;        NSSet *set = value;&#10;        for (id obj in [set sortedArrayUsingDescriptors:@[ sortDescriptor ]]) &#123;&#10;            [mutableQueryStringComponents addObjectsFromArray:LYQueryStringPairsFromKeyAndValue(key, obj)];&#10;        &#125;&#10;    &#125; else &#123;&#10;        [mutableQueryStringComponents addObject:[[LYURLRequestSerialization alloc] initWithField:key value:value]];&#10;    &#125;&#10;    &#10;    return mutableQueryStringComponents;&#10;&#125;&#10;&#10;&#10;static NSString * LYPercentEscapedStringFromString(NSString *string) &#123;&#10;    static NSString * const kLYCharactersGeneralDelimitersToEncode = @&#34;:#[]@&#34;; // does not include &#34;?&#34; or &#34;/&#34; due to RFC 3986 - Section 3.4&#10;    static NSString * const kLYCharactersSubDelimitersToEncode = @&#34;!$&#38;&#39;()*+,;=&#34;;&#10;    &#10;    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];&#10;    [allowedCharacterSet removeCharactersInString:[kLYCharactersGeneralDelimitersToEncode stringByAppendingString:kLYCharactersSubDelimitersToEncode]];&#10;    &#10;    &#10;    static NSUInteger const batchSize = 50;&#10;    &#10;    NSUInteger index = 0;&#10;    NSMutableString *escaped = @&#34;&#34;.mutableCopy;&#10;    &#10;    while (index &#60; string.length) &#123;&#10;#pragma GCC diagnostic push&#10;#pragma GCC diagnostic ignored &#34;-Wgnu&#34;&#10;        NSUInteger length = MIN(string.length - index, batchSize);&#10;#pragma GCC diagnostic pop&#10;        NSRange range = NSMakeRange(index, length);&#10;        &#10;        range = [string rangeOfComposedCharacterSequencesForRange:range];&#10;        &#10;        NSString *substring = [string substringWithRange:range];&#10;        NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];&#10;        [escaped appendString:encoded];&#10;        &#10;        index += range.length;&#10;    &#125;&#10;    &#10;    return escaped;&#10;&#125;&#10;&#10;- (NSString *)URLEncodedStringValue &#123;&#10;    if (!self.value || [self.value isEqual:[NSNull null]]) &#123;&#10;        return LYPercentEscapedStringFromString([self.field description]);&#10;    &#125; else &#123;&#10;        return [NSString stringWithFormat:@&#34;%@=%@&#34;, LYPercentEscapedStringFromString([self.field description]), LYPercentEscapedStringFromString([self.value description])];&#10;    &#125;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>简单的说一下吧，以上的方法都是为了处理传入的NSDictonary参数，因为我们在使用的时候为了方便我们传入动态的parameters，所以他的的格式是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id parmenters = @&#123;&#10;                  @&#34;value&#34;:@&#34;LastDays&#34;,&#10;                 &#125;;</span><br></pre></td></tr></table></figure>
+<p>将它处理后我们希望得到的样式应该是这样，对吧?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:URL.php?value=LastDays</span><br></pre></td></tr></table></figure>
+<p>这个参数是一个动态的，我们不能确定里面到底有几组参数，而且还需要考虑的一个问题就是NSDictonary中嵌套NSDictonary的情况，我们处理这种问题的一个思想就是递归。从最里面开始处理。</p>
+<p>###OK，这样我们就实现了parameters处理能力</p>
+<p>然后我们需要测试一下</p>
+<p>为了进行测试我又重新更改了接口，提供了参数处理的能力，以下是新的接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://cityuit.sinaapp.com/1.php  value=&#23558;&#35201;&#36820;&#22238;&#30340;&#20540;</span><br></pre></td></tr></table></figure>
+<p>更改下requestMethod方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;+(void)requestMethod:(NSString *)method&#10;                 URL:(NSString *)URL&#10;          parameters:(id) parameters&#10;             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success&#10;             failure:(void (^)(NSError *__nullable error))failure&#10;&#123;&#10;    NSString *newURL;&#10;    if ([method isEqual:@&#34;GET&#34;]) &#123;&#10;        newURL = [[URL stringByAppendingString:@&#34;?&#34;] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];&#10;        &#10;        NSLog(@&#34;%@&#34;,newURL);&#10;    &#125;&#10;    &#10;    NSURL *url = [NSURL URLWithString:newURL];&#10;    NSURLSession *session = [NSURLSession sharedSession];&#10;    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];&#10;    request.HTTPMethod = method;&#10;    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;&#10;        if (error) &#123;&#10;            failure(error);&#10;        &#125;else&#123;&#10;            if (success) &#123;&#10;                success(data,response);&#10;            &#125;&#10;        &#125;&#10;    &#125;];&#10;    [task resume];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>其中变化的地方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if ([method isEqual:@&#34;GET&#34;]) &#123;&#10;        newURL = [[URL stringByAppendingString:@&#34;?&#34;] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];&#10;        NSLog(@&#34;%@&#34;,newURL);&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码的意思就是判断一下是否未GET请求，如果是的话将处理后的parameters加到尾部，以刚才的参数为例子，处理后的newURL为：<a href="http://cityuit.sinaapp.com/1.php?value=LastDays" target="_blank" rel="external">http://cityuit.sinaapp.com/1.php?value=LastDays</a></p>
+<p>也就是说返回值为LastDays</p>
+<p>到ViewController.m中进行测试，测试代码如下：</p>
+<p><img src="http://img.blog.csdn.net/20151203113503789" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)test:(id)sender &#123;&#10;    &#10;    id parmenters = @&#123;&#10;                      @&#34;value&#34;:@&#34;LastDays&#34;,&#10;                      &#125;;&#10;    [LyNetWork requestMethod:@&#34;GET&#34;&#10;                         URL:@&#34;http://cityuit.sinaapp.com/1.php&#34;&#10;                  parameters:parmenters&#10;                     success:^(NSData *data,NSURLResponse *response)&#123;&#10;                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];&#10;                         NSLog(@&#34;%@&#34;,string);&#10;                     &#125;&#10;                     failure:^(NSError *error)&#123;&#10;                         NSLog(@&#34;%@&#34;,error);&#10;                     &#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20151203113618660" alt="这里写图片描述"></p>
+<p>ok返回结果为LastDays，成功添加入动态的动态的HTTP参数（parameters）的功能。</p>
+<p>###下一次将会分享POST请求的处理。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/02/03/2015-12-3-HttpLibrary2/" data-title="一步一步搭建自己的iOS网络请求库（二）--封装接口 | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/03/2015-12-4-HttpLibrary3/" title="一步一步搭建自己的iOS网络请求库（三）--POST">
+  <strong>上一篇：</strong><br/>
+  <span>
+  一步一步搭建自己的iOS网络请求库（三）--POST</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/03/2015-12-1-HttpLibrary/"  title="一步一步搭建自己的iOS网络请求库（一）--测试NSURLSession">
+ <strong>下一篇：</strong><br/> 
+ <span>一步一步搭建自己的iOS网络请求库（一）--测试NSURLSession
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/03/2015-12-3-HttpLibrary2/" data-title="一步一步搭建自己的iOS网络请求库（二）--封装接口" data-url="http://yoursite.com/2016/02/03/2015-12-3-HttpLibrary2/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="MrLoong" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 你们好 ,我叫Lastdays，一个喜欢白菜，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Lastday_s"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?359a67e4b1b43ca291f946419c2423c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
