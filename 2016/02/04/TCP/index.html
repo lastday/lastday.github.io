@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>TCP协议总结 | Lastdays</title>
+    <title>TCP协议总结 | Lastdays&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Lastdays">
@@ -16,8 +16,8 @@
 字节流：1.当发送方应用多次进行写操作的时候，TCP发送模块会先把数据放在发送缓冲区中，当TCP发送模块真正发送的时候，这些在发送缓冲区中的数据才可能被封装成一个或多个报文段发出。所有根据以上结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP协议总结">
-<meta property="og:url" content="http://yoursite.com/2016/02/03/TCP/index.html">
-<meta property="og:site_name" content="Lastdays">
+<meta property="og:url" content="http://yoursite.com/2016/02/04/TCP/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
 <meta property="og:description" content="传输层概述TCP协议特点：面向连接、字节流、可靠传输
 面向链接：1.使用TCP协议的双方必须先建立连接，并且双方都必须分配相应的内核资源。TCP的连接是全双工的，也就是说双方可以根据一个连接进行读写操作。
 字节流：1.当发送方应用多次进行写操作的时候，TCP发送模块会先把数据放在发送缓冲区中，当TCP发送模块真正发送的时候，这些在发送缓冲区中的数据才可能被封装成一个或多个报文段发出。所有根据以上结">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20150803153635912">
 <meta property="og:image" content="http://img.blog.csdn.net/20150806104035106">
 <meta property="og:image" content="http://img.blog.csdn.net/20150806104111167">
-<meta property="og:updated_time" content="2016-02-03T13:25:43.000Z">
+<meta property="og:updated_time" content="2016-02-03T16:54:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP协议总结">
 <meta name="twitter:description" content="传输层概述TCP协议特点：面向连接、字节流、可靠传输
@@ -38,7 +38,7 @@
 字节流：1.当发送方应用多次进行写操作的时候，TCP发送模块会先把数据放在发送缓冲区中，当TCP发送模块真正发送的时候，这些在发送缓冲区中的数据才可能被封装成一个或多个报文段发出。所有根据以上结">
 
     
-    <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -56,11 +56,11 @@
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="Lastdays" title="Lastdays"/></a>
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
 			</div>
 			
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="Lastdays">Lastdays</a></h1>
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
 				<h2 class="blog-motto">欢迎来到一个喜欢白菜的90后的世界</h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
@@ -94,14 +94,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/03/TCP/" title="TCP协议总结" itemprop="url">TCP协议总结</a>
+      <a href="/2016/02/04/TCP/" title="TCP协议总结" itemprop="url">TCP协议总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T13:25:43.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    <time datetime="2016-02-03T16:54:01.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
     
   </p>
 </header>
@@ -117,6 +117,7 @@
 		<h2 id="u4F20_u8F93_u5C42_u6982_u8FF0"><a href="#u4F20_u8F93_u5C42_u6982_u8FF0" class="headerlink" title="传输层概述"></a>传输层概述</h2><p>TCP协议特点：面向连接、字节流、可靠传输</p>
 <h3 id="u9762_u5411_u94FE_u63A5_uFF1A"><a href="#u9762_u5411_u94FE_u63A5_uFF1A" class="headerlink" title="面向链接："></a>面向链接：</h3><p>1.使用TCP协议的双方必须先建立连接，并且双方都必须分配相应的内核资源。TCP的连接是全双工的，也就是说双方可以根据一个连接进行读写操作。</p>
 <h3 id="u5B57_u8282_u6D41_uFF1A"><a href="#u5B57_u8282_u6D41_uFF1A" class="headerlink" title="字节流："></a>字节流：</h3><p>1.当发送方应用多次进行写操作的时候，TCP发送模块会先把数据放在发送缓冲区中，当TCP发送模块真正发送的时候，这些在发送缓冲区中的数据才可能被封装成一个或多个报文段发出。所有根据以上结论，应用程序执行的写操作的次数和TCP发送的报文段个数没有对应的数量关系。</p>
+<a id="more"></a>
 <p>2.当接收端收到一个或多个报文段数据后，TCP模块必须把它们携带的应用层数据必须按照报文段序号把它们放到TCP接受缓冲区中。同时通知应用程序读取数据，这样应用程序就可以一次读出数据或多次读出数据，这取决于应用程序读缓冲区的大小。根据以上结论得出，TCP读取操作的次数跟接收报文段个数也没有固定的关系</p>
 <p><strong>总结：发送端执行的写操作次数与接受端的读操作次数没有任何数量关系，应用程序的发送和接收是没有边界限制的，UDP就不是这样，在这里不详细说了</strong></p>
 <p>如图TCP字节流服务过程：</p>
@@ -288,7 +289,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/02/03/TCP/" data-title="TCP协议总结 | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/02/04/TCP/" data-title="TCP协议总结 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -301,17 +302,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/02/04/HttpLibrary/" title="编写iOS HTTP网络请求库">
-  <strong>上一篇：</strong><br/>
-  <span>
-  编写iOS HTTP网络请求库</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/02/03/IP/"  title="IP协议总结">
+<a href="/2016/02/04/IP/"  title="IP协议总结">
  <strong>下一篇：</strong><br/> 
  <span>IP协议总结
 </span>
@@ -322,7 +315,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/02/03/TCP/" data-title="TCP协议总结" data-url="http://yoursite.com/2016/02/03/TCP/"></div>
+	<div class="ds-thread" data-thread-key="2016/02/04/TCP/" data-title="TCP协议总结" data-url="http://yoursite.com/2016/02/04/TCP/"></div>
 </section>
 
 
