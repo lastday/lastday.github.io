@@ -11,20 +11,16 @@
     
 
     
-    <meta name="description" content="#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。
-##网络层概述
-###IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
+    <meta name="description" content="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。网络层概述IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
 
-无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的">
+无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IP协议总结">
-<meta property="og:url" content="http://yoursite.com/2016/02/03/2015-10-14-first-IP/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/IP/index.html">
 <meta property="og:site_name" content="Lastdays">
-<meta property="og:description" content="#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。
-##网络层概述
-###IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
+<meta property="og:description" content="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。网络层概述IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
 
-无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的">
+无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的">
 <meta property="og:image" content="http://img.blog.csdn.net/20150809211053157">
 <meta property="og:image" content="http://img.blog.csdn.net/20150811121717075">
 <meta property="og:image" content="http://img.blog.csdn.net/20150811121838596">
@@ -36,14 +32,12 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20150811123030527">
 <meta property="og:image" content="http://img.blog.csdn.net/20150811123044978">
 <meta property="og:image" content="http://img.blog.csdn.net/20150812131618110">
-<meta property="og:updated_time" content="2016-02-03T11:58:32.000Z">
+<meta property="og:updated_time" content="2016-02-03T13:24:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IP协议总结">
-<meta name="twitter:description" content="#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。
-##网络层概述
-###IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
+<meta name="twitter:description" content="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。网络层概述IP服务特点:IP协议为上层协议提供无状态，无连接，不可靠的服务。
 
-无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的">
+无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的">
 
     
     <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
@@ -69,7 +63,7 @@
 			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="Lastdays">Lastdays</a></h1>
-				<h2 class="blog-motto">欢迎来到白菜的世界</h2>
+				<h2 class="blog-motto">欢迎来到一个喜欢白菜的90后的世界</h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
@@ -85,11 +79,10 @@
 					
 					<li>
  					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
 					
 					</li>
 				</ul>
@@ -103,14 +96,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/03/2015-10-14-first-IP/" title="IP协议总结" itemprop="url">IP协议总结</a>
+      <a href="/2016/02/03/IP/" title="IP协议总结" itemprop="url">IP协议总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T11:58:32.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    <time datetime="2016-02-03T13:24:40.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
     
   </p>
 </header>
@@ -119,21 +112,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002"><span class="toc-number">1.</span> <span class="toc-text">IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F51_u7EDC_u5C42_u6982_u8FF0"><span class="toc-number">1.1.</span> <span class="toc-text">网络层概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u670D_u52A1_u7279_u70B9_3A"><span class="toc-number">1.1.1.</span> <span class="toc-text">IP服务特点:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv4_u5934_u90E8_u7ED3_u6784_3A"><span class="toc-number">1.1.2.</span> <span class="toc-text">IPv4头部结构:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F51_u7EDC_u5C42_u4F5C_u7528"><span class="toc-number">1.2.</span> <span class="toc-text">网络层作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u5206_u7247_uFF1A"><span class="toc-number">1.2.1.</span> <span class="toc-text">IP分片：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u8DEF_u7531_u9009_u62E9_u673A_u5236_uFF1A"><span class="toc-number">1.2.2.</span> <span class="toc-text">IP路由选择机制：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u8F6C_u53D1_u8FC7_u7A0B_uFF1A"><span class="toc-number">1.2.3.</span> <span class="toc-text">IP转发过程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8DEF_u7531_u8868_u66F4_u65B0_uFF1A"><span class="toc-number">1.2.4.</span> <span class="toc-text">路由表更新：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP_u62A5_u6587_u683C_u5F0F"><span class="toc-number">1.3.</span> <span class="toc-text">ICMP报文格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP_u67E5_u8BE2_u683C_u5F0F"><span class="toc-number">1.4.</span> <span class="toc-text">ICMP查询格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP_u67E5_u8BE2_u62A5_u6587_u5171_u67094_u79CD"><span class="toc-number">1.4.1.</span> <span class="toc-text">ICMP查询报文共有4种</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP_u5DEE_u9519_u62A5_u6587"><span class="toc-number">1.5.</span> <span class="toc-text">ICMP差错报文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP_u5DEE_u9519_u62A5_u6587_u5171_u67095_u79CD_uFF1A"><span class="toc-number">1.5.1.</span> <span class="toc-text">ICMP差错报文共有5种：</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<p>#IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</p>
-<p>##网络层概述</p>
-<p>###IP服务特点:<br>IP协议为上层协议提供无状态，无连接，不可靠的服务。</p>
+		<h1 id="IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002"><a href="#IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002" class="headerlink" title="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。"></a>IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</h1><h2 id="u7F51_u7EDC_u5C42_u6982_u8FF0"><a href="#u7F51_u7EDC_u5C42_u6982_u8FF0" class="headerlink" title="网络层概述"></a>网络层概述</h2><h3 id="IP_u670D_u52A1_u7279_u70B9_3A"><a href="#IP_u670D_u52A1_u7279_u70B9_3A" class="headerlink" title="IP服务特点:"></a>IP服务特点:</h3><p>IP协议为上层协议提供无状态，无连接，不可靠的服务。</p>
 <ul>
 <li>无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的状态也是有优点的，它简单高效，因为我们无需为保证它的状态而分配一些内核数据结构。</li>
 <li>无连接：通信双方都不长久的维持对方的任何信息，那么就需要上层协议去指定传输的IP地址。</li>
 <li>不可靠服务：不可靠指的是IP协议不能保证IP数据报完整并且准确的到达接收端。因此使用IP的上层协议需要自己做数据确认，超时重传等可靠传输机制。</li>
 </ul>
 <p>…</p>
-<p>###IPv4头部结构:</p>
-<p>图一：</p>
+<h3 id="IPv4_u5934_u90E8_u7ED3_u6784_3A"><a href="#IPv4_u5934_u90E8_u7ED3_u6784_3A" class="headerlink" title="IPv4头部结构:"></a>IPv4头部结构:</h3><p>图一：</p>
 <p><img src="http://img.blog.csdn.net/20150809211053157" alt="这里写图片描述"></p>
 <p>IPv4头部结构包含20个字节。另外最多包含40个选项字节。</p>
 <ul>
@@ -163,9 +153,7 @@
 <li>IPv4头部可变长的选项部分，最多包含401个字节，可选的IP选项包括：（1）纪录路由，（2）时间戳，（3）松散源路由选择，（4）严格路由选择   （这些的介绍会在以后进行分享）</li>
 </ul>
 <p>IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。<br>我们接着在<a href="http://blog.csdn.net/lastdays_l/article/details/47395921" target="_blank" rel="external">IP协议解读（一）</a>继续学习</p>
-<p>##网络层作用</p>
-<p>###IP分片：</p>
-<ul>
+<h2 id="u7F51_u7EDC_u5C42_u4F5C_u7528"><a href="#u7F51_u7EDC_u5C42_u4F5C_u7528" class="headerlink" title="网络层作用"></a>网络层作用</h2><h3 id="IP_u5206_u7247_uFF1A"><a href="#IP_u5206_u7247_uFF1A" class="headerlink" title="IP分片："></a>IP分片：</h3><ul>
 <li><p>IP数据报的长度超过帧的MTU时，将会被分片传输。分片可能发生在发送端，也可能发生在中转路由器上，并且可能在传输过程中被多次分片。最终会在接收器上被IP模块重新组装。</p>
 </li>
 <li><p>在<a href="http://blog.csdn.net/lastdays_l/article/details/47395921" target="_blank" rel="external">IP协议解读（一）</a>中讲述了16位数据报标识、3位的标识，13位的片偏移给分片和重组提供了足够的信息。一个IP数据报的每个分片都具有自己的头部。他们具有相同的标识值，但具有不同的片偏移。</p>
@@ -178,17 +166,16 @@
 <p>从以上的图片我可以分析出来，ICMP头部的8个字节被分配到第一个分片中，其中1472字节的ICMP的数据也被分配到第一个分片中，这样IP头+ICMP头部结构+部分ICMP数据组成了最大的IP分片（1500字节），剩下的一个个字节的ICMP数据被分配到第二个IP分片中（21字节）</p>
 <p>下面我们用实例演示：</p>
 <p>我们使用ping命令指定每次发送的大小位1473个字节</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping www.baidu.com -s 1473</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping www.baidu.com <span class="operator">-s</span> <span class="number">1473</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://img.blog.csdn.net/20150811121838596" alt="这里写图片描述"></p>
 <p>我们使用tcpdump命令抓取ping过程中的icmp数据包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -ntv -i eth0 icmp</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -ntv -i eth0 icmp</span><br></pre></td></tr></table></figure>
 <p><img src="http://img.blog.csdn.net/20150811121920417" alt="这里写图片描述"></p>
 <p>===============查看分析抓去结果=====================</p>
 <p>结果如图所示：</p>
 <p><img src="http://img.blog.csdn.net/20150811122731873" alt="这里写图片描述"></p>
 <p>从图片中我们可以看出，前两个数据报的ip分片id（标识值）都是27300，说明这两个是同一个分片，第一个分片的offset（偏移值）为0，第二个分片的offset（偏移值）为0位1480.根据信息显示，第一个ICMP占1480个字节，第二个长度为21.</p>
-<p>###IP路由选择机制：</p>
-<p>路由选择是IP协议的核心任务，指定了发送数据报到目标路径的途径</p>
+<h3 id="IP_u8DEF_u7531_u9009_u62E9_u673A_u5236_uFF1A"><a href="#IP_u8DEF_u7531_u9009_u62E9_u673A_u5236_uFF1A" class="headerlink" title="IP路由选择机制："></a>IP路由选择机制：</h3><p>路由选择是IP协议的核心任务，指定了发送数据报到目标路径的途径</p>
 <p><img src="http://img.blog.csdn.net/20150811122637878" alt="这里写图片描述"></p>
 <ul>
 <li>当IP模块接受到来自网络驱动程序发来的IP数据报时，首先对头部进行CRC校验，确定这个数据包在传输过程中没有被损坏。</li>
@@ -206,8 +193,7 @@
 <li>查找相同网络ID的网络IP地址，如果找到就是用该路由项，如果未找到，进入下第三个步骤</li>
 <li>选择默认路由项，这意味着下一跳的路由地址是网关</li>
 </ul>
-<p>###IP转发过程：</p>
-<p>路由器转发模块的执行过程如下：</p>
+<h3 id="IP_u8F6C_u53D1_u8FC7_u7A0B_uFF1A"><a href="#IP_u8F6C_u53D1_u8FC7_u7A0B_uFF1A" class="headerlink" title="IP转发过程："></a>IP转发过程：</h3><p>路由器转发模块的执行过程如下：</p>
 <ul>
 <li>检查数据报头部的TTL值（TTL为0丢弃这个数据报）。</li>
 <li>查看数据包的严格源路由的选择选项，如果被设置，检测数据报的目的IP地址是否和本机的某个IP地址相同，如果不是，发送一个ICMP差错报文。</li>
@@ -216,8 +202,7 @@
 <li>处理IP头部选项</li>
 <li>如果有必要，执行IP分片操作</li>
 </ul>
-<p>###路由表更新：</p>
-<p>路由表必须具备更新，反应网络中的连接的变化，这样IP模块才能准确，高效的转发数据报。</p>
+<h3 id="u8DEF_u7531_u8868_u66F4_u65B0_uFF1A"><a href="#u8DEF_u7531_u8868_u66F4_u65B0_uFF1A" class="headerlink" title="路由表更新："></a>路由表更新：</h3><p>路由表必须具备更新，反应网络中的连接的变化，这样IP模块才能准确，高效的转发数据报。</p>
 <p>进行实例演示。</p>
 <p>Linux下使用明route命令查看当前主机下的路由表信息。<br><img src="http://img.blog.csdn.net/20150811122852036" alt="这里写图片描述"></p>
 <p>第一行表示子系统下的默认路由</p>
@@ -228,21 +213,16 @@
 <p>删除默认路由项，这样做的后果就是无法访问因特网。</p>
 <p><img src="http://img.blog.csdn.net/20150811123044978" alt="这里写图片描述"></p>
 <p>今天我们来介绍网络层中的ICMP协议</p>
-<p>##ICMP报文格式</p>
-<p>图一：</p>
+<h2 id="ICMP_u62A5_u6587_u683C_u5F0F"><a href="#ICMP_u62A5_u6587_u683C_u5F0F" class="headerlink" title="ICMP报文格式"></a>ICMP报文格式</h2><p>图一：</p>
 <p><img src="http://img.blog.csdn.net/20150812131618110" alt="这里写图片描述"></p>
 <p>从图片上我们可以分析出，前三位的字段都是固定的，8位类型字段，8位代码字段，16位校验和字段。其他字段因ICMP报文类型不同而不同。8位类型和8位代码一起决定了报文的类型。</p>
-<p>##ICMP查询格式</p>
-<p>###ICMP查询报文共有4种</p>
-<ul>
+<h2 id="ICMP_u67E5_u8BE2_u683C_u5F0F"><a href="#ICMP_u67E5_u8BE2_u683C_u5F0F" class="headerlink" title="ICMP查询格式"></a>ICMP查询格式</h2><h3 id="ICMP_u67E5_u8BE2_u62A5_u6587_u5171_u67094_u79CD"><a href="#ICMP_u67E5_u8BE2_u62A5_u6587_u5171_u67094_u79CD" class="headerlink" title="ICMP查询报文共有4种"></a>ICMP查询报文共有4种</h3><ul>
 <li>回送请求和回答：由主机和路由器向一个特定的主机和路由器发送询问，收到请求的主机必须给源主机发送回送应答报文，用来测试目标主机是否可达以及了解其他状态</li>
 <li>时间戳请求和回答：它允许系统向另一个系统查询当前的时间，该ICMP的好处是他提供了毫秒级的分辨率。</li>
 <li>掩码地址请求和回答：主机使用ICMP地址掩码地址请求报文可以向子网掩码服务器得到某个接口的地址掩码。系统广播他的ICMP请求报文。</li>
 <li>路由器询问和通过报文：主机使用ICMP路由器询问连接在本网络上的路由器是否正常工作。</li>
 </ul>
-<p>##ICMP差错报文</p>
-<p>###ICMP差错报文共有5种：</p>
-<ul>
+<h2 id="ICMP_u5DEE_u9519_u62A5_u6587"><a href="#ICMP_u5DEE_u9519_u62A5_u6587" class="headerlink" title="ICMP差错报文"></a>ICMP差错报文</h2><h3 id="ICMP_u5DEE_u9519_u62A5_u6587_u5171_u67095_u79CD_uFF1A"><a href="#ICMP_u5DEE_u9519_u62A5_u6587_u5171_u67095_u79CD_uFF1A" class="headerlink" title="ICMP差错报文共有5种："></a>ICMP差错报文共有5种：</h3><ul>
 <li>终点不可达：网络不可达，主机不可达，协议不可达，端口不可达，源路由失败</li>
 <li>源站抑制：当路由器或主机因为拥塞丢弃数据包时，就向源站发送源站抑制报文，使源站知道应当将发送数据报的速度放慢。</li>
 <li>时间超过：路由器收到生存时间为0的数据报时，除丢弃该数据报外还要向源站发送时间超时报文</li>
@@ -261,7 +241,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/02/03/2015-10-14-first-IP/" data-title="IP协议总结 | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/02/03/IP/" data-title="IP协议总结 | Lastdays" data-tsina="5848341536" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -275,18 +255,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/02/03/2015-10-19-iOS9 Core Data教学/" title="iOS9 Core Data教学">
+ <a href="/2016/02/03/TCP/" title="TCP协议总结">
   <strong>上一篇：</strong><br/>
   <span>
-  iOS9 Core Data教学</span>
+  TCP协议总结</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/02/03/2015-10-6-TCP/"  title="TCP协议总结">
+<a href="/2016/02/03/Core Date/"  title="iOS9 Core Data教学">
  <strong>下一篇：</strong><br/> 
- <span>TCP协议总结
+ <span>iOS9 Core Data教学
 </span>
 </a>
 </div>
@@ -295,7 +275,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/02/03/2015-10-14-first-IP/" data-title="IP协议总结" data-url="http://yoursite.com/2016/02/03/2015-10-14-first-IP/"></div>
+	<div class="ds-thread" data-thread-key="2016/02/03/IP/" data-title="IP协议总结" data-url="http://yoursite.com/2016/02/03/IP/"></div>
 </section>
 
 
@@ -305,7 +285,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002"><span class="toc-number">1.</span> <span class="toc-text">IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F51_u7EDC_u5C42_u6982_u8FF0"><span class="toc-number">1.1.</span> <span class="toc-text">网络层概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u670D_u52A1_u7279_u70B9_3A"><span class="toc-number">1.1.1.</span> <span class="toc-text">IP服务特点:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IPv4_u5934_u90E8_u7ED3_u6784_3A"><span class="toc-number">1.1.2.</span> <span class="toc-text">IPv4头部结构:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F51_u7EDC_u5C42_u4F5C_u7528"><span class="toc-number">1.2.</span> <span class="toc-text">网络层作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u5206_u7247_uFF1A"><span class="toc-number">1.2.1.</span> <span class="toc-text">IP分片：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u8DEF_u7531_u9009_u62E9_u673A_u5236_uFF1A"><span class="toc-number">1.2.2.</span> <span class="toc-text">IP路由选择机制：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP_u8F6C_u53D1_u8FC7_u7A0B_uFF1A"><span class="toc-number">1.2.3.</span> <span class="toc-text">IP转发过程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8DEF_u7531_u8868_u66F4_u65B0_uFF1A"><span class="toc-number">1.2.4.</span> <span class="toc-text">路由表更新：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP_u62A5_u6587_u683C_u5F0F"><span class="toc-number">1.3.</span> <span class="toc-text">ICMP报文格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP_u67E5_u8BE2_u683C_u5F0F"><span class="toc-number">1.4.</span> <span class="toc-text">ICMP查询格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP_u67E5_u8BE2_u62A5_u6587_u5171_u67094_u79CD"><span class="toc-number">1.4.1.</span> <span class="toc-text">ICMP查询报文共有4种</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP_u5DEE_u9519_u62A5_u6587"><span class="toc-number">1.5.</span> <span class="toc-text">ICMP差错报文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP_u5DEE_u9519_u62A5_u6587_u5171_u67095_u79CD_uFF1A"><span class="toc-number">1.5.1.</span> <span class="toc-text">ICMP差错报文共有5种：</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -371,7 +351,7 @@
 	
 	
 	<section class="info">
-		<p> 你们好 ,我叫Lastdays，一个喜欢白菜，单线程的iOS开发男孩. <br/>
+		<p> 我叫Lastdays，一个喜欢白菜的90后，单线程的iOS开发男孩. <br/>
 			这是我的博客，我在这里分享我的一切.</p>
 	</section>
 	 

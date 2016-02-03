@@ -1,0 +1,659 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>编写iOS HTTP网络请求库 | Lastdays</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="一步一步搭建自己的iOS网络请求库（一）大家好，我是LastDay，终于有了自己的博客，在这里分享一个的HTTP请求库的编写经验。
+简单的介绍介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编写iOS HTTP网络请求库">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/HttpLibrary/index.html">
+<meta property="og:site_name" content="Lastdays">
+<meta property="og:description" content="一步一步搭建自己的iOS网络请求库（一）大家好，我是LastDay，终于有了自己的博客，在这里分享一个的HTTP请求库的编写经验。
+简单的介绍介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候">
+<meta property="og:image" content="http://img.blog.csdn.net/20151130224816040">
+<meta property="og:image" content="http://img.blog.csdn.net/20151130225055403">
+<meta property="og:image" content="http://img.blog.csdn.net/20151130230141398">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203112723345">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113021607">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113114638">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113254930">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113354825">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113503789">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113618660">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203113618660">
+<meta property="og:image" content="http://img.blog.csdn.net/20151203232722166">
+<meta property="og:image" content="http://img.blog.csdn.net/20151207224801666">
+<meta property="og:updated_time" content="2016-02-03T13:35:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编写iOS HTTP网络请求库">
+<meta name="twitter:description" content="一步一步搭建自己的iOS网络请求库（一）大家好，我是LastDay，终于有了自己的博客，在这里分享一个的HTTP请求库的编写经验。
+简单的介绍介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays" title="Lastdays"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays">Lastdays</a></h1>
+				<h2 class="blog-motto">欢迎来到一个喜欢白菜的90后的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/03/HttpLibrary/" title="编写iOS HTTP网络请求库" itemprop="url">编写iOS HTTP网络请求库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-03T13:35:27.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B80_u5355_u7684_u4ECB_u7ECD"><span class="toc-number">1.1.</span> <span class="toc-text">简单的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D4B_u8BD5NSURLSession"><span class="toc-number">1.2.</span> <span class="toc-text">测试NSURLSession</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6D4B_u8BD5_u5B8C_u6210"><span class="toc-number">1.2.1.</span> <span class="toc-text">测试完成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09"><span class="toc-number">2.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5"><span class="toc-number">2.1.</span> <span class="toc-text">进行简单的封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C"><span class="toc-number">2.2.</span> <span class="toc-text">使用Block处理请求返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">2.3.</span> <span class="toc-text">接下来进行我们最难处理的地方，增加parameters处理能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427"><span class="toc-number">2.3.1.</span> <span class="toc-text">我们先来处理GET方法吧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5904_u7406parameters_u53C2_u6570_u4E86"><span class="toc-number">2.3.2.</span> <span class="toc-text">处理parameters参数了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">2.3.3.</span> <span class="toc-text">OK，这样我们就实现了parameters处理能力</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E09_uFF09"><span class="toc-number">3.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（三）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#POST_u65B9_u6CD5"><span class="toc-number">3.1.</span> <span class="toc-text">POST方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5BF9LyHttp_u8FDB_u884C_u964D_u8026_u5904_u7406"><span class="toc-number">4.</span> <span class="toc-text">对LyHttp进行降耦处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5206_u6790NSURLSession"><span class="toc-number">4.1.</span> <span class="toc-text">分析NSURLSession</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5F00_u59CB_u641E"><span class="toc-number">4.2.</span> <span class="toc-text">开始搞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EE5_u4E0A_u5904_u7406_u5B8C_u6210_u4E86_u6784_u9020_NSURLRequest"><span class="toc-number">4.3.</span> <span class="toc-text">以上处理完成了构造 NSURLRequest</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6211_u4EEC_u8BE5_u8FDB_u884C_u9A71_u52A8__5Bsession_dataTaskWithRequest_5D__u65B9_u6CD5_uFF0C_u5F00_u59CB_u8BF7_u6C42"><span class="toc-number">4.4.</span> <span class="toc-text">我们该进行驱动 [session dataTaskWithRequest] 方法，开始请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91C7_u7528_u9002_u914D_u5668_u6A21_u5F0F_u5C01_u88C5LyHttp"><span class="toc-number">4.5.</span> <span class="toc-text">采用适配器模式封装LyHttp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5C01_u88C5_u591A_u7EA7API"><span class="toc-number">4.5.1.</span> <span class="toc-text">封装多级API</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（一）"></a>一步一步搭建自己的iOS网络请求库（一）</h1><p>大家好，我是LastDay，终于有了自己的博客，在这里分享一个的HTTP请求库的编写经验。</p>
+<h2 id="u7B80_u5355_u7684_u4ECB_u7ECD"><a href="#u7B80_u5355_u7684_u4ECB_u7ECD" class="headerlink" title="简单的介绍"></a>简单的介绍</h2><p>介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候，Background Session会更加灵活</p>
+<h2 id="u6D4B_u8BD5NSURLSession"><a href="#u6D4B_u8BD5NSURLSession" class="headerlink" title="测试NSURLSession"></a>测试NSURLSession</h2><p>首先我们来新建一个工程，起名为LyHttp，在页面上放置一个按钮 ，起名为”测试”。</p>
+<p><img src="http://img.blog.csdn.net/20151130224816040" alt=""></p>
+<p>将按钮关联到我们的ViewController.m，起名为test。</p>
+<p><img src="http://img.blog.csdn.net/20151130225055403" alt=""></p>
+<p>添加以下代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span>];</span><br><span class="line"></span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSURLRequest *request = [NSURLRequest requestWithURL:url];</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;</span><br><span class="line">        </span><br><span class="line">        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">        NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">    &#125;];</span><br><span class="line">    [task resume];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><a href="http://cityuit.sinaapp.com/1.php" target="_blank" rel="external">http://cityuit.sinaapp.com/1.php</a></strong>是我自己写的一个接口用来测试的，会返回succeed。</p>
+<p>我们来看一下触发效果：</p>
+<p><img src="http://img.blog.csdn.net/20151130230141398" alt="这里写图片描述"></p>
+<h3 id="u6D4B_u8BD5_u5B8C_u6210"><a href="#u6D4B_u8BD5_u5B8C_u6210" class="headerlink" title="测试完成"></a>测试完成</h3><p>接下来我们来看看我们的NSURLSession是否为异步？OK，我们来简单的修改一下我们的程序吧。讲两个阻塞，来看看我们的主线程变化。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span>];</span><br><span class="line"></span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSURLRequest *request = [NSURLRequest requestWithURL:url];</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;</span><br><span class="line">    	//阻塞<span class="number">3</span>秒</span><br><span class="line">        [NSThread sleepForTimeInterval:<span class="number">3</span>];</span><br><span class="line">        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">        NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">    &#125;];</span><br><span class="line">    [task resume];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看见效果就是连续点击3次，每隔三秒进行一次输出，直到三次执行完事，这就说明我们的主线程没有被阻塞，验证说明NSURLSession为异步。</p>
+<p>曾将看过一篇文章中，介绍过，那篇文章里介绍NSURLSession 采用的是 “异步阻塞” 模型，即所有请求在发出后都进入 2# 线程执行，在 2# 线程内部按照阻塞队列模式执行。初步判断，此阻塞特性为 [NSURLSession sharedSession] 单例模式的结果。</p>
+<h1 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（二）"></a>一步一步搭建自己的iOS网络请求库（二）</h1><p>大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。</p>
+<p>我的博客地址：<a href="http://lastday.github.io" target="_blank" rel="external">http://lastday.github.io</a></p>
+<h2 id="u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5"><a href="#u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5" class="headerlink" title="进行简单的封装"></a>进行简单的封装</h2><p>我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。</p>
+<p>首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，继承于NSObject类<br>。新建一个静态的request方法。将请求方式和URL传入</p>
+<p>代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">+(void)request :(NSString *)method URL:(NSString *)URL&#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:URL];</span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];</span><br><span class="line">    request.HTTPMethod = method;</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;</span><br><span class="line">    </span><br><span class="line">        //NSdata转String</span><br><span class="line">        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">        NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">    &#125;];</span><br><span class="line">    [task resume];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">让我们在ViewController中进行一下测试，代码如下：</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">@IBAction func mainButtonBeTapped(sender: AnyObject) &#123;</span><br><span class="line">    [LyNetWork request:@<span class="string">"GET"</span> URL:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来运行一下：OK 依然显示我们正确的测试结果：succeed</p>
+<h2 id="u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C"><a href="#u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C" class="headerlink" title="使用Block处理请求返回值"></a>使用Block处理请求返回值</h2><p>简单的介绍下闭包(block)，对于OC来说是一个新词，但不是新的概念，不是新的东西。学过Javascript的小伙伴对闭包应该不陌生吧~学过PHP的应该也不陌生，在PHP5.3版本以后也支持闭包, 也就是OC中所提到的Block。</p>
+<p>现在对我们的request函数进行修改，LyNetWork.m代码如下：</p>
+<p><img src="http://img.blog.csdn.net/20151203112723345" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(NSString *)method</span><br><span class="line">                 URL:(NSString *)URL</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:URL];</span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];</span><br><span class="line">    request.HTTPMethod = method;</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            failure(error);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (success) &#123;</span><br><span class="line">                success(data,response);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [task resume];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来修改ViewController中的函数调用，代码修改后如下：</p>
+<p><img src="http://img.blog.csdn.net/20151203113021607" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    [LyNetWork requestMethod:@<span class="string">"GET"</span></span><br><span class="line">                         URL:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span></span><br><span class="line">                     success:^(NSData *data,NSURLResponse *response)&#123;</span><br><span class="line">                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">                     &#125;</span><br><span class="line">                     failure:^(NSError *error)&#123;</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,error);</span><br><span class="line">                     &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20151203113114638" alt=""></p>
+<p>测试结果依然返回succeed，测试结果正确</p>
+<h2 id="u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><a href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B" class="headerlink" title="接下来进行我们最难处理的地方，增加parameters处理能力"></a>接下来进行我们最难处理的地方，增加parameters处理能力</h2><h3 id="u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427"><a href="#u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427" class="headerlink" title="我们先来处理GET方法吧"></a>我们先来处理GET方法吧</h3><p>GET 方法下，params 在经过 url encode 之后直接附在 URL 末尾发送给服务器</p>
+<p>类似于这个样子<strong>GET /foo.php?first_name=John&amp;last_name=Doe&amp;action=Submit HTTP/1.1</strong></p>
+<p>修改我们的requestMethod方法，将其进行一下更改，引入parameters参数</p>
+<p><img src="http://img.blog.csdn.net/20151203113254930" alt="这里写图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(nullable NSString *)method</span><br><span class="line">                 URL:(nullable NSString *)URL</span><br><span class="line">            parameters:(nullable id) parameters</span><br><span class="line">             success:(nullable void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(nullable void (^)(NSError *__nullable error))failure;</span><br></pre></td></tr></table></figure>
+<h3 id="u5904_u7406parameters_u53C2_u6570_u4E86"><a href="#u5904_u7406parameters_u53C2_u6570_u4E86" class="headerlink" title="处理parameters参数了"></a>处理parameters参数了</h3><p>我们从AFNetworking中借鉴一下他的处理方案（其实这里本人就是模仿编写罢了）</p>
+<p>我们新建一个类起名为LYURLRequestSerialization，在LYURLRequestSerialization.h添加一下方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+(NSString *)LYQueryStringFromParameters:(NSDictionary *)parameters;</span><br></pre></td></tr></table></figure>
+<p>进入我们的LYURLRequestSerialization.m文件中，添加以下代码：</p>
+<p><img src="http://img.blog.csdn.net/20151203113354825" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "LYURLRequestSerialization.h"</span></span><br><span class="line"></span><br><span class="line">@interface LYURLRequestSerialization()</span><br><span class="line"></span><br><span class="line">@property (readwrite, nonatomic, strong) id  value;</span><br><span class="line">@property (readwrite, nonatomic, strong) id  field;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation LYURLRequestSerialization</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (id)initWithField:(id)field value:(id)value &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    <span class="keyword">if</span> (!self) &#123;</span><br><span class="line">        <span class="built_in">return</span> nil;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    self.field = field;</span><br><span class="line">    self.value = value;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#pragma mark -</span></span><br><span class="line"></span><br><span class="line">FOUNDATION_EXPORT NSArray * LYQueryStringPairsFromDictionary(NSDictionary *dictionary);</span><br><span class="line">FOUNDATION_EXPORT NSArray * LYQueryStringPairsFromKeyAndValue(NSString *key, id value);</span><br><span class="line"></span><br><span class="line">+(NSString *)LYQueryStringFromParameters:(NSDictionary *)parameters &#123;</span><br><span class="line">    NSMutableArray *mutablePairs = [NSMutableArray array];</span><br><span class="line">    <span class="keyword">for</span> (LYURLRequestSerialization *pair <span class="keyword">in</span> LYQueryStringPairsFromDictionary(parameters)) &#123;</span><br><span class="line">        </span><br><span class="line">        [mutablePairs addObject:[pair URLEncodedStringValue]];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> [mutablePairs componentsJoinedByString:@<span class="string">"&amp;"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NSArray * LYQueryStringPairsFromDictionary(NSDictionary *dictionary) &#123;</span><br><span class="line">    <span class="built_in">return</span> LYQueryStringPairsFromKeyAndValue(nil, dictionary);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NSArray * LYQueryStringPairsFromKeyAndValue(NSString *key, id value) &#123;</span><br><span class="line">    NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];</span><br><span class="line">    </span><br><span class="line">    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@<span class="string">"description"</span> ascending:YES selector:@selector(compare:)];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([value isKindOfClass:[NSDictionary class]]) &#123;</span><br><span class="line">        NSDictionary *dictionary = value;</span><br><span class="line">        <span class="keyword">for</span> (id nestedKey <span class="keyword">in</span> [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) &#123;</span><br><span class="line">            id nestedValue = dictionary[nestedKey];</span><br><span class="line">            <span class="keyword">if</span> (nestedValue) &#123;</span><br><span class="line">                [mutableQueryStringComponents addObjectsFromArray:LYQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@<span class="string">"%@[%@]"</span>, key, nestedKey] : nestedKey), nestedValue)];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([value isKindOfClass:[NSArray class]]) &#123;</span><br><span class="line">        NSArray *array = value;</span><br><span class="line">        <span class="keyword">for</span> (id nestedValue <span class="keyword">in</span> array) &#123;</span><br><span class="line">            [mutableQueryStringComponents addObjectsFromArray:LYQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@<span class="string">"%@[]"</span>, key], nestedValue)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([value isKindOfClass:[NSSet class]]) &#123;</span><br><span class="line">        NSSet *<span class="built_in">set</span> = value;</span><br><span class="line">        <span class="keyword">for</span> (id obj <span class="keyword">in</span> [<span class="built_in">set</span> sortedArrayUsingDescriptors:@[ sortDescriptor ]]) &#123;</span><br><span class="line">            [mutableQueryStringComponents addObjectsFromArray:LYQueryStringPairsFromKeyAndValue(key, obj)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        [mutableQueryStringComponents addObject:[[LYURLRequestSerialization alloc] initWithField:key value:value]];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> mutableQueryStringComponents;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">static NSString * LYPercentEscapedStringFromString(NSString *string) &#123;</span><br><span class="line">    static NSString * const kLYCharactersGeneralDelimitersToEncode = @<span class="string">":#[]@"</span>; // does not include <span class="string">"?"</span> or <span class="string">"/"</span> due to RFC <span class="number">3986</span> - Section <span class="number">3.4</span></span><br><span class="line">    static NSString * const kLYCharactersSubDelimitersToEncode = @<span class="string">"!$&amp;'()*+,;="</span>;</span><br><span class="line">    </span><br><span class="line">    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];</span><br><span class="line">    [allowedCharacterSet removeCharactersInString:[kLYCharactersGeneralDelimitersToEncode stringByAppendingString:kLYCharactersSubDelimitersToEncode]];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    static NSUInteger const batchSize = <span class="number">50</span>;</span><br><span class="line">    </span><br><span class="line">    NSUInteger index = <span class="number">0</span>;</span><br><span class="line">    NSMutableString *escaped = @<span class="string">""</span>.mutableCopy;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (index &lt; string.length) &#123;</span><br><span class="line"><span class="comment">#pragma GCC diagnostic push</span></span><br><span class="line"><span class="comment">#pragma GCC diagnostic ignored "-Wgnu"</span></span><br><span class="line">        NSUInteger length = MIN(string.length - index, batchSize);</span><br><span class="line"><span class="comment">#pragma GCC diagnostic pop</span></span><br><span class="line">        NSRange range = NSMakeRange(index, length);</span><br><span class="line">        </span><br><span class="line">        range = [string rangeOfComposedCharacterSequencesForRange:range];</span><br><span class="line">        </span><br><span class="line">        NSString *substring = [string substringWithRange:range];</span><br><span class="line">        NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];</span><br><span class="line">        [escaped appendString:encoded];</span><br><span class="line">        </span><br><span class="line">        index += range.length;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> escaped;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)URLEncodedStringValue &#123;</span><br><span class="line">    <span class="keyword">if</span> (!self.value || [self.value isEqual:[NSNull null]]) &#123;</span><br><span class="line">        <span class="built_in">return</span> LYPercentEscapedStringFromString([self.field description]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">return</span> [NSString stringWithFormat:@<span class="string">"%@=%@"</span>, LYPercentEscapedStringFromString([self.field description]), LYPercentEscapedStringFromString([self.value description])];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>简单的说一下吧，以上的方法都是为了处理传入的NSDictonary参数，因为我们在使用的时候为了方便我们传入动态的parameters，所以他的的格式是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">id parmenters = @&#123;</span><br><span class="line">                  @<span class="string">"value"</span>:@<span class="string">"LastDays"</span>,</span><br><span class="line">                 &#125;;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">将它处理后我们希望得到的样式应该是这样，对吧?</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">http:URL.php?value=LastDays</span><br></pre></td></tr></table></figure>
+<p>这个参数是一个动态的，我们不能确定里面到底有几组参数，而且还需要考虑的一个问题就是NSDictonary中嵌套NSDictonary的情况，我们处理这种问题的一个思想就是递归。从最里面开始处理。</p>
+<h3 id="OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B"><a href="#OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B" class="headerlink" title="OK，这样我们就实现了parameters处理能力"></a>OK，这样我们就实现了parameters处理能力</h3><p>然后我们需要测试一下</p>
+<p>为了进行测试我又重新更改了接口，提供了参数处理的能力，以下是新的接口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://cityuit.sinaapp.com/<span class="number">1</span>.php  value=将要返回的值</span><br></pre></td></tr></table></figure>
+<p>更改下requestMethod方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(NSString *)method</span><br><span class="line">                 URL:(NSString *)URL</span><br><span class="line">          parameters:(id) parameters</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    NSString *newURL;</span><br><span class="line">    <span class="keyword">if</span> ([method isEqual:@<span class="string">"GET"</span>]) &#123;</span><br><span class="line">        newURL = [[URL stringByAppendingString:@<span class="string">"?"</span>] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];</span><br><span class="line">        </span><br><span class="line">        NSLog(@<span class="string">"%@"</span>,newURL);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSURL *url = [NSURL URLWithString:newURL];</span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];</span><br><span class="line">    request.HTTPMethod = method;</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            failure(error);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (success) &#123;</span><br><span class="line">                success(data,response);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [task resume];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中变化的地方：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ([method isEqual:@<span class="string">"GET"</span>]) &#123;</span><br><span class="line">	newURL = [[URL stringByAppendingString:@<span class="string">"?"</span>] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];</span><br><span class="line">	NSLog(@<span class="string">"%@"</span>,newURL);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码的意思就是判断一下是否未GET请求，如果是的话将处理后的parameters加到尾部，以刚才的参数为例子，处理后的newURL为：<a href="http://cityuit.sinaapp.com/1.php?value=LastDays" target="_blank" rel="external">http://cityuit.sinaapp.com/1.php?value=LastDays</a></p>
+<p>也就是说返回值为LastDays</p>
+<p>到ViewController.m中进行测试，测试代码如下：</p>
+<p><img src="http://img.blog.csdn.net/20151203113503789" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">    id parmenters = @&#123;</span><br><span class="line">                      @<span class="string">"value"</span>:@<span class="string">"LastDays"</span>,</span><br><span class="line">                      &#125;;</span><br><span class="line">    [LyNetWork requestMethod:@<span class="string">"GET"</span></span><br><span class="line">                         URL:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span></span><br><span class="line">                  parameters:parmenters</span><br><span class="line">                     success:^(NSData *data,NSURLResponse *response)&#123;</span><br><span class="line">                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">                     &#125;</span><br><span class="line">                     failure:^(NSError *error)&#123;</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,error);</span><br><span class="line">                     &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20151203113618660" alt="这里写图片描述"></p>
+<p>ok返回结果为LastDays，成功添加入动态的动态的HTTP参数（parameters）的功能。</p>
+<h1 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E09_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E09_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（三）"></a>一步一步搭建自己的iOS网络请求库（三）</h1><p>大家好，我是LastDay，上一次分享了简单的封装，和GET请求。这次带给大家POST方法</p>
+<p>我的博客地址：<a href="http://lastday.github.io" target="_blank" rel="external">http://lastday.github.io</a></p>
+<h2 id="POST_u65B9_u6CD5"><a href="#POST_u65B9_u6CD5" class="headerlink" title="POST方法"></a>POST方法</h2><p>POST 下很很多协议可提供我们选择，因为我们没有写文件的上传，所以我们就采用 application/x-www-form-urlencoded 这种简单的方式发送请求吧。requestMethod 中进行一些修改，增加POST方法。</p>
+<p>代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(NSString *)method</span><br><span class="line">                 URL:(NSString *)URL</span><br><span class="line">          parameters:(id) parameters</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    NSString *newURL;</span><br><span class="line">    <span class="keyword">if</span> ([method isEqual:@<span class="string">"GET"</span>]) &#123;</span><br><span class="line">        newURL = [[URL stringByAppendingString:@<span class="string">"?"</span>] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];</span><br><span class="line">        NSLog(@<span class="string">"%@"</span>,newURL);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        newURL = URL;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSURL *url = [NSURL URLWithString:newURL];</span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];</span><br><span class="line">    request.HTTPMethod = method;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>([method isEqual:@<span class="string">"POST"</span>])&#123;</span><br><span class="line">        [request addValue:@<span class="string">"application/x-www-form-urlencoded"</span> <span class="keyword">for</span>HTTPHeaderField:@<span class="string">"Content-Type"</span>];</span><br><span class="line">        request.HTTPBody =[[LYURLRequestSerialization LYQueryStringFromParameters:parameters] dataUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line">    &#125;</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            failure(error);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (success) &#123;</span><br><span class="line">                success(data,response);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [task resume];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们进行测试，原来的那个接口不支持POST请求，为了测试我就新写了一个借口，有两个参数为username和password，只有当两个参数都为1的时候返回ok，其余返回no</p>
+<p>我们给出POST请求测试代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *URL = @<span class="string">"http://cityuit.sinaapp.com/p.php"</span>;</span><br><span class="line">    id parmenters = @&#123;</span><br><span class="line">                      @<span class="string">"username"</span>:@<span class="string">"1"</span>,</span><br><span class="line">                      @<span class="string">"password"</span>:@<span class="string">"1"</span></span><br><span class="line">                      &#125;;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    [LyNetWork requestMethod:@<span class="string">"POST"</span></span><br><span class="line">                         URL:URL</span><br><span class="line">                  parameters:parmenters</span><br><span class="line">                     success:^(NSData *data,NSURLResponse *response)&#123;</span><br><span class="line">                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">                     &#125;</span><br><span class="line">                     failure:^(NSError *error)&#123;</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,error);</span><br><span class="line">                     &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看结果为：</p>
+<p><img src="http://img.blog.csdn.net/20151203113618660" alt=""></p>
+<p>若parmenters为1，222</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id parmenters = @&#123;</span><br><span class="line">                      @<span class="string">"username"</span>:@<span class="string">"1"</span>,</span><br><span class="line">                      @<span class="string">"password"</span>:@<span class="string">"222"</span></span><br><span class="line">                      &#125;;</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<p><img src="http://img.blog.csdn.net/20151203232722166" alt=""></p>
+<h1 id="u5BF9LyHttp_u8FDB_u884C_u964D_u8026_u5904_u7406"><a href="#u5BF9LyHttp_u8FDB_u884C_u964D_u8026_u5904_u7406" class="headerlink" title="对LyHttp进行降耦处理"></a>对LyHttp进行降耦处理</h1><p>大家好，我是LastDays，这次分享解耦处理，提高代码的可扩展性，和重用性。</p>
+<p>我的博客地址：<a href="http://lastday.github.io" target="_blank" rel="external">http://lastday.github.io</a></p>
+<p><a href="https://github.com/MrLoong/LyHttp" target="_blank" rel="external">LyHttp项目地址</a></p>
+<p>原来的那些代码虽然，看起来比较容易理解，但是最大的问题还是功能太单一，代码太杂乱了。接下来我们将是用适配器模型来实现独立于底层结构的网络API，构造我们自己真正的”库”</p>
+<h2 id="u5206_u6790NSURLSession"><a href="#u5206_u6790NSURLSession" class="headerlink" title="分析NSURLSession"></a>分析NSURLSession</h2><p>1.构造 NSURLRequest</p>
+<pre><code>1.确定 URL
+
+2.确定 HTTP 方法（GET、POST 等）
+
+3.添加特定的 HTTP 头
+
+4.填充 HTTP Body
+</code></pre><p>2.驱动 [session dataTaskWithRequest] 方法，开始请求</p>
+<h2 id="u5F00_u59CB_u641E"><a href="#u5F00_u59CB_u641E" class="headerlink" title="开始搞"></a>开始搞</h2><p>新建一个LYHTTPRequestOperationManager类，然后初始化一些参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "LYHTTPRequestOperationManager.h"</span></span><br><span class="line"><span class="comment">#import "LYURLRequestSerialization.h"</span></span><br><span class="line"></span><br><span class="line">@interface LYHTTPRequestOperationManager()</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong) NSString *URL;</span><br><span class="line">@property(nonatomic,strong) NSString *method;</span><br><span class="line">@property(nonatomic,strong) NSDictionary *parameters;</span><br><span class="line">@property(nonatomic,strong) NSMutableURLRequest *request;</span><br><span class="line">@property(nonatomic,strong) NSURLSession *session;</span><br><span class="line">@property(nonatomic,strong) NSURLSessionDataTask *task;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation LYHTTPRequestOperationManager</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (instancetype)initWithMethod:(NSString *)method URL:(NSString *)URL parameters:(id)parameters</span><br><span class="line">&#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    <span class="keyword">if</span> (!self) &#123;</span><br><span class="line">        <span class="built_in">return</span> nil;</span><br><span class="line">    &#125;</span><br><span class="line">    self.URL = URL;</span><br><span class="line">    self.method = method;</span><br><span class="line">    self.parameters = parameters;</span><br><span class="line">    self.request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]];</span><br><span class="line">    self.session = [NSURLSession sharedSession];</span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>看看我们刚才分析东西：</p>
+<p>1.构造 NSURLRequest</p>
+<pre><code>1.确定 URL
+
+2.确定 HTTP 方法（GET、POST 等）
+
+3.添加特定的 HTTP 头
+
+4.填充 HTTP Body
+</code></pre><p>根据上面的分析，我们建立一个setRequest函数:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-(void)<span class="built_in">set</span>Request&#123;</span><br><span class="line">    <span class="keyword">if</span> ([self.method isEqual:@<span class="string">"GET"</span>]&amp;&amp;self.parameters.count&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        self.request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[[self.URL stringByAppendingString:@<span class="string">"?"</span>] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:self.parameters]]]];</span><br><span class="line">    &#125;</span><br><span class="line">    self.request.HTTPMethod = self.method;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (self.parameters.count&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        [self.request addValue:@<span class="string">"application/x-www-form-urlencoded"</span> <span class="keyword">for</span>HTTPHeaderField:@<span class="string">"Content-Type"</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setRequest完成了我们已经分析的前三个步骤</p>
+<p>接下来创建setBody函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-(void)<span class="built_in">set</span>Body&#123;</span><br><span class="line">    <span class="keyword">if</span> (self.parameters.count&gt;<span class="number">0</span>&amp;&amp;![self.method isEqual:@<span class="string">"GET"</span>]) &#123;</span><br><span class="line">       </span><br><span class="line">        self.request.HTTPBody = [[LYURLRequestSerialization LYQueryStringFromParameters:self.parameters] dataUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setBody就是完成了我们最后一个步骤</p>
+<h2 id="u4EE5_u4E0A_u5904_u7406_u5B8C_u6210_u4E86_u6784_u9020_NSURLRequest"><a href="#u4EE5_u4E0A_u5904_u7406_u5B8C_u6210_u4E86_u6784_u9020_NSURLRequest" class="headerlink" title="以上处理完成了构造 NSURLRequest"></a>以上处理完成了构造 NSURLRequest</h2><h2 id="u6211_u4EEC_u8BE5_u8FDB_u884C_u9A71_u52A8__5Bsession_dataTaskWithRequest_5D__u65B9_u6CD5_uFF0C_u5F00_u59CB_u8BF7_u6C42"><a href="#u6211_u4EEC_u8BE5_u8FDB_u884C_u9A71_u52A8__5Bsession_dataTaskWithRequest_5D__u65B9_u6CD5_uFF0C_u5F00_u59CB_u8BF7_u6C42" class="headerlink" title="我们该进行驱动 [session dataTaskWithRequest] 方法，开始请求"></a>我们该进行驱动 [session dataTaskWithRequest] 方法，开始请求</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-(void)driveTask:(void(^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">         failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    [self <span class="built_in">set</span>Request];</span><br><span class="line">    [self <span class="built_in">set</span>Body];</span><br><span class="line">    [self <span class="built_in">set</span>TaskWithSuccess:success failure:failure];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u91C7_u7528_u9002_u914D_u5668_u6A21_u5F0F_u5C01_u88C5LyHttp"><a href="#u91C7_u7528_u9002_u914D_u5668_u6A21_u5F0F_u5C01_u88C5LyHttp" class="headerlink" title="采用适配器模式封装LyHttp"></a>采用适配器模式封装LyHttp</h2><p>简单的来介绍一下适配器的概念：</p>
+<p><strong>适配器模式，可以这么说，用于连接两种不同种类的对象，使其毫无问题地协同工作。思想其实非常的简单。适配器实现客户端需要的某种接口的行为。同时它又连接到另一个具有不同行为的对象。一边是客户端懂得如何使用的目标接口，另一边还客户端一无所知的适配者，适配器站在两者中间。适配器主要的作用是把适配者的行为传递给管道另一端的客户端，其实这种所谓的很高大赏的适配器模型很多人其实已经使用过了</strong></p>
+<p>接下来就是来修改我们的LyNetWork</p>
+<h3 id="u5C01_u88C5_u591A_u7EA7API"><a href="#u5C01_u88C5_u591A_u7EA7API" class="headerlink" title="封装多级API"></a>封装多级API</h3><p>不带parameters：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestWithMethod:(NSString *)method</span><br><span class="line">                 URL:(NSString *)URL</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    LYHTTPRequestOperationManager *manange = [[LYHTTPRequestOperationManager alloc] initWithMethod:method URL:URL parameters:nil];</span><br><span class="line">    [manange driveTask:success failure:failure];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不带parameters的GET方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestGetWithURL:(NSString *)URL</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    LYHTTPRequestOperationManager *manange = [[LYHTTPRequestOperationManager alloc] initWithMethod:@<span class="string">"GET"</span> URL:URL parameters:nil];</span><br><span class="line">    [manange driveTask:success failure:failure];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>带parameters的GET方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//GET带parameters</span><br><span class="line">+(void)requestGetWithURL:(NSString *)URL</span><br><span class="line">          parameters:(id) parameters</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    LYHTTPRequestOperationManager *manange = [[LYHTTPRequestOperationManager alloc] initWithMethod:@<span class="string">"GET"</span> URL:URL parameters:parameters];</span><br><span class="line">    [manange driveTask:success failure:failure];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>POST不带parameters</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestPostWithURL:(NSString *)URL</span><br><span class="line">                 success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">                 failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    LYHTTPRequestOperationManager *manange = [[LYHTTPRequestOperationManager alloc] initWithMethod:@<span class="string">"POST"</span> URL:URL parameters:nil];</span><br><span class="line">    [manange driveTask:success failure:failure];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>POST带parameters</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestPostWithURL:(NSString *)URL</span><br><span class="line">              parameters:(id) parameters</span><br><span class="line">                 success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">                 failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    LYHTTPRequestOperationManager *manange = [[LYHTTPRequestOperationManager alloc] initWithMethod:@<span class="string">"POST"</span> URL:URL parameters:parameters];</span><br><span class="line">    [manange driveTask:success failure:failure];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来就是进入我们的修改ViewController代码进行测试:</p>
+<pre><code class="bash">- (IBAction)<span class="built_in">test</span>:(id)sender {
+    NSString *postURL = @<span class="string">"http://cityuit.sinaapp.com/p.php"</span>;
+    NSString *getURL= @<span class="string">"http://cityuit.sinaapp.com/1.php"</span>;
+
+    id parmentersPost = @{
+                      @<span class="string">"username"</span>:@<span class="string">"1"</span>,
+                      @<span class="string">"password"</span>:@<span class="string">"1"</span>
+                      };
+    id parmentersGet = @{
+                      @<span class="string">"value"</span>:@<span class="string">"Lastday"</span>,
+                          };
+
+
+
+    [LyNetWork requestWithMethod:@<span class="string">"POST"</span>
+                             URL:@<span class="string">"http://cityuit.sinaapp.com/1.php?value=Lastday"</span>
+                         success:^(NSData *data,NSURLResponse *response){
+                             NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                             NSLog(@<span class="string">"requestWithMethod = %@"</span>,string);
+                         }
+                         failure:^(NSError *error){
+                             NSLog(@<span class="string">"====%@"</span>,error);
+                         }];
+
+
+    [LyNetWork requestPostWithURL:postURL
+                       parameters:parmentersPost
+                          success:^(NSData *data,NSURLResponse *response){
+                              NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              NSLog(@<span class="string">"requestPostWithURL(带参数) = %@"</span>,string);
+                          }
+                          failure:^(NSError *error){
+
+                          }];
+    [LyNetWork requestPostWithURL:postURL
+                          success:^(NSData *data,NSURLResponse *response){
+                              NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              NSLog(@<span class="string">"requestPostWithURL(不带参数) = %@"</span>,string);
+                          }
+                          failure:^(NSError *error){
+
+                          }];
+
+    [LyNetWork requestGetWithURL:getURL
+                       parameters:parmentersGet
+                          success:^(NSData *data,NSURLResponse *response){
+                              NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              NSLog(@<span class="string">"requestGetWithURL(带参数) = %@"</span>,string);
+                          }
+                          failure:^(NSError *error){
+
+                          }];
+
+    [LyNetWork requestGetWithURL:getURL
+                          success:^(NSData *data,NSURLResponse *response){
+                              NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              NSLog(@<span class="string">"requestGetWithURL(不带参数) = %@"</span>,string);
+                          }
+                          failure:^(NSError *error){
+
+                          }];
+
+
+
+}
+</code></pre>
+<p>看一下执行结果</p>
+<p><img src="http://img.blog.csdn.net/20151207224801666" alt=""></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/02/03/HttpLibrary/" data-title="编写iOS HTTP网络请求库 | Lastdays" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/03/TCP/"  title="TCP协议总结">
+ <strong>下一篇：</strong><br/> 
+ <span>TCP协议总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/03/HttpLibrary/" data-title="编写iOS HTTP网络请求库" data-url="http://yoursite.com/2016/02/03/HttpLibrary/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B80_u5355_u7684_u4ECB_u7ECD"><span class="toc-number">1.1.</span> <span class="toc-text">简单的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D4B_u8BD5NSURLSession"><span class="toc-number">1.2.</span> <span class="toc-text">测试NSURLSession</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6D4B_u8BD5_u5B8C_u6210"><span class="toc-number">1.2.1.</span> <span class="toc-text">测试完成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09"><span class="toc-number">2.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5"><span class="toc-number">2.1.</span> <span class="toc-text">进行简单的封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C"><span class="toc-number">2.2.</span> <span class="toc-text">使用Block处理请求返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">2.3.</span> <span class="toc-text">接下来进行我们最难处理的地方，增加parameters处理能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427"><span class="toc-number">2.3.1.</span> <span class="toc-text">我们先来处理GET方法吧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5904_u7406parameters_u53C2_u6570_u4E86"><span class="toc-number">2.3.2.</span> <span class="toc-text">处理parameters参数了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">2.3.3.</span> <span class="toc-text">OK，这样我们就实现了parameters处理能力</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E09_uFF09"><span class="toc-number">3.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（三）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#POST_u65B9_u6CD5"><span class="toc-number">3.1.</span> <span class="toc-text">POST方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5BF9LyHttp_u8FDB_u884C_u964D_u8026_u5904_u7406"><span class="toc-number">4.</span> <span class="toc-text">对LyHttp进行降耦处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5206_u6790NSURLSession"><span class="toc-number">4.1.</span> <span class="toc-text">分析NSURLSession</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5F00_u59CB_u641E"><span class="toc-number">4.2.</span> <span class="toc-text">开始搞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EE5_u4E0A_u5904_u7406_u5B8C_u6210_u4E86_u6784_u9020_NSURLRequest"><span class="toc-number">4.3.</span> <span class="toc-text">以上处理完成了构造 NSURLRequest</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6211_u4EEC_u8BE5_u8FDB_u884C_u9A71_u52A8__5Bsession_dataTaskWithRequest_5D__u65B9_u6CD5_uFF0C_u5F00_u59CB_u8BF7_u6C42"><span class="toc-number">4.4.</span> <span class="toc-text">我们该进行驱动 [session dataTaskWithRequest] 方法，开始请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91C7_u7528_u9002_u914D_u5668_u6A21_u5F0F_u5C01_u88C5LyHttp"><span class="toc-number">4.5.</span> <span class="toc-text">采用适配器模式封装LyHttp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5C01_u88C5_u591A_u7EA7API"><span class="toc-number">4.5.1.</span> <span class="toc-text">封装多级API</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="MrLoong" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢白菜的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"Lastday_s"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?359a67e4b1b43ca291f946419c2423c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
