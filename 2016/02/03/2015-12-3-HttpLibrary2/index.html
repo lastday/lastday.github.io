@@ -11,20 +11,18 @@
     
 
     
-    <meta name="description" content="#一步一步搭建自己的iOS网络请求库（二）
-大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
+    <meta name="description" content="一步一步搭建自己的iOS网络请求库（二）大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
 我的博客地址：http://lastday.github.io
-##进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
-首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork">
+进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
+首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，继承于">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一步一步搭建自己的iOS网络请求库（二）--封装接口">
 <meta property="og:url" content="http://yoursite.com/2016/02/03/2015-12-3-HttpLibrary2/index.html">
 <meta property="og:site_name" content="Lastdays">
-<meta property="og:description" content="#一步一步搭建自己的iOS网络请求库（二）
-大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
+<meta property="og:description" content="一步一步搭建自己的iOS网络请求库（二）大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
 我的博客地址：http://lastday.github.io
-##进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
-首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork">
+进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
+首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，继承于">
 <meta property="og:image" content="http://img.blog.csdn.net/20151203112723345">
 <meta property="og:image" content="http://img.blog.csdn.net/20151203113021607">
 <meta property="og:image" content="http://img.blog.csdn.net/20151203113114638">
@@ -32,14 +30,13 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20151203113354825">
 <meta property="og:image" content="http://img.blog.csdn.net/20151203113503789">
 <meta property="og:image" content="http://img.blog.csdn.net/20151203113618660">
-<meta property="og:updated_time" content="2016-02-03T12:41:53.000Z">
+<meta property="og:updated_time" content="2016-02-03T12:45:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一步一步搭建自己的iOS网络请求库（二）--封装接口">
-<meta name="twitter:description" content="#一步一步搭建自己的iOS网络请求库（二）
-大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
+<meta name="twitter:description" content="一步一步搭建自己的iOS网络请求库（二）大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。
 我的博客地址：http://lastday.github.io
-##进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
-首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork">
+进行简单的封装我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。
+首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，继承于">
 
     
     <link rel="alternative" href="/atom.xml" title="Lastdays" type="application/atom+xml">
@@ -106,7 +103,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T12:41:53.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
+    <time datetime="2016-02-03T12:45:12.000Z" itemprop="datePublished"> 发表于 2016-02-03</time>
     
   </p>
 </header>
@@ -115,20 +112,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">1.</span> <span class="toc-text">接下来进行我们最难处理的地方，增加parameters处理能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5904_u7406parameters_u53C2_u6570_u4E86"><span class="toc-number">1.1.</span> <span class="toc-text">处理parameters参数了</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5"><span class="toc-number">1.1.</span> <span class="toc-text">进行简单的封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C"><span class="toc-number">1.2.</span> <span class="toc-text">使用Block处理请求返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">1.3.</span> <span class="toc-text">接下来进行我们最难处理的地方，增加parameters处理能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427"><span class="toc-number">1.3.1.</span> <span class="toc-text">我们先来处理GET方法吧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5904_u7406parameters_u53C2_u6570_u4E86"><span class="toc-number">1.3.2.</span> <span class="toc-text">处理parameters参数了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">1.3.3.</span> <span class="toc-text">OK，这样我们就实现了parameters处理能力</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<p>#一步一步搭建自己的iOS网络请求库（二）</p>
-<p>大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。</p>
+		<h1 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（二）"></a>一步一步搭建自己的iOS网络请求库（二）</h1><p>大家好，我是LastDay，上一次分享了简单体验并且测试下一下NSURLSession。</p>
 <p>我的博客地址：<a href="http://lastday.github.io" target="_blank" rel="external">http://lastday.github.io</a></p>
-<p>##进行简单的封装<br>我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。</p>
+<h2 id="u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5"><a href="#u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5" class="headerlink" title="进行简单的封装"></a>进行简单的封装</h2><p>我们接下来将要加入动态的动态的HTTP参数（parameters）的功能，之后封装出我们自己的接口。</p>
 <p>首先呢，我们先来对上一次的代码进行一次简单的封装，建立一个新的类LyNetWork，继承于NSObject类<br>。新建一个静态的request方法。将请求方式和URL传入</p>
 <p>代码如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">+(void)request :(NSString *)method URL:(NSString *)URL&#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:URL];</span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];</span><br><span class="line">    request.HTTPMethod = method;</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *reponse,NSError *error)&#123;</span><br><span class="line">    </span><br><span class="line">        //NSdata转String</span><br><span class="line">        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">        NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">    &#125;];</span><br><span class="line">    [task resume];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">让我们在ViewController中进行一下测试，代码如下：</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">@IBAction func mainButtonBeTapped(sender: AnyObject) &#123;</span><br><span class="line">    [LyNetWork request:@<span class="string">"GET"</span> URL:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>接下来运行一下：OK 依然显示我们正确的测试结果：succeed</p>
-<p>##使用Block处理请求返回值</p>
-<p>简单的介绍下闭包(block)，对于OC来说是一个新词，但不是新的概念，不是新的东西。学过Javascript的小伙伴对闭包应该不陌生吧~学过PHP的应该也不陌生，在PHP5.3版本以后也支持闭包, 也就是OC中所提到的Block。</p>
+<h2 id="u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C"><a href="#u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C" class="headerlink" title="使用Block处理请求返回值"></a>使用Block处理请求返回值</h2><p>简单的介绍下闭包(block)，对于OC来说是一个新词，但不是新的概念，不是新的东西。学过Javascript的小伙伴对闭包应该不陌生吧~学过PHP的应该也不陌生，在PHP5.3版本以后也支持闭包, 也就是OC中所提到的Block。</p>
 <p>现在对我们的request函数进行修改，LyNetWork.m代码如下：</p>
 <p><img src="http://img.blog.csdn.net/20151203112723345" alt=""></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">+(void)requestMethod:(NSString *)method</span><br><span class="line">                 URL:(NSString *)URL</span><br><span class="line">             success:(void (^)(NSData *__nullable data,NSURLResponse * __nullable response))success</span><br><span class="line">             failure:(void (^)(NSError *__nullable error))failure</span><br><span class="line">&#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:URL];</span><br><span class="line">    NSURLSession *session = [NSURLSession sharedSession];</span><br><span class="line">    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];</span><br><span class="line">    request.HTTPMethod = method;</span><br><span class="line">    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * data,NSURLResponse *response,NSError *error)&#123;</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            failure(error);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (success) &#123;</span><br><span class="line">                success(data,response);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [task resume];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -137,8 +132,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    [LyNetWork requestMethod:@<span class="string">"GET"</span></span><br><span class="line">                         URL:@<span class="string">"http://cityuit.sinaapp.com/1.php"</span></span><br><span class="line">                     success:^(NSData *data,NSURLResponse *response)&#123;</span><br><span class="line">                         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,string);</span><br><span class="line">                     &#125;</span><br><span class="line">                     failure:^(NSError *error)&#123;</span><br><span class="line">                         NSLog(@<span class="string">"%@"</span>,error);</span><br><span class="line">                     &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="http://img.blog.csdn.net/20151203113114638" alt=""></p>
 <p>测试结果依然返回succeed，测试结果正确</p>
-<h2 id="u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><a href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B" class="headerlink" title="接下来进行我们最难处理的地方，增加parameters处理能力"></a>接下来进行我们最难处理的地方，增加parameters处理能力</h2><p>###我们先来处理GET方法吧</p>
-<p>GET 方法下，params 在经过 url encode 之后直接附在 URL 末尾发送给服务器</p>
+<h2 id="u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><a href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B" class="headerlink" title="接下来进行我们最难处理的地方，增加parameters处理能力"></a>接下来进行我们最难处理的地方，增加parameters处理能力</h2><h3 id="u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427"><a href="#u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427" class="headerlink" title="我们先来处理GET方法吧"></a>我们先来处理GET方法吧</h3><p>GET 方法下，params 在经过 url encode 之后直接附在 URL 末尾发送给服务器</p>
 <p>类似于这个样子<strong>GET /foo.php?first_name=John&amp;last_name=Doe&amp;action=Submit HTTP/1.1</strong></p>
 <p>修改我们的requestMethod方法，将其进行一下更改，引入parameters参数</p>
 <p><img src="http://img.blog.csdn.net/20151203113254930" alt="这里写图片描述"></p>
@@ -152,8 +146,7 @@
 <p>简单的说一下吧，以上的方法都是为了处理传入的NSDictonary参数，因为我们在使用的时候为了方便我们传入动态的parameters，所以他的的格式是这样的：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">id parmenters = @&#123;</span><br><span class="line">                  @<span class="string">"value"</span>:@<span class="string">"LastDays"</span>,</span><br><span class="line">                 &#125;;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">将它处理后我们希望得到的样式应该是这样，对吧?</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">http:URL.php?value=LastDays</span><br></pre></td></tr></table></figure>
 <p>这个参数是一个动态的，我们不能确定里面到底有几组参数，而且还需要考虑的一个问题就是NSDictonary中嵌套NSDictonary的情况，我们处理这种问题的一个思想就是递归。从最里面开始处理。</p>
-<p>###OK，这样我们就实现了parameters处理能力</p>
-<p>然后我们需要测试一下</p>
+<h3 id="OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B"><a href="#OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B" class="headerlink" title="OK，这样我们就实现了parameters处理能力"></a>OK，这样我们就实现了parameters处理能力</h3><p>然后我们需要测试一下</p>
 <p>为了进行测试我又重新更改了接口，提供了参数处理的能力，以下是新的接口：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://cityuit.sinaapp.com/<span class="number">1</span>.php  value=将要返回的值</span><br></pre></td></tr></table></figure>
 <p>更改下requestMethod方法</p>
@@ -162,7 +155,7 @@
 <pre><code class="bash"><span class="keyword">if</span> ([method isEqual:@<span class="string">"GET"</span>]) {
         newURL = [[URL stringByAppendingString:@<span class="string">"?"</span>] stringByAppendingString: [LYURLRequestSerialization LYQueryStringFromParameters:parameters]];
         NSLog(@<span class="string">"%@"</span>,newURL);
-    }
+ }
 </code></pre>
 <p>以上代码的意思就是判断一下是否未GET请求，如果是的话将处理后的parameters加到尾部，以刚才的参数为例子，处理后的newURL为：<a href="http://cityuit.sinaapp.com/1.php?value=LastDays" target="_blank" rel="external">http://cityuit.sinaapp.com/1.php?value=LastDays</a></p>
 <p>也就是说返回值为LastDays</p>
@@ -235,7 +228,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">1.</span> <span class="toc-text">接下来进行我们最难处理的地方，增加parameters处理能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5904_u7406parameters_u53C2_u6570_u4E86"><span class="toc-number">1.1.</span> <span class="toc-text">处理parameters参数了</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E8C_uFF09"><span class="toc-number">1.</span> <span class="toc-text">一步一步搭建自己的iOS网络请求库（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8FDB_u884C_u7B80_u5355_u7684_u5C01_u88C5"><span class="toc-number">1.1.</span> <span class="toc-text">进行简单的封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528Block_u5904_u7406_u8BF7_u6C42_u8FD4_u56DE_u503C"><span class="toc-number">1.2.</span> <span class="toc-text">使用Block处理请求返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u63A5_u4E0B_u6765_u8FDB_u884C_u6211_u4EEC_u6700_u96BE_u5904_u7406_u7684_u5730_u65B9_uFF0C_u589E_u52A0parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">1.3.</span> <span class="toc-text">接下来进行我们最难处理的地方，增加parameters处理能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6211_u4EEC_u5148_u6765_u5904_u7406GET_u65B9_u6CD5_u5427"><span class="toc-number">1.3.1.</span> <span class="toc-text">我们先来处理GET方法吧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5904_u7406parameters_u53C2_u6570_u4E86"><span class="toc-number">1.3.2.</span> <span class="toc-text">处理parameters参数了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OK_uFF0C_u8FD9_u6837_u6211_u4EEC_u5C31_u5B9E_u73B0_u4E86parameters_u5904_u7406_u80FD_u529B"><span class="toc-number">1.3.3.</span> <span class="toc-text">OK，这样我们就实现了parameters处理能力</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
