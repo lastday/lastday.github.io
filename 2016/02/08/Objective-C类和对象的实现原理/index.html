@@ -23,8 +23,9 @@ Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject
 最近一直在了解runtime的实现原理，所以简单的分享一下。
 Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来
 在这里可以下载Runtime的源码：objc4">
-<meta property="og:image" content="http://yoursite.com/Users/MrLoong/Documents/Hexo/source/_posts/picture.jpg">
-<meta property="og:updated_time" content="2016-02-08T12:00:53.000Z">
+<meta property="og:image" content="http://yoursite.com/2.jpg">
+<meta property="og:image" content="http://yoursite.com/picture.jpg">
+<meta property="og:updated_time" content="2016-02-08T14:04:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lastdays's Blog">
 <meta name="twitter:description" content="Objective-C类和对象的实现原理我是LastDays,我的博客：LastDays.cn
@@ -96,7 +97,7 @@ Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-08T12:00:53.000Z" itemprop="datePublished"> 发表于 2016-02-08</time>
+    <time datetime="2016-02-08T14:04:27.000Z" itemprop="datePublished"> 发表于 2016-02-08</time>
     
   </p>
 </header>
@@ -139,13 +140,15 @@ Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject
 </ul>
 <p>在这里我们同样也看到了一个isa指针，他被称为元类。这里Class其实看起来就像是一个对象，需要有地方去存储它的方法列表，类名等信息。那么元类就是Class的isa指针。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface LastDays : NSObject</span><br><span class="line"></span><br><span class="line">@property NSString *name;</span><br><span class="line"></span><br><span class="line">-(void)showName1;</span><br><span class="line"></span><br><span class="line">+(void)showName2;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@implementation LastDays</span><br><span class="line"></span><br><span class="line">-(void)showName1&#123;</span><br><span class="line">    NSLog(@<span class="string">"类"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(void)showName2&#123;</span><br><span class="line">    NSLog(@<span class="string">"元类"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p><strong>所有LastDays的实例化对象的isa都指向LastDays(类)，LastDays中记录着父类类名,类版本信息（默认为0）,类信息,实例变量大小,成员变量,方法,方法缓存,协议等信息，那么LastDays中的isa指向了元类，元类中只记录着类名，类方法列表等，所有的元类指向一个根元类，根元类的isa指向自己，这样就实现了一个封闭的内循环</strong><br>                         isa                  isa                       isa<br>instance of LastDays—–&gt; LastDays Class—–&gt; LastDays meat-class—–&gt;root meat-class<br>                                                                                 |    |<br>                                                                                 | __ |<br>                                                                                      isa<br>举例说明:                                                                         </p>
+<p><strong>所有LastDays的实例化对象的isa都指向LastDays(类)，LastDays中记录着父类类名,类版本信息（默认为0）,类信息,实例变量大小,成员变量,方法,方法缓存,协议等信息，那么LastDays中的isa指向了元类，元类中只记录着类名，类方法列表等，所有的元类指向一个根元类，根元类的isa指向自己，这样就实现了一个封闭的内循环</strong></p>
+<p><img src="/2.jpg" alt=""></p>
+<p>举例说明:                                                                         </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Lastdays *ly = [[LastDays] alloc] init]; //初始化ly</span><br><span class="line"></span><br><span class="line">[ly showName1];//发送showName1消息时，ly变量中的isa会遍历LastDays中的类方法列表找到showName1</span><br><span class="line"></span><br><span class="line">[LastDays showName2];//发送showName2时，LastDays的isa指针会遍历LastDays的元类类方法</span><br></pre></td></tr></table></figure>
 <h2 id="u7C7B_u7684_u7EE7_u627F"><a href="#u7C7B_u7684_u7EE7_u627F" class="headerlink" title="类的继承"></a>类的继承</h2><p>关于类的继承，其实我们可以根据类的实现可以推断出来。</p>
 <p>在<strong>objc_class</strong>结构中我们可以发现有一个super_class指针，其实这个指针是指向我们的父类。</p>
 <p>我们设计这么一种继承结构： LastDays：Last：NSObject</p>
 <p>如图所示就是继承实现的原理：</p>
-<p><img src="/Users/MrLoong/Documents/Hexo/source/_posts/picture.jpg" alt=""></p>
+<p><img src="/picture.jpg" alt=""></p>
 <p>通过以上图形，根据蓝线我们可以看出，每个对象的isa都不为空，这样只要是有一个id类型的对象，通过runtime机制都可以获取该对象。</p>
 <p>根据黑线我们可以看出，最终继承自NSObject，并且NSObject的superclass为nil。</p>
 <p>同样也有很多公开的函数可以访问类信息</p>
