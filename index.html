@@ -87,14 +87,14 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-20T13:07:28.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    <time datetime="2016-02-20T13:09:48.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
     
   </p>
 </header>
     <div class="article-content">
         
         <h1 id="Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><a href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1" class="headerlink" title="Objective—C消息发送与转发"></a>Objective—C消息发送与转发</h1><p>我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，<a href="http://lastdays.cn">LastDays</a></p>
-<h2 id="u6D88_u606F"><a href="#u6D88_u606F" class="headerlink" title="消息"></a>消息</h2><p>上一篇文章<a href="http://lastdays.cn/2016/02/17/runtime1/">Objective-C类和对象的实现原理</a>对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”</p>
+<h2 id="u6D88_u606F"><a href="#u6D88_u606F" class="headerlink" title="消息"></a>消息</h2><p>上一篇文章<a href="http://lastdays.cn/2016/02/20/runtime1/">Objective-C类和对象的实现原理</a>对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”</p>
 <h2 id="u7F16_u8BD1_u8F6C_u5316"><a href="#u7F16_u8BD1_u8F6C_u5316" class="headerlink" title="编译转化"></a>编译转化</h2><p>在[receiver message]的执行过程当中，[receiver message]是会被动态编译的，Objc是动态语言，因此它会想尽办法将编译连接推迟到运行时来做。runtime这个时实运行系统就是来执行编译后的代码，编译成什么样runtime才能认识呢？</p>
 <p>这里有段代码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;Receiver.h&#34;&#10;&#10;int main(int argc, const char * argv[]) &#123;&#10;    @autoreleasepool &#123;&#10;            &#10;        Receiver *receiver = [[Receiver alloc] init];&#10;        [receiver message];&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
