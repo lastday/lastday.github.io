@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>iOS 基础知识，你知道几个？（一）) | Lastdays&#39;s Blog</title>
+    <title>iOS 基础知识，你知道几个？（一） | Lastdays&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Lastdays">
@@ -15,15 +15,15 @@
  我是LastDays,我的博客：LastDays.cn
 (1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 基础知识，你知道几个？（一）)">
+<meta property="og:title" content="iOS 基础知识，你知道几个？（一）">
 <meta property="og:url" content="http://Lastdays.cn/2016/02/21/base1/index.html">
 <meta property="og:site_name" content="Lastdays's Blog">
 <meta property="og:description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
  我是LastDays,我的博客：LastDays.cn
 (1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
-<meta property="og:updated_time" content="2016-02-20T16:13:17.000Z">
+<meta property="og:updated_time" content="2016-02-20T16:19:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 基础知识，你知道几个？（一）)">
+<meta name="twitter:title" content="iOS 基础知识，你知道几个？（一）">
 <meta name="twitter:description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
  我是LastDays,我的博客：LastDays.cn
 (1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
@@ -85,25 +85,18 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/21/base1/" title="iOS 基础知识，你知道几个？（一）)" itemprop="url">iOS 基础知识，你知道几个？（一）)</a>
+      <a href="/2016/02/21/base1/" title="iOS 基础知识，你知道几个？（一）" itemprop="url">iOS 基础知识，你知道几个？（一）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-20T16:13:17.000Z" itemprop="datePublished"> 发表于 2016-02-21</time>
+    <time datetime="2016-02-20T16:19:14.000Z" itemprop="datePublished"> 发表于 2016-02-21</time>
     
   </p>
 </header>
 	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">iOS 基础知识，你知道几个？（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#281_29Objective-c_u7684_u7C7B_u53EF_u4EE5_u591A_u91CD_u7EE7_u627F_u4E48_3F_u53EF_u4EE5_u5B9E_u73B0_u591A_u4E2A_u63A5_u53E3_u4E48_3FCategory_u662F_u4EC0_u4E48_3F_u91CD_u5199_u4E00_u4E2A_u7C7B_u7684_u65B9_u5F0F_u7528_u7EE7_u627F_u597D_u8FD8_u662F_u5206_u7C7B_u597D_3F_u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.1.</span> <span class="toc-text">(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#282_29_23import__u8DDF_23include__u53C8_u4EC0_u4E48_u533A_u522B_uFF0C@class_u5462_2C__23import_26lt_3B_26gt_3B__u8DDF__23import_u201D_u201D_u53C8_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.2.</span> <span class="toc-text">(2)#import 跟#include 又什么区别，@class呢, #import<> 跟 #import””又什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#283_29_u5C5E_u6027readwrite_uFF0Creadonly_uFF0Cassign_uFF0Cretain_uFF0Ccopy_uFF0Cnonatomic__u5404_u662F_u4EC0_u4E48_u4F5C_u7528_uFF0C_u5728_u90A3_u79CD_u60C5_u51B5_u4E0B_u7528_3F"><span class="toc-number">1.0.3.</span> <span class="toc-text">(3)属性readwrite，readonly，assign，retain，copy，nonatomic 各是什么作用，在那种情况下用?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#284_29_u5199_u4E00_u4E2Asetter_u65B9_u6CD5_u7528_u4E8E_u5B8C_u6210@property__28nonatomic_2Cretain_29NSString_*name"><span class="toc-number">1.0.4.</span> <span class="toc-text">(4)写一个setter方法用于完成@property (nonatomic,retain)NSString *name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#285_29_u5BF9_u4E8E_u8BED_u53E5NSString*obj__3D__5B_5BNSData_alloc_5D_init_5D_3B_obj_u5728_u7F16_u8BD1_u65F6_u548C_u8FD0_u884C_u65F6_u5206_u522B_u65F6_u4EC0_u4E48_u7C7B_u578B_u7684_u5BF9_u8C61_3F"><span class="toc-number">1.0.5.</span> <span class="toc-text">(5)对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#286_29_u5E38_u89C1_u7684object-c_u7684_u6570_u636E_u7C7B_u578B_u6709_u90A3_u4E9B_uFF0C__u548CC_u7684_u57FA_u672C_u6570_u636E_u7C7B_u578B_u6709_u4EC0_u4E48_u533A_u522B_3F_u5982_uFF1ANSInteger_u548Cint"><span class="toc-number">1.0.6.</span> <span class="toc-text">(6)常见的object-c的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#287_29id__u58F0_u660E_u7684_u5BF9_u8C61_u6709_u4EC0_u4E48_u7279_u6027_3F"><span class="toc-number">1.0.7.</span> <span class="toc-text">(7)id 声明的对象有什么特性?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#288_29Objective-C_u5982_u4F55_u5BF9_u5185_u5B58_u7BA1_u7406_u7684_2C_u8BF4_u8BF4_u4F60_u7684_u770B_u6CD5_u548C_u89E3_u51B3_u65B9_u6CD5_3F"><span class="toc-number">1.0.8.</span> <span class="toc-text">(8)Objective-C如何对内存管理的,说说你的看法和解决方法?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#289_29_3A_u539F_u5B50_28atomic_29_u8DDF_u975E_u539F_u5B50_28non-atomic_29_u5C5E_u6027_u6709_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.9.</span> <span class="toc-text">(9):原子(atomic)跟非原子(non-atomic)属性有什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2810_29_u770B_u4E0B_u9762_u7684_u7A0B_u5E8F_2C_u7B2C_u4E00_u4E2ANSLog_u4F1A_u8F93_u51FA_u4EC0_u4E48_3F_u8FD9_u65F6str_u7684retainCount_u662F_u591A_u5C11_3F_u7B2C_u4E8C_u4E2A_u548C_u7B2C_u4E09_u4E2A_u5462_3F__u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.10.</span> <span class="toc-text">(10)看下面的程序,第一个NSLog会输出什么?这时str的retainCount是多少?第二个和第三个呢? 为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2811_29_u5185_u5B58_u7BA1_u7406_u7684_u51E0_u6761_u539F_u5219_u65F6_u4EC0_u4E48_3F_u6309_u7167_u9ED8_u8BA4_u6CD5_u5219-_u90A3_u4E9B_u5173_u952E_u5B57_u751F_u6210_u7684_u5BF9_u8C61_u9700_u8981_u624B_u52A8_u91CA_u653E_3F_u5728_u548Cproperty_u7ED3_u5408_u7684_u65F6_u5019_u600E_u6837_u6709_u6548_u7684_u907F_u514D_u5185_u5B58_u6CC4_u9732_3F"><span class="toc-number">1.0.11.</span> <span class="toc-text">(11)内存管理的几条原则时什么?按照默认法则.那些关键字生成的对象需要手动释放?在和property结合的时候怎样有效的避免内存泄露?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2812_29_u5982_u4F55_u5BF9iOS_u8BBE_u5907_u8FDB_u884C_u6027_u80FD_u6D4B_u8BD5_3F"><span class="toc-number">1.0.12.</span> <span class="toc-text">(12)如何对iOS设备进行性能测试?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2813_29Objective-C_u4E2D_u521B_u5EFA_u7EBF_u7A0B_u7684_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u5728_u4E3B_u7EBF_u7A0B_u4E2D_u6267_u884C_u4EE3_u7801_uFF0C_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u60F3_u5EF6_u65F6_u6267_u884C_u4EE3_u7801_u3001_u65B9_u6CD5_u53C8_u662F_u4EC0_u4E48_3F"><span class="toc-number">1.0.13.</span> <span class="toc-text">(13)Objective-C中创建线程的方法是什么?如果在主线程中执行代码，方法是什么?如果想延时执行代码、方法又是什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2814_29MVC_u8BBE_u8BA1_u6A21_u5F0F_u662F_u4EC0_u4E48_uFF1F__u4F60_u8FD8_u719F_u6089_u4EC0_u4E48_u8BBE_u8BA1_u6A21_u5F0F_uFF1F"><span class="toc-number">1.0.14.</span> <span class="toc-text">(14)MVC设计模式是什么？ 你还熟悉什么设计模式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2815_29_u6D45_u590D_u5236_u548C_u6DF1_u590D_u5236_u7684_u533A_u522B_3F"><span class="toc-number">1.0.15.</span> <span class="toc-text">(15)浅复制和深复制的区别?</span></a></li></ol></li></ol></li></ol>
-		
-		</div>
 		
 		<h1 id="iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><a href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09" class="headerlink" title="iOS 基础知识，你知道几个？（一）"></a>iOS 基础知识，你知道几个？（一）</h1><p> 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来</p>
 <p> 我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
@@ -172,7 +165,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://Lastdays.cn/2016/02/21/base1/" data-title="iOS 基础知识，你知道几个？（一）) | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  <div data-url="http://Lastdays.cn/2016/02/21/base1/" data-title="iOS 基础知识，你知道几个？（一） | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -198,19 +191,12 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/02/21/base1/" data-title="iOS 基础知识，你知道几个？（一）)" data-url="http://Lastdays.cn/2016/02/21/base1/"></div>
+	<div class="ds-thread" data-thread-key="2016/02/21/base1/" data-title="iOS 基础知识，你知道几个？（一）" data-url="http://Lastdays.cn/2016/02/21/base1/"></div>
 </section>
 
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">iOS 基础知识，你知道几个？（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#281_29Objective-c_u7684_u7C7B_u53EF_u4EE5_u591A_u91CD_u7EE7_u627F_u4E48_3F_u53EF_u4EE5_u5B9E_u73B0_u591A_u4E2A_u63A5_u53E3_u4E48_3FCategory_u662F_u4EC0_u4E48_3F_u91CD_u5199_u4E00_u4E2A_u7C7B_u7684_u65B9_u5F0F_u7528_u7EE7_u627F_u597D_u8FD8_u662F_u5206_u7C7B_u597D_3F_u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.1.</span> <span class="toc-text">(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#282_29_23import__u8DDF_23include__u53C8_u4EC0_u4E48_u533A_u522B_uFF0C@class_u5462_2C__23import_26lt_3B_26gt_3B__u8DDF__23import_u201D_u201D_u53C8_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.2.</span> <span class="toc-text">(2)#import 跟#include 又什么区别，@class呢, #import<> 跟 #import””又什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#283_29_u5C5E_u6027readwrite_uFF0Creadonly_uFF0Cassign_uFF0Cretain_uFF0Ccopy_uFF0Cnonatomic__u5404_u662F_u4EC0_u4E48_u4F5C_u7528_uFF0C_u5728_u90A3_u79CD_u60C5_u51B5_u4E0B_u7528_3F"><span class="toc-number">1.0.3.</span> <span class="toc-text">(3)属性readwrite，readonly，assign，retain，copy，nonatomic 各是什么作用，在那种情况下用?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#284_29_u5199_u4E00_u4E2Asetter_u65B9_u6CD5_u7528_u4E8E_u5B8C_u6210@property__28nonatomic_2Cretain_29NSString_*name"><span class="toc-number">1.0.4.</span> <span class="toc-text">(4)写一个setter方法用于完成@property (nonatomic,retain)NSString *name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#285_29_u5BF9_u4E8E_u8BED_u53E5NSString*obj__3D__5B_5BNSData_alloc_5D_init_5D_3B_obj_u5728_u7F16_u8BD1_u65F6_u548C_u8FD0_u884C_u65F6_u5206_u522B_u65F6_u4EC0_u4E48_u7C7B_u578B_u7684_u5BF9_u8C61_3F"><span class="toc-number">1.0.5.</span> <span class="toc-text">(5)对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#286_29_u5E38_u89C1_u7684object-c_u7684_u6570_u636E_u7C7B_u578B_u6709_u90A3_u4E9B_uFF0C__u548CC_u7684_u57FA_u672C_u6570_u636E_u7C7B_u578B_u6709_u4EC0_u4E48_u533A_u522B_3F_u5982_uFF1ANSInteger_u548Cint"><span class="toc-number">1.0.6.</span> <span class="toc-text">(6)常见的object-c的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#287_29id__u58F0_u660E_u7684_u5BF9_u8C61_u6709_u4EC0_u4E48_u7279_u6027_3F"><span class="toc-number">1.0.7.</span> <span class="toc-text">(7)id 声明的对象有什么特性?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#288_29Objective-C_u5982_u4F55_u5BF9_u5185_u5B58_u7BA1_u7406_u7684_2C_u8BF4_u8BF4_u4F60_u7684_u770B_u6CD5_u548C_u89E3_u51B3_u65B9_u6CD5_3F"><span class="toc-number">1.0.8.</span> <span class="toc-text">(8)Objective-C如何对内存管理的,说说你的看法和解决方法?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#289_29_3A_u539F_u5B50_28atomic_29_u8DDF_u975E_u539F_u5B50_28non-atomic_29_u5C5E_u6027_u6709_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.9.</span> <span class="toc-text">(9):原子(atomic)跟非原子(non-atomic)属性有什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2810_29_u770B_u4E0B_u9762_u7684_u7A0B_u5E8F_2C_u7B2C_u4E00_u4E2ANSLog_u4F1A_u8F93_u51FA_u4EC0_u4E48_3F_u8FD9_u65F6str_u7684retainCount_u662F_u591A_u5C11_3F_u7B2C_u4E8C_u4E2A_u548C_u7B2C_u4E09_u4E2A_u5462_3F__u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.10.</span> <span class="toc-text">(10)看下面的程序,第一个NSLog会输出什么?这时str的retainCount是多少?第二个和第三个呢? 为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2811_29_u5185_u5B58_u7BA1_u7406_u7684_u51E0_u6761_u539F_u5219_u65F6_u4EC0_u4E48_3F_u6309_u7167_u9ED8_u8BA4_u6CD5_u5219-_u90A3_u4E9B_u5173_u952E_u5B57_u751F_u6210_u7684_u5BF9_u8C61_u9700_u8981_u624B_u52A8_u91CA_u653E_3F_u5728_u548Cproperty_u7ED3_u5408_u7684_u65F6_u5019_u600E_u6837_u6709_u6548_u7684_u907F_u514D_u5185_u5B58_u6CC4_u9732_3F"><span class="toc-number">1.0.11.</span> <span class="toc-text">(11)内存管理的几条原则时什么?按照默认法则.那些关键字生成的对象需要手动释放?在和property结合的时候怎样有效的避免内存泄露?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2812_29_u5982_u4F55_u5BF9iOS_u8BBE_u5907_u8FDB_u884C_u6027_u80FD_u6D4B_u8BD5_3F"><span class="toc-number">1.0.12.</span> <span class="toc-text">(12)如何对iOS设备进行性能测试?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2813_29Objective-C_u4E2D_u521B_u5EFA_u7EBF_u7A0B_u7684_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u5728_u4E3B_u7EBF_u7A0B_u4E2D_u6267_u884C_u4EE3_u7801_uFF0C_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u60F3_u5EF6_u65F6_u6267_u884C_u4EE3_u7801_u3001_u65B9_u6CD5_u53C8_u662F_u4EC0_u4E48_3F"><span class="toc-number">1.0.13.</span> <span class="toc-text">(13)Objective-C中创建线程的方法是什么?如果在主线程中执行代码，方法是什么?如果想延时执行代码、方法又是什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2814_29MVC_u8BBE_u8BA1_u6A21_u5F0F_u662F_u4EC0_u4E48_uFF1F__u4F60_u8FD8_u719F_u6089_u4EC0_u4E48_u8BBE_u8BA1_u6A21_u5F0F_uFF1F"><span class="toc-number">1.0.14.</span> <span class="toc-text">(14)MVC设计模式是什么？ 你还熟悉什么设计模式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2815_29_u6D45_u590D_u5236_u548C_u6DF1_u590D_u5236_u7684_u533A_u522B_3F"><span class="toc-number">1.0.15.</span> <span class="toc-text">(15)浅复制和深复制的区别?</span></a></li></ol></li></ol></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -372,8 +358,6 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
