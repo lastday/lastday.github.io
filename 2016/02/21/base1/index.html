@@ -4,22 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Lastdays&#39;s Blog</title>
+    <title>iOS 基础知识，你知道几个？（一）) | Lastdays&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Lastdays">
     
 
     
-    <meta name="description" content="欢迎来到白菜的世界">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lastdays's Blog">
-<meta property="og:url" content="http://Lastdays.cn/index.html">
+    <meta name="description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
+ 我是LastDays,我的博客：LastDays.cn
+(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 基础知识，你知道几个？（一）)">
+<meta property="og:url" content="http://Lastdays.cn/2016/02/21/base1/index.html">
 <meta property="og:site_name" content="Lastdays's Blog">
-<meta property="og:description" content="欢迎来到白菜的世界">
+<meta property="og:description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
+ 我是LastDays,我的博客：LastDays.cn
+(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
+<meta property="og:updated_time" content="2016-02-20T16:09:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lastdays's Blog">
-<meta name="twitter:description" content="欢迎来到白菜的世界">
+<meta name="twitter:title" content="iOS 基础知识，你知道几个？（一）)">
+<meta name="twitter:description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
+ 我是LastDays,我的博客：LastDays.cn
+(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
 
     
     <link rel="alternative" href="/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
@@ -72,12 +79,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2016/02/21/base1/" title="iOS 基础知识，你知道几个？（一）)" itemprop="url">iOS 基础知识，你知道几个？（一）)</a>
@@ -91,9 +96,16 @@
     
   </p>
 </header>
-    <div class="article-content">
-        
-        <h1 id="iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><a href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09" class="headerlink" title="iOS 基础知识，你知道几个？（一）"></a>iOS 基础知识，你知道几个？（一）</h1><p> 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来</p>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">iOS 基础知识，你知道几个？（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#281_29Objective-c_u7684_u7C7B_u53EF_u4EE5_u591A_u91CD_u7EE7_u627F_u4E48_3F_u53EF_u4EE5_u5B9E_u73B0_u591A_u4E2A_u63A5_u53E3_u4E48_3FCategory_u662F_u4EC0_u4E48_3F_u91CD_u5199_u4E00_u4E2A_u7C7B_u7684_u65B9_u5F0F_u7528_u7EE7_u627F_u597D_u8FD8_u662F_u5206_u7C7B_u597D_3F_u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.1.</span> <span class="toc-text">(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#282_29_23import__u8DDF_23include__u53C8_u4EC0_u4E48_u533A_u522B_uFF0C@class_u5462_2C__23import_26lt_3B_26gt_3B__u8DDF__23import_u201D_u201D_u53C8_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.2.</span> <span class="toc-text">(2)#import 跟#include 又什么区别，@class呢, #import<> 跟 #import””又什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#283_29_u5C5E_u6027readwrite_uFF0Creadonly_uFF0Cassign_uFF0Cretain_uFF0Ccopy_uFF0Cnonatomic__u5404_u662F_u4EC0_u4E48_u4F5C_u7528_uFF0C_u5728_u90A3_u79CD_u60C5_u51B5_u4E0B_u7528_3F"><span class="toc-number">1.0.3.</span> <span class="toc-text">(3)属性readwrite，readonly，assign，retain，copy，nonatomic 各是什么作用，在那种情况下用?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#284_29_u5199_u4E00_u4E2Asetter_u65B9_u6CD5_u7528_u4E8E_u5B8C_u6210@property__28nonatomic_2Cretain_29NSString_*name"><span class="toc-number">1.0.4.</span> <span class="toc-text">(4)写一个setter方法用于完成@property (nonatomic,retain)NSString *name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#285_29_u5BF9_u4E8E_u8BED_u53E5NSString*obj__3D__5B_5BNSData_alloc_5D_init_5D_3B_obj_u5728_u7F16_u8BD1_u65F6_u548C_u8FD0_u884C_u65F6_u5206_u522B_u65F6_u4EC0_u4E48_u7C7B_u578B_u7684_u5BF9_u8C61_3F"><span class="toc-number">1.0.5.</span> <span class="toc-text">(5)对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#286_29_u5E38_u89C1_u7684object-c_u7684_u6570_u636E_u7C7B_u578B_u6709_u90A3_u4E9B_uFF0C__u548CC_u7684_u57FA_u672C_u6570_u636E_u7C7B_u578B_u6709_u4EC0_u4E48_u533A_u522B_3F_u5982_uFF1ANSInteger_u548Cint"><span class="toc-number">1.0.6.</span> <span class="toc-text">(6)常见的object-c的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#287_29id__u58F0_u660E_u7684_u5BF9_u8C61_u6709_u4EC0_u4E48_u7279_u6027_3F"><span class="toc-number">1.0.7.</span> <span class="toc-text">(7)id 声明的对象有什么特性?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#288_29Objective-C_u5982_u4F55_u5BF9_u5185_u5B58_u7BA1_u7406_u7684_2C_u8BF4_u8BF4_u4F60_u7684_u770B_u6CD5_u548C_u89E3_u51B3_u65B9_u6CD5_3F"><span class="toc-number">1.0.8.</span> <span class="toc-text">(8)Objective-C如何对内存管理的,说说你的看法和解决方法?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#289_29_3A_u539F_u5B50_28atomic_29_u8DDF_u975E_u539F_u5B50_28non-atomic_29_u5C5E_u6027_u6709_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.9.</span> <span class="toc-text">(9):原子(atomic)跟非原子(non-atomic)属性有什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2810_29_u770B_u4E0B_u9762_u7684_u7A0B_u5E8F_2C_u7B2C_u4E00_u4E2ANSLog_u4F1A_u8F93_u51FA_u4EC0_u4E48_3F_u8FD9_u65F6str_u7684retainCount_u662F_u591A_u5C11_3F_u7B2C_u4E8C_u4E2A_u548C_u7B2C_u4E09_u4E2A_u5462_3F__u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.10.</span> <span class="toc-text">(10)看下面的程序,第一个NSLog会输出什么?这时str的retainCount是多少?第二个和第三个呢? 为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2811_29_u5185_u5B58_u7BA1_u7406_u7684_u51E0_u6761_u539F_u5219_u65F6_u4EC0_u4E48_3F_u6309_u7167_u9ED8_u8BA4_u6CD5_u5219-_u90A3_u4E9B_u5173_u952E_u5B57_u751F_u6210_u7684_u5BF9_u8C61_u9700_u8981_u624B_u52A8_u91CA_u653E_3F_u5728_u548Cproperty_u7ED3_u5408_u7684_u65F6_u5019_u600E_u6837_u6709_u6548_u7684_u907F_u514D_u5185_u5B58_u6CC4_u9732_3F"><span class="toc-number">1.0.11.</span> <span class="toc-text">(11)内存管理的几条原则时什么?按照默认法则.那些关键字生成的对象需要手动释放?在和property结合的时候怎样有效的避免内存泄露?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2812_29_u5982_u4F55_u5BF9iOS_u8BBE_u5907_u8FDB_u884C_u6027_u80FD_u6D4B_u8BD5_3F"><span class="toc-number">1.0.12.</span> <span class="toc-text">(12)如何对iOS设备进行性能测试?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2813_29Objective-C_u4E2D_u521B_u5EFA_u7EBF_u7A0B_u7684_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u5728_u4E3B_u7EBF_u7A0B_u4E2D_u6267_u884C_u4EE3_u7801_uFF0C_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u60F3_u5EF6_u65F6_u6267_u884C_u4EE3_u7801_u3001_u65B9_u6CD5_u53C8_u662F_u4EC0_u4E48_3F"><span class="toc-number">1.0.13.</span> <span class="toc-text">(13)Objective-C中创建线程的方法是什么?如果在主线程中执行代码，方法是什么?如果想延时执行代码、方法又是什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2814_29MVC_u8BBE_u8BA1_u6A21_u5F0F_u662F_u4EC0_u4E48_uFF1F__u4F60_u8FD8_u719F_u6089_u4EC0_u4E48_u8BBE_u8BA1_u6A21_u5F0F_uFF1F"><span class="toc-number">1.0.14.</span> <span class="toc-text">(14)MVC设计模式是什么？ 你还熟悉什么设计模式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2815_29_u6D45_u590D_u5236_u548C_u6DF1_u590D_u5236_u7684_u533A_u522B_3F"><span class="toc-number">1.0.15.</span> <span class="toc-text">(15)浅复制和深复制的区别?</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><a href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09" class="headerlink" title="iOS 基础知识，你知道几个？（一）"></a>iOS 基础知识，你知道几个？（一）</h1><p> 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来</p>
 <p> 我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
 <h3 id="281_29Objective-c_u7684_u7C7B_u53EF_u4EE5_u591A_u91CD_u7EE7_u627F_u4E48_3F_u53EF_u4EE5_u5B9E_u73B0_u591A_u4E2A_u63A5_u53E3_u4E48_3FCategory_u662F_u4EC0_u4E48_3F_u91CD_u5199_u4E00_u4E2A_u7C7B_u7684_u65B9_u5F0F_u7528_u7EE7_u627F_u597D_u8FD8_u662F_u5206_u7C7B_u597D_3F_u4E3A_u4EC0_u4E48_3F"><a href="#281_29Objective-c_u7684_u7C7B_u53EF_u4EE5_u591A_u91CD_u7EE7_u627F_u4E48_3F_u53EF_u4EE5_u5B9E_u73B0_u591A_u4E2A_u63A5_u53E3_u4E48_3FCategory_u662F_u4EC0_u4E48_3F_u91CD_u5199_u4E00_u4E2A_u7C7B_u7684_u65B9_u5F0F_u7528_u7EE7_u627F_u597D_u8FD8_u662F_u5206_u7C7B_u597D_3F_u4E3A_u4EC0_u4E48_3F" class="headerlink" title="(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?"></a>(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?</h3><p>Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接口可以完成C++的多重继承;Category是类别，一般情况用分类好，用Category去重写类的方法，仅对本Category有效，不会影响到其他类与原有类的关系。</p>
 <h3 id="282_29_23import__u8DDF_23include__u53C8_u4EC0_u4E48_u533A_u522B_uFF0C@class_u5462_2C__23import_26lt_3B_26gt_3B__u8DDF__23import_u201D_u201D_u53C8_u4EC0_u4E48_u533A_u522B_3F"><a href="#282_29_23import__u8DDF_23include__u53C8_u4EC0_u4E48_u533A_u522B_uFF0C@class_u5462_2C__23import_26lt_3B_26gt_3B__u8DDF__23import_u201D_u201D_u53C8_u4EC0_u4E48_u533A_u522B_3F" class="headerlink" title="(2)#import 跟#include 又什么区别，@class呢, #import&lt;&gt; 跟 #import””又什么区别?"></a>(2)#import 跟#include 又什么区别，@class呢, #import&lt;&gt; 跟 #import””又什么区别?</h3><p>import是Objective-C导入头文件的关键字，#include是C/C++导入头文件的关键字,使用#import头文件会自动只导入一次，不会重复导入，相当于#include和#pragma once;@class告诉编译器某个类的声明，当执行时，才去查看类的实现文件，可以解决头文件的相互包含;#import&lt;&gt;用来包含系统的头文件，#import””用来包含用户头文件。</p>
@@ -142,14 +154,9 @@
 <p>用网上一哥们通俗的话将就是：</p>
 <p>浅复制好比你和你的影子，你完蛋，你的影子也完蛋</p>
 <p>深复制好比你和你的克隆人，你完蛋，你的克隆人还活着</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
+  
+	</div>
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
@@ -162,463 +169,47 @@
 
 
 
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/02/21/base1/" data-title="iOS 基础知识，你知道几个？（一）) | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
 
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/21/base1/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/21/base1/" data-count-type="comments">&nbsp;</a>
-	
-</div>
 
 </footer>
 
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/runtime2/" title="Runtime 学习笔记(二)" itemprop="url">Runtime 学习笔记(二)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T13:09:48.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><a href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1" class="headerlink" title="Objective—C消息发送与转发"></a>Objective—C消息发送与转发</h1><p>我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，<a href="http://lastdays.cn">LastDays</a></p>
-<h2 id="u6D88_u606F"><a href="#u6D88_u606F" class="headerlink" title="消息"></a>消息</h2><p>上一篇文章<a href="http://lastdays.cn/2016/02/20/runtime1/">Objective-C类和对象的实现原理</a>对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”</p>
-<h2 id="u7F16_u8BD1_u8F6C_u5316"><a href="#u7F16_u8BD1_u8F6C_u5316" class="headerlink" title="编译转化"></a>编译转化</h2><p>在[receiver message]的执行过程当中，[receiver message]是会被动态编译的，Objc是动态语言，因此它会想尽办法将编译连接推迟到运行时来做。runtime这个时实运行系统就是来执行编译后的代码，编译成什么样runtime才能认识呢？</p>
-<p>这里有段代码</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;Receiver.h&#34;&#10;&#10;int main(int argc, const char * argv[]) &#123;&#10;    @autoreleasepool &#123;&#10;            &#10;        Receiver *receiver = [[Receiver alloc] init];&#10;        [receiver message];&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/20/runtime2/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Runtime/">Runtime</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Objective—C消息发送与转发/">Objective—C消息发送与转发</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
+   	       
+	</article>
 	
-	  	<span></span>
-		<a href="/2016/02/20/runtime2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/20/runtime2/" data-count-type="comments">&nbsp;</a>
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/20/runtime2/"  title="Runtime 学习笔记(二)">
+ <strong>下一篇：</strong><br/> 
+ <span>Runtime 学习笔记(二)
+</span>
+</a>
+</div>
+
+</nav>
+
 	
-</div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/21/base1/" data-title="iOS 基础知识，你知道几个？（一）)" data-url="http://Lastdays.cn/2016/02/21/base1/"></div>
+</section>
 
-</footer>
 
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/runtime1/" title="Runtime 学习笔记(一)" itemprop="url">Runtime 学习笔记(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T12:50:02.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><a href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406" class="headerlink" title="Objective-C类和对象的实现原理"></a>Objective-C类和对象的实现原理</h1><p>我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
-<p>最近一直在了解runtime的实现原理，所以简单的分享一下。</p>
-<p>Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来</p>
-<p>在这里可以下载Runtime的源码：<a href="http://www.opensource.apple.com/tarballs/objc4/">objc4</a></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/20/runtime1/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Runtime/">Runtime</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Objective-C类和对象的实现原理/">Objective-C类和对象的实现原理</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/20/runtime1/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/20/runtime1/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/18/Nuclide/" title="ReactNative IDE Nuclide安装与配置" itemprop="url">ReactNative IDE Nuclide安装与配置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-18T03:30:43.000Z" itemprop="datePublished"> 发表于 2016-02-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="ReactNative_u5F00_u53D1_u5DE5_u5177Nuclide_u642D_u5EFA"><a href="#ReactNative_u5F00_u53D1_u5DE5_u5177Nuclide_u642D_u5EFA" class="headerlink" title="ReactNative开发工具Nuclide搭建"></a>ReactNative开发工具Nuclide搭建</h1><p>Facebook 于 2015 年 9 月 15 日发布了 React Native for Android 。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 Web，iOS 和 Android 平台的原生应用。<br>这让很多人开始尝试ReactNative。</p>
-<p>分享一个开源的开发工具Nuclide</p>
-<p>Nuclide 是 Facebook 专门为 React 开发的 IDE ，既然是官方提供的 IDE ，就意味着拥有更好的语法补全、类型检查等支持。为了开发效率，不妨尝试一下这个 IDE 。</p>
-<p>开源地址<a href="https://github.com/facebook/nuclide">https://github.com/facebook/nuclide</a></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/18/Nuclide/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/18/Nuclide/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/18/Nuclide/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/HttpLibrary/" title="编写iOS HTTP网络请求库" itemprop="url">编写iOS HTTP网络请求库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-04T03:13:58.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09"><a href="#u4E00_u6B65_u4E00_u6B65_u642D_u5EFA_u81EA_u5DF1_u7684iOS_u7F51_u7EDC_u8BF7_u6C42_u5E93_uFF08_u4E00_uFF09" class="headerlink" title="一步一步搭建自己的iOS网络请求库（一）"></a>一步一步搭建自己的iOS网络请求库（一）</h1><p>大家好，我是LastDay，终于有了自己的博客，在这里分享一个的HTTP请求库的编写经验。</p>
-<h2 id="u7B80_u5355_u7684_u4ECB_u7ECD"><a href="#u7B80_u5355_u7684_u4ECB_u7ECD" class="headerlink" title="简单的介绍"></a>简单的介绍</h2><p>介绍一下，NSURLSession是iOS7中新的网络接口，它与NSURLConnection是并列的。在程序在前台时，NSURLSession与NSURLConnection可以互为替代工作。两者在前台的时候其实没有什么区别，最主要的是程序在进入后台的时候，Background Session会更加灵活</p>
-<h2 id="u6D4B_u8BD5NSURLSession"><a href="#u6D4B_u8BD5NSURLSession" class="headerlink" title="测试NSURLSession"></a>测试NSURLSession</h2><p>首先我们来新建一个工程，起名为LyHttp，在页面上放置一个按钮 ，起名为”测试”。</p>
-<p><img src="http://img.blog.csdn.net/20151130224816040" alt=""></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/HttpLibrary/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/iOS/">iOS</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/HTTP/">HTTP</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/HttpLibrary/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/HttpLibrary/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/TCP/" title="TCP协议总结" itemprop="url">TCP协议总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-03T16:54:01.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="u4F20_u8F93_u5C42_u6982_u8FF0"><a href="#u4F20_u8F93_u5C42_u6982_u8FF0" class="headerlink" title="传输层概述"></a>传输层概述</h2><p>TCP协议特点：面向连接、字节流、可靠传输</p>
-<h3 id="u9762_u5411_u94FE_u63A5_uFF1A"><a href="#u9762_u5411_u94FE_u63A5_uFF1A" class="headerlink" title="面向链接："></a>面向链接：</h3><p>1.使用TCP协议的双方必须先建立连接，并且双方都必须分配相应的内核资源。TCP的连接是全双工的，也就是说双方可以根据一个连接进行读写操作。</p>
-<h3 id="u5B57_u8282_u6D41_uFF1A"><a href="#u5B57_u8282_u6D41_uFF1A" class="headerlink" title="字节流："></a>字节流：</h3><p>1.当发送方应用多次进行写操作的时候，TCP发送模块会先把数据放在发送缓冲区中，当TCP发送模块真正发送的时候，这些在发送缓冲区中的数据才可能被封装成一个或多个报文段发出。所有根据以上结论，应用程序执行的写操作的次数和TCP发送的报文段个数没有对应的数量关系。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/TCP/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/TCP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/TCP/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/IP/" title="IP协议总结" itemprop="url">IP协议总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-03T16:53:50.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002"><a href="#IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002" class="headerlink" title="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。"></a>IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</h1><h2 id="u7F51_u7EDC_u5C42_u6982_u8FF0"><a href="#u7F51_u7EDC_u5C42_u6982_u8FF0" class="headerlink" title="网络层概述"></a>网络层概述</h2><h3 id="IP_u670D_u52A1_u7279_u70B9_3A"><a href="#IP_u670D_u52A1_u7279_u70B9_3A" class="headerlink" title="IP服务特点:"></a>IP服务特点:</h3><p>IP协议为上层协议提供无状态，无连接，不可靠的服务。</p>
-<ul>
-<li>无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的状态也是有优点的，它简单高效，因为我们无需为保证它的状态而分配一些内核数据结构。</li>
-<li>无连接：通信双方都不长久的维持对方的任何信息，那么就需要上层协议去指定传输的IP地址。</li>
-<li>不可靠服务：不可靠指的是IP协议不能保证IP数据报完整并且准确的到达接收端。因此使用IP的上层协议需要自己做数据确认，超时重传等可靠传输机制。</li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/IP/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/IP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/IP/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/Core Date/" title="iOS9 Core Data教学" itemprop="url">iOS9 Core Data教学</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-03T16:53:33.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="u770B_u4E86_u4E00_u7BC7_u56FD_u5916_u7684_u6587_u7AE0_uFF0C_u5173_u4E8EiOS9_u7684Core_Data_u6559_u5B66_uFF0C_u5728_u8FD9_u91CC_u505A_u4E86_u4E00_u4E0B_u603B_u7ED3"><a href="#u770B_u4E86_u4E00_u7BC7_u56FD_u5916_u7684_u6587_u7AE0_uFF0C_u5173_u4E8EiOS9_u7684Core_Data_u6559_u5B66_uFF0C_u5728_u8FD9_u91CC_u505A_u4E86_u4E00_u4E0B_u603B_u7ED3" class="headerlink" title="看了一篇国外的文章，关于iOS9的Core Data教学，在这里做了一下总结"></a>看了一篇国外的文章，关于iOS9的Core Data教学，在这里做了一下总结</h1><h1 id="Core_Data__u6559_u5B66"><a href="#Core_Data__u6559_u5B66" class="headerlink" title="Core Data 教学"></a>Core Data 教学</h1><p>示例开源地址：<a href="https://github.com/MrLoong/LastDayCoreData">LastDayCoreData</a></p>
-<p>在这篇文章中我们将学习Core Data的系列教程，你将使用Swift2.0写你的Core Data。你将发现在Xcode中它是很容易上手的，从启动代码导师数据模型编辑器。在教程结束后，你会了解到：</p>
-<ul>
-<li>使用Xcode的model editor将你想存储在Core Data。</li>
-<li>添加新的记录到 Core Data</li>
-<li>从Core Data中读取一组数据</li>
-<li>在表视图中显示所获取的结果</li>
-</ul>
-<p>你也将会了解Core Data背后的数据是什么，以及如何进行交互。OK，现在让我们来构建我的app吧。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/Core Date/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/Core Date/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/Core Date/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-
-</div>
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u57FA_u7840_u77E5_u8BC6_uFF0C_u4F60_u77E5_u9053_u51E0_u4E2A_uFF1F_uFF08_u4E00_uFF09"><span class="toc-number">1.</span> <span class="toc-text">iOS 基础知识，你知道几个？（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#281_29Objective-c_u7684_u7C7B_u53EF_u4EE5_u591A_u91CD_u7EE7_u627F_u4E48_3F_u53EF_u4EE5_u5B9E_u73B0_u591A_u4E2A_u63A5_u53E3_u4E48_3FCategory_u662F_u4EC0_u4E48_3F_u91CD_u5199_u4E00_u4E2A_u7C7B_u7684_u65B9_u5F0F_u7528_u7EE7_u627F_u597D_u8FD8_u662F_u5206_u7C7B_u597D_3F_u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.1.</span> <span class="toc-text">(1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#282_29_23import__u8DDF_23include__u53C8_u4EC0_u4E48_u533A_u522B_uFF0C@class_u5462_2C__23import_26lt_3B_26gt_3B__u8DDF__23import_u201D_u201D_u53C8_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.2.</span> <span class="toc-text">(2)#import 跟#include 又什么区别，@class呢, #import<> 跟 #import””又什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#283_29_u5C5E_u6027readwrite_uFF0Creadonly_uFF0Cassign_uFF0Cretain_uFF0Ccopy_uFF0Cnonatomic__u5404_u662F_u4EC0_u4E48_u4F5C_u7528_uFF0C_u5728_u90A3_u79CD_u60C5_u51B5_u4E0B_u7528_3F"><span class="toc-number">1.0.3.</span> <span class="toc-text">(3)属性readwrite，readonly，assign，retain，copy，nonatomic 各是什么作用，在那种情况下用?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#284_29_u5199_u4E00_u4E2Asetter_u65B9_u6CD5_u7528_u4E8E_u5B8C_u6210@property__28nonatomic_2Cretain_29NSString_*name"><span class="toc-number">1.0.4.</span> <span class="toc-text">(4)写一个setter方法用于完成@property (nonatomic,retain)NSString *name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#285_29_u5BF9_u4E8E_u8BED_u53E5NSString*obj__3D__5B_5BNSData_alloc_5D_init_5D_3B_obj_u5728_u7F16_u8BD1_u65F6_u548C_u8FD0_u884C_u65F6_u5206_u522B_u65F6_u4EC0_u4E48_u7C7B_u578B_u7684_u5BF9_u8C61_3F"><span class="toc-number">1.0.5.</span> <span class="toc-text">(5)对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#286_29_u5E38_u89C1_u7684object-c_u7684_u6570_u636E_u7C7B_u578B_u6709_u90A3_u4E9B_uFF0C__u548CC_u7684_u57FA_u672C_u6570_u636E_u7C7B_u578B_u6709_u4EC0_u4E48_u533A_u522B_3F_u5982_uFF1ANSInteger_u548Cint"><span class="toc-number">1.0.6.</span> <span class="toc-text">(6)常见的object-c的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#287_29id__u58F0_u660E_u7684_u5BF9_u8C61_u6709_u4EC0_u4E48_u7279_u6027_3F"><span class="toc-number">1.0.7.</span> <span class="toc-text">(7)id 声明的对象有什么特性?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#288_29Objective-C_u5982_u4F55_u5BF9_u5185_u5B58_u7BA1_u7406_u7684_2C_u8BF4_u8BF4_u4F60_u7684_u770B_u6CD5_u548C_u89E3_u51B3_u65B9_u6CD5_3F"><span class="toc-number">1.0.8.</span> <span class="toc-text">(8)Objective-C如何对内存管理的,说说你的看法和解决方法?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#289_29_3A_u539F_u5B50_28atomic_29_u8DDF_u975E_u539F_u5B50_28non-atomic_29_u5C5E_u6027_u6709_u4EC0_u4E48_u533A_u522B_3F"><span class="toc-number">1.0.9.</span> <span class="toc-text">(9):原子(atomic)跟非原子(non-atomic)属性有什么区别?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2810_29_u770B_u4E0B_u9762_u7684_u7A0B_u5E8F_2C_u7B2C_u4E00_u4E2ANSLog_u4F1A_u8F93_u51FA_u4EC0_u4E48_3F_u8FD9_u65F6str_u7684retainCount_u662F_u591A_u5C11_3F_u7B2C_u4E8C_u4E2A_u548C_u7B2C_u4E09_u4E2A_u5462_3F__u4E3A_u4EC0_u4E48_3F"><span class="toc-number">1.0.10.</span> <span class="toc-text">(10)看下面的程序,第一个NSLog会输出什么?这时str的retainCount是多少?第二个和第三个呢? 为什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2811_29_u5185_u5B58_u7BA1_u7406_u7684_u51E0_u6761_u539F_u5219_u65F6_u4EC0_u4E48_3F_u6309_u7167_u9ED8_u8BA4_u6CD5_u5219-_u90A3_u4E9B_u5173_u952E_u5B57_u751F_u6210_u7684_u5BF9_u8C61_u9700_u8981_u624B_u52A8_u91CA_u653E_3F_u5728_u548Cproperty_u7ED3_u5408_u7684_u65F6_u5019_u600E_u6837_u6709_u6548_u7684_u907F_u514D_u5185_u5B58_u6CC4_u9732_3F"><span class="toc-number">1.0.11.</span> <span class="toc-text">(11)内存管理的几条原则时什么?按照默认法则.那些关键字生成的对象需要手动释放?在和property结合的时候怎样有效的避免内存泄露?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2812_29_u5982_u4F55_u5BF9iOS_u8BBE_u5907_u8FDB_u884C_u6027_u80FD_u6D4B_u8BD5_3F"><span class="toc-number">1.0.12.</span> <span class="toc-text">(12)如何对iOS设备进行性能测试?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2813_29Objective-C_u4E2D_u521B_u5EFA_u7EBF_u7A0B_u7684_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u5728_u4E3B_u7EBF_u7A0B_u4E2D_u6267_u884C_u4EE3_u7801_uFF0C_u65B9_u6CD5_u662F_u4EC0_u4E48_3F_u5982_u679C_u60F3_u5EF6_u65F6_u6267_u884C_u4EE3_u7801_u3001_u65B9_u6CD5_u53C8_u662F_u4EC0_u4E48_3F"><span class="toc-number">1.0.13.</span> <span class="toc-text">(13)Objective-C中创建线程的方法是什么?如果在主线程中执行代码，方法是什么?如果想延时执行代码、方法又是什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2814_29MVC_u8BBE_u8BA1_u6A21_u5F0F_u662F_u4EC0_u4E48_uFF1F__u4F60_u8FD8_u719F_u6089_u4EC0_u4E48_u8BBE_u8BA1_u6A21_u5F0F_uFF1F"><span class="toc-number">1.0.14.</span> <span class="toc-text">(14)MVC设计模式是什么？ 你还熟悉什么设计模式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2815_29_u6D45_u590D_u5236_u548C_u6DF1_u590D_u5236_u7684_u533A_u522B_3F"><span class="toc-number">1.0.15.</span> <span class="toc-text">(15)浅复制和深复制的区别?</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -780,14 +371,103 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
@@ -856,4 +536,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>
