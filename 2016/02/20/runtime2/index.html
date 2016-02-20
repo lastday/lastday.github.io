@@ -1,0 +1,550 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Runtime 学习笔记(二) | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
+消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
+编译转化在[receiver me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Runtime 学习笔记(二)">
+<meta property="og:url" content="http://Lastdays.cn/2016/02/20/runtime2/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
+消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
+编译转化在[receiver me">
+<meta property="og:image" content="http://lastdays.cn/picture.jpg">
+<meta property="og:image" content="http://7ni3rk.com1.z0.glb.clouddn.com/QQ20141113-1@2x.png?imageView2/2/w/800/q/75|watermark/2/text/eXVsaW5ndGlhbnhpYQ==/font/Y29taWMgc2FucyBtcw==/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10">
+<meta property="og:updated_time" content="2016-02-20T12:59:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Runtime 学习笔记(二)">
+<meta name="twitter:description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
+消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
+编译转化在[receiver me">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">欢迎来到一个喜欢白菜的90后的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/20/runtime2/" title="Runtime 学习笔记(二)" itemprop="url">Runtime 学习笔记(二)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-20T12:59:47.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><span class="toc-number">1.</span> <span class="toc-text">Objective—C消息发送与转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F"><span class="toc-number">1.1.</span> <span class="toc-text">消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F16_u8BD1_u8F6C_u5316"><span class="toc-number">1.2.</span> <span class="toc-text">编译转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc_msgSend"><span class="toc-number">1.3.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><span class="toc-number">1.4.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91CD_u5B9A_u5411"><span class="toc-number">1.5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F_u8F6C_u53D1"><span class="toc-number">1.6.</span> <span class="toc-text">消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F18_u5316"><span class="toc-number">1.8.</span> <span class="toc-text">优化</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><a href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1" class="headerlink" title="Objective—C消息发送与转发"></a>Objective—C消息发送与转发</h1><p>我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，<a href="http://lastdays.cn">LastDays</a></p>
+<h2 id="u6D88_u606F"><a href="#u6D88_u606F" class="headerlink" title="消息"></a>消息</h2><p>上一篇文章<a href="http://lastdays.cn/2016/02/17/runtime1/">Objective-C类和对象的实现原理</a>对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”</p>
+<h2 id="u7F16_u8BD1_u8F6C_u5316"><a href="#u7F16_u8BD1_u8F6C_u5316" class="headerlink" title="编译转化"></a>编译转化</h2><p>在[receiver message]的执行过程当中，[receiver message]是会被动态编译的，Objc是动态语言，因此它会想尽办法将编译连接推迟到运行时来做。runtime这个时实运行系统就是来执行编译后的代码，编译成什么样runtime才能认识呢？</p>
+<p>这里有段代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;Receiver.h&#34;&#10;&#10;int main(int argc, const char * argv[]) &#123;&#10;    @autoreleasepool &#123;&#10;            &#10;        Receiver *receiver = [[Receiver alloc] init];&#10;        [receiver message];&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>我们使用<a href="http://baike.baidu.com/link?url=ih_mOam2ZpW0a7GOQRoEfjX7pCLN3if2PCJFjlCyOnRC19pQJ9Ib_ZpZGB39b4JiCaYaaRgulQgTl279bVM41q" target="_blank" rel="external">clang</a>将main.m转换为c代码来看下结构</p>
+<p>我们终端下输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang -rewrite-objc main.m</span><br></pre></td></tr></table></figure>
+<p>在转换后代码查找到这个：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, const char * argv[]) &#123;&#10;    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool; &#10;&#10;&#10;        Receiver *receiver = ((Receiver *(*)(id, SEL))(void *)objc_msgSend)((id)((Receiver *(*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass(&#34;Receiver&#34;), sel_registerName(&#34;alloc&#34;)), sel_registerName(&#34;init&#34;));&#10;        ((void (*)(id, SEL))(void *)objc_msgSend)((id)receiver, sel_registerName(&#34;message&#34;));&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>来看下这段代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((void (*)(id, SEL))(void *)objc_msgSend)((id)receiver, sel_registerName(<span class="string">"message"</span>));</span><br></pre></td></tr></table></figure>
+<p>所以说objc发消息后大多数都是objc_msgSend函数的调用</p>
+<p>根据苹果<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ObjCRuntimeRef/index.html#//apple_ref/c/func/objc_msgSend" target="_blank" rel="external">文档</a>对Runtime的解释</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id objc_msgSend(id self, SEL _cmd, ...)</span><br></pre></td></tr></table></figure>
+<p>将一个消息发送给一个对象，并且返回一个值。</p>
+<ul>
+<li>self是消息的接受者，</li>
+<li>_cmd是selector， </li>
+<li>…是可变参数列表。</li>
+</ul>
+<p>对象发送消息，调用objc_msgSend，super发送消息时，调用的是objc_msgSendSupe，如果返回值是一个结构体，则会调用objc_msgSend_stret或objc_msgSendSuper_stret。</p>
+<h2 id="objc_msgSend"><a href="#objc_msgSend" class="headerlink" title="objc_msgSend"></a>objc_msgSend</h2><p>经过了上面的铺垫，分析下objc_msgSend的发送过程：</p>
+<p>objc_msgSend的动作其实是比较清晰的，上面我们提到过，runtime这个实时运行系统就是用来运行编译后的代码。</p>
+<p>运行时的数据结构在<a href="http://lastdays.cn/2016/02/17/runtime1/">Objective-C类和对象的实现原理</a>中提到过</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br><span class="line">typedef struct objc_object *id;</span><br><span class="line">struct objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;;</span><br><span class="line">struct objc_class &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">/// 不透明结构体, selector</span><br><span class="line">typedef struct objc_selector *SEL;</span><br><span class="line"> </span><br><span class="line">/// 函数指针, 用于表示对象方法的实现</span><br><span class="line">typedef id (*IMP)(id, SEL, ...);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>id:指代objc中的对象，我们不能也定它的结构，但是首地址指向isa指针。通过isa指针，运行时就能拿到objc_class。</li>
+<li>objc_class: 表示对象的Class，它的结构是确定的，由编译器生成。</li>
+<li>SEL：表示选择器，这是一个不透明结构体。但是实际上，通常可以把它理解为一个字符串。例如printf(“%s”,@selector(isEqual:))会打印出”isEqual:”。运行时维护着一张SEL的表，将相同字符串的方法名映射到唯一一个SEL。  通过sel_registerName(char *name)方法，可以查找到这张表中方法名对应的SEL。苹果提供了一个语法糖@selector用来方便地调用该函数。</li>
+<li>IMP：是一个函数指针。objc中的方法最终会被转换成纯C的函数，IMP就是为了表示这些函数的地址。</li>
+</ul>
+<p>objc_msgSend的执行过程：</p>
+<p>（1）检查接收的对象是否为nil，如果是，调用nil处理方案</p>
+<p>（2）在objc_object结构体中含有cache，首先会在Class的cache中查找IMP(如果没有缓存则会初始化缓存)，如果找到就会跳转到对应的函数上执行。</p>
+<p>（3）如果没有找到就像父类的Class查找，如果还没有没找到就继续向上查找，知道找到根类。</p>
+<p>（4）如果找到根类还是没有实现方案，这个时候就需要使用_objc_msgForward函数指针替代imp，最后来执行这个imp（动态方法实现）。</p>
+<p><img src="http://lastdays.cn/picture.jpg" alt=""></p>
+<p>也就是顺着这个结构进行查找。</p>
+<p>其实编译器会根据情况在<strong>objc_msgSend</strong>, <strong>objc_msgSend_stret</strong>, <strong>objc_msgSendSuper</strong>, 或 <strong>objc_msgSendSuper_stret</strong>四个方法中选择一个来调用。如果消息是传递给超类，那么会调用名字带有”Super”的函数；如果消息返回值是数据结构而不是简单值时，那么会调用名字带有”stret”的函数。排列组合正好四个方法。</p>
+<h2 id="u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><a href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790" class="headerlink" title="动态方法解析"></a>动态方法解析</h2><p>在进入消息转发之前，动态方法解析会在转发机制之前执行。</p>
+<p>调用resolveInstanceMethod（或者resolveClassMethod)：如果runtime在cache或者方法列表中没有找到目标实现方法，这个时候重载resolveInstanceMethod（或者resolveClassMethod)返回YES，可以动态添加方法。我们使用<strong>class_addMethod</strong>就可以向特定的类添加特定方法的实现：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">void dynamicMethodIMP(id self, SEL _cmd) &#123;</span><br><span class="line">    // implementation ....</span><br><span class="line">&#125;</span><br><span class="line">@implementation MyClass</span><br><span class="line">+ (BOOL)resolveInstanceMethod:(SEL)aSEL</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (aSEL == @selector(resolveThisMethodDynamically)) &#123;</span><br><span class="line">          class_addMethod([self class], aSEL, (IMP) dynamicMethodIMP, <span class="string">"v@:"</span>);</span><br><span class="line">          <span class="built_in">return</span> YES;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> [super resolveInstanceMethod:aSEL];</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>当然如果想进入转发机制，可以让resolveInstanceMethod返回NO。</p>
+<h2 id="u91CD_u5B9A_u5411"><a href="#u91CD_u5B9A_u5411" class="headerlink" title="重定向"></a>重定向</h2><p>在进入消息转发之前，runtime总是仁慈的提供给我们很多机会</p>
+<p>调用forwardingTargetForSelector:方法，尝试找到一个能响应该消息的对象。如果获取到，则直接转发给它。</p>
+<p>也就是说在进入消息转发机制之前我们可以通过重载forwardingTargetForSelector方法替换消息的接受者为其他对象，切记不能返回self，这样会进入死循环状态。如果返回了nil，继续下面的动作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (id)forwardingTargetForSelector:(SEL)aSelector</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(aSelector == @selector(mysteriousMethod:))&#123;</span><br><span class="line">        <span class="built_in">return</span> alternateObject;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> [super forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u6D88_u606F_u8F6C_u53D1"><a href="#u6D88_u606F_u8F6C_u53D1" class="headerlink" title="消息转发"></a>消息转发</h2><p>(1)调用methodSignatureForSelector:方法，尝试获得一个方法签名。如果获取不到，则直接调用doesNotRecognizeSelector抛出异常</p>
+<p>(2)调用forwardInvocation:方法，将地1步获取到的方法签名包装成Invocation传入，如何处理就在这里面了。</p>
+<p>这就是消息转发，当调用forwardInvocation的时候，我们同样可以重载forwardInvocation，来定义我们的转发逻辑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation</span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p><strong>resolveInstanceMethod</strong>，<strong>forwardingTargetForSelector</strong>，<strong>methodSignatureForSelector</strong>，<strong>forwardInvocation</strong>，这四个方法在开发的过程当中都可以进行override，使用runtime来调用，经常使用的可能是实现消息转发，就是重写方法<strong>methodSignatureForSelector</strong>和<strong>forwardInvocation</strong>，吞掉一个消息或者代理给其他对象都是没问题的。</p>
+<p>整个过程也可以用这个图表示：</p>
+<p><img src="http://7ni3rk.com1.z0.glb.clouddn.com/QQ20141113-1@2x.png?imageView2/2/w/800/q/75|watermark/2/text/eXVsaW5ndGlhbnhpYQ==/font/Y29taWMgc2FucyBtcw==/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10" alt=""></p>
+<h2 id="u4F18_u5316"><a href="#u4F18_u5316" class="headerlink" title="优化"></a>优化</h2><p>其实一个objc程序在启动的时候，需要一个准备时间，这个准备时间就是对cache的初始化，之后所有的消息发送都是先访问cache，这样的设计可以提高效率。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Runtime/">Runtime</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective—C消息发送与转发/">Objective—C消息发送与转发</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/02/20/runtime2/" data-title="Runtime 学习笔记(二) | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/20/runtime1/"  title="Runtime 学习笔记(一)">
+ <strong>下一篇：</strong><br/> 
+ <span>Runtime 学习笔记(一)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/20/runtime2/" data-title="Runtime 学习笔记(二)" data-url="http://Lastdays.cn/2016/02/20/runtime2/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><span class="toc-number">1.</span> <span class="toc-text">Objective—C消息发送与转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F"><span class="toc-number">1.1.</span> <span class="toc-text">消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F16_u8BD1_u8F6C_u5316"><span class="toc-number">1.2.</span> <span class="toc-text">编译转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc_msgSend"><span class="toc-number">1.3.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><span class="toc-number">1.4.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91CD_u5B9A_u5411"><span class="toc-number">1.5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F_u8F6C_u53D1"><span class="toc-number">1.6.</span> <span class="toc-text">消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F18_u5316"><span class="toc-number">1.8.</span> <span class="toc-text">优化</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢白菜的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?359a67e4b1b43ca291f946419c2423c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

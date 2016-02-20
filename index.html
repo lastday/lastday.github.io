@@ -80,6 +80,141 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/02/20/runtime2/" title="Runtime 学习笔记(二)" itemprop="url">Runtime 学习笔记(二)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-20T12:59:47.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><a href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1" class="headerlink" title="Objective—C消息发送与转发"></a>Objective—C消息发送与转发</h1><p>我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，<a href="http://lastdays.cn">LastDays</a></p>
+<h2 id="u6D88_u606F"><a href="#u6D88_u606F" class="headerlink" title="消息"></a>消息</h2><p>上一篇文章<a href="http://lastdays.cn/2016/02/17/runtime1/">Objective-C类和对象的实现原理</a>对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”</p>
+<h2 id="u7F16_u8BD1_u8F6C_u5316"><a href="#u7F16_u8BD1_u8F6C_u5316" class="headerlink" title="编译转化"></a>编译转化</h2><p>在[receiver message]的执行过程当中，[receiver message]是会被动态编译的，Objc是动态语言，因此它会想尽办法将编译连接推迟到运行时来做。runtime这个时实运行系统就是来执行编译后的代码，编译成什么样runtime才能认识呢？</p>
+<p>这里有段代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;Receiver.h&#34;&#10;&#10;int main(int argc, const char * argv[]) &#123;&#10;    @autoreleasepool &#123;&#10;            &#10;        Receiver *receiver = [[Receiver alloc] init];&#10;        [receiver message];&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/20/runtime2/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Runtime/">Runtime</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective—C消息发送与转发/">Objective—C消息发送与转发</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/20/runtime2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/20/runtime2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/20/runtime1/" title="Runtime 学习笔记(一)" itemprop="url">Runtime 学习笔记(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-20T12:50:02.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><a href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406" class="headerlink" title="Objective-C类和对象的实现原理"></a>Objective-C类和对象的实现原理</h1><p>我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
+<p>最近一直在了解runtime的实现原理，所以简单的分享一下。</p>
+<p>Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来</p>
+<p>在这里可以下载Runtime的源码：<a href="http://www.opensource.apple.com/tarballs/objc4/">objc4</a></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/20/runtime1/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Runtime/">Runtime</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective-C类和对象的实现原理/">Objective-C类和对象的实现原理</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/20/runtime1/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/20/runtime1/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/02/18/Nuclide/" title="ReactNative IDE Nuclide安装与配置" itemprop="url">ReactNative IDE Nuclide安装与配置</a>
   </h1>
   <p class="article-author">By
@@ -118,63 +253,6 @@
 	
 	  	<span></span>
 		<a href="/2016/02/18/Nuclide/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/18/Nuclide/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/17/runtime1/" title="runtime 学习笔记(一)" itemprop="url">runtime 学习笔记(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-17T02:48:09.000Z" itemprop="datePublished"> 发表于 2016-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><a href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406" class="headerlink" title="Objective-C类和对象的实现原理"></a>Objective-C类和对象的实现原理</h1><p>我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
-<p>最近一直在了解runtime的实现原理，所以简单的分享一下。</p>
-<p>Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来</p>
-<p>在这里可以下载Runtime的源码：<a href="http://www.opensource.apple.com/tarballs/objc4/">objc4</a></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/17/runtime1/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/17/runtime1/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/17/runtime1/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -441,19 +519,13 @@
 <aside class="clearfix">
 
   
-<div class="github-card">
-<p class="asidetitle">Github 名片</p>
-<div class="github-card" data-github="MrLoong" data-width="220" data-height="119" data-theme="medium">
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
-</div>
-  </div>
-
-
-
-  
 <div class="categorieslist">
 	<p class="asidetitle">分类</p>
 		<ul>
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>2</sup></a></li>
+		  
 		
 		  
 			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
@@ -467,6 +539,14 @@
 <div class="tagslist">
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>1</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
