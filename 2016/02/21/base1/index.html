@@ -21,7 +21,7 @@
 <meta property="og:description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
  我是LastDays,我的博客：LastDays.cn
 (1)Objective-c的类可以多重继承么?可以实现多个接口么?Category是什么?重写一个类的方式用继承好还是分类好?为什么?Objective-c的类不可以多重继承;可以实现多个接口，通过实现多个接">
-<meta property="og:updated_time" content="2016-02-20T16:09:17.000Z">
+<meta property="og:updated_time" content="2016-02-20T16:13:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 基础知识，你知道几个？（一）)">
 <meta name="twitter:description" content="iOS 基础知识，你知道几个？（一） 简介：一些iOS基础小知识，对面试有一些帮助，公交车上，地铁上没事翻翻，总结下来的。分享出来
@@ -92,7 +92,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-20T16:09:17.000Z" itemprop="datePublished"> 发表于 2016-02-21</time>
+    <time datetime="2016-02-20T16:13:17.000Z" itemprop="datePublished"> 发表于 2016-02-21</time>
     
   </p>
 </header>
@@ -115,6 +115,7 @@
 <p>4). retain 表示持有特性，setter方法将传入参数先保留，再赋值，传入参数的retaincount会+1;</p>
 <p>5). copy 表示赋值特性，setter方法将传入对象复制一份;需要完全一份新的变量时。</p>
 <p>6).nonatomic 非原子操作，决定编译器生成的setter getter是否是原子操作，atomic表示多线程安全，一般使用nonatomi</p>
+<a id="more"></a>
 <h3 id="284_29_u5199_u4E00_u4E2Asetter_u65B9_u6CD5_u7528_u4E8E_u5B8C_u6210@property__28nonatomic_2Cretain_29NSString_*name"><a href="#284_29_u5199_u4E00_u4E2Asetter_u65B9_u6CD5_u7528_u4E8E_u5B8C_u6210@property__28nonatomic_2Cretain_29NSString_*name" class="headerlink" title="(4)写一个setter方法用于完成@property (nonatomic,retain)NSString *name"></a>(4)写一个setter方法用于完成@property (nonatomic,retain)NSString *name</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void) <span class="built_in">set</span>Name:(NSString*) str</span><br><span class="line">&#123;</span><br><span class="line">[str retain];</span><br><span class="line">[name release];</span><br><span class="line">name = str;</span><br><span class="line">&#125;</span><br><span class="line">- (void)<span class="built_in">set</span>Name:(NSString *)str</span><br><span class="line">&#123;</span><br><span class="line">id t = [str copy];</span><br><span class="line">[name release];</span><br><span class="line">name = t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="285_29_u5BF9_u4E8E_u8BED_u53E5NSString*obj__3D__5B_5BNSData_alloc_5D_init_5D_3B_obj_u5728_u7F16_u8BD1_u65F6_u548C_u8FD0_u884C_u65F6_u5206_u522B_u65F6_u4EC0_u4E48_u7C7B_u578B_u7684_u5BF9_u8C61_3F"><a href="#285_29_u5BF9_u4E8E_u8BED_u53E5NSString*obj__3D__5B_5BNSData_alloc_5D_init_5D_3B_obj_u5728_u7F16_u8BD1_u65F6_u548C_u8FD0_u884C_u65F6_u5206_u522B_u65F6_u4EC0_u4E48_u7C7B_u578B_u7684_u5BF9_u8C61_3F" class="headerlink" title="(5)对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象?"></a>(5)对于语句NSString*obj = [[NSData alloc] init]; obj在编译时和运行时分别时什么类型的对象?</h3><p>编译时是NSString的类型;运行时是NSData类型的对象</p>
 <h3 id="286_29_u5E38_u89C1_u7684object-c_u7684_u6570_u636E_u7C7B_u578B_u6709_u90A3_u4E9B_uFF0C__u548CC_u7684_u57FA_u672C_u6570_u636E_u7C7B_u578B_u6709_u4EC0_u4E48_u533A_u522B_3F_u5982_uFF1ANSInteger_u548Cint"><a href="#286_29_u5E38_u89C1_u7684object-c_u7684_u6570_u636E_u7C7B_u578B_u6709_u90A3_u4E9B_uFF0C__u548CC_u7684_u57FA_u672C_u6570_u636E_u7C7B_u578B_u6709_u4EC0_u4E48_u533A_u522B_3F_u5982_uFF1ANSInteger_u548Cint" class="headerlink" title="(6)常见的object-c的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int"></a>(6)常见的object-c的数据类型有那些， 和C的基本数据类型有什么区别?如：NSInteger和int</h3><p>Objective-C的数据类型有NSString，NSNumber，NSArray，NSMutableArray，NSData等等，这些都是class，创建后便是对象，而C语言的基本数据类型int，只是一定字节的内存空间，用于存放数值;NSInteger是基本数据类型，并不是NSNumber的子类，当然也不是NSObject的子类。NSInteger是基本数据类型Int或者Long的别名(NSInteger的定义typedef long NSInteger)，它的区别在于，NSInteger会根据系统是32位还是64位来决定是本身是int还是Long。</p>
