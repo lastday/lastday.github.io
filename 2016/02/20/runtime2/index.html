@@ -22,8 +22,8 @@
 消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
 编译转化在[receiver me">
 <meta property="og:image" content="http://lastdays.cn/picture.jpg">
-<meta property="og:image" content="http://7ni3rk.com1.z0.glb.clouddn.com/QQ20141113-1@2x.png?imageView2/2/w/800/q/75|watermark/2/text/eXVsaW5ndGlhbnhpYQ==/font/Y29taWMgc2FucyBtcw==/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10">
-<meta property="og:updated_time" content="2016-02-20T12:59:47.000Z">
+<meta property="og:image" content="http://Lastdays.cn/image/runtime2.png">
+<meta property="og:updated_time" content="2016-02-20T13:07:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runtime 学习笔记(二)">
 <meta name="twitter:description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
@@ -94,7 +94,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-20T12:59:47.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    <time datetime="2016-02-20T13:07:28.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
     
   </p>
 </header>
@@ -162,7 +162,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation</span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p><strong>resolveInstanceMethod</strong>，<strong>forwardingTargetForSelector</strong>，<strong>methodSignatureForSelector</strong>，<strong>forwardInvocation</strong>，这四个方法在开发的过程当中都可以进行override，使用runtime来调用，经常使用的可能是实现消息转发，就是重写方法<strong>methodSignatureForSelector</strong>和<strong>forwardInvocation</strong>，吞掉一个消息或者代理给其他对象都是没问题的。</p>
 <p>整个过程也可以用这个图表示：</p>
-<p><img src="http://7ni3rk.com1.z0.glb.clouddn.com/QQ20141113-1@2x.png?imageView2/2/w/800/q/75|watermark/2/text/eXVsaW5ndGlhbnhpYQ==/font/Y29taWMgc2FucyBtcw==/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10" alt=""></p>
+<p><img src="/image/runtime2.png" alt=""></p>
 <h2 id="u4F18_u5316"><a href="#u4F18_u5316" class="headerlink" title="优化"></a>优化</h2><p>其实一个objc程序在启动的时候，需要一个准备时间，这个准备时间就是对cache的初始化，之后所有的消息发送都是先访问cache，这样的设计可以提高效率。</p>
   
 	</div>
