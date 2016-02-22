@@ -4,31 +4,36 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Runtime 学习笔记(二) | Lastdays&#39;s Blog</title>
+    <title>Runtime 学习笔记(总) | Lastdays&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Lastdays">
     
 
     
-    <meta name="description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
-消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
-编译转化在[receiver me">
+    <meta name="description" content="Objective-C类和对象的实现原理我是LastDays,我的博客：LastDays.cn
+最近一直在了解runtime的实现原理，所以简单的分享一下。
+Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来
+在这里可以下载Runtime的源码：objc4">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Runtime 学习笔记(二)">
-<meta property="og:url" content="http://Lastdays.cn/2016/02/20/runtime2/index.html">
+<meta property="og:title" content="Runtime 学习笔记(总)">
+<meta property="og:url" content="http://Lastdays.cn/2016/02/22/runtime/index.html">
 <meta property="og:site_name" content="Lastdays's Blog">
-<meta property="og:description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
-消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
-编译转化在[receiver me">
+<meta property="og:description" content="Objective-C类和对象的实现原理我是LastDays,我的博客：LastDays.cn
+最近一直在了解runtime的实现原理，所以简单的分享一下。
+Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来
+在这里可以下载Runtime的源码：objc4">
+<meta property="og:image" content="http://Lastdays.cn/2.jpg">
+<meta property="og:image" content="http://Lastdays.cn/picture.jpg">
 <meta property="og:image" content="http://lastdays.cn/picture.jpg">
 <meta property="og:image" content="http://Lastdays.cn/image/runtime2.png">
-<meta property="og:updated_time" content="2016-02-20T13:09:48.000Z">
+<meta property="og:updated_time" content="2016-02-22T03:20:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Runtime 学习笔记(二)">
-<meta name="twitter:description" content="Objective—C消息发送与转发我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，LastDays
-消息上一篇文章Objective-C类和对象的实现原理对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”
-编译转化在[receiver me">
+<meta name="twitter:title" content="Runtime 学习笔记(总)">
+<meta name="twitter:description" content="Objective-C类和对象的实现原理我是LastDays,我的博客：LastDays.cn
+最近一直在了解runtime的实现原理，所以简单的分享一下。
+Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来
+在这里可以下载Runtime的源码：objc4">
 
     
     <link rel="alternative" href="/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
@@ -87,14 +92,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/20/runtime2/" title="Runtime 学习笔记(二)" itemprop="url">Runtime 学习笔记(二)</a>
+      <a href="/2016/02/22/runtime/" title="Runtime 学习笔记(总)" itemprop="url">Runtime 学习笔记(总)</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-20T13:09:48.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    <time datetime="2016-02-22T03:20:44.000Z" itemprop="datePublished"> 发表于 2016-02-22</time>
     
   </p>
 </header>
@@ -103,16 +108,60 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><span class="toc-number">1.</span> <span class="toc-text">Objective—C消息发送与转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F"><span class="toc-number">1.1.</span> <span class="toc-text">消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F16_u8BD1_u8F6C_u5316"><span class="toc-number">1.2.</span> <span class="toc-text">编译转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc_msgSend"><span class="toc-number">1.3.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><span class="toc-number">1.4.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91CD_u5B9A_u5411"><span class="toc-number">1.5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F_u8F6C_u53D1"><span class="toc-number">1.6.</span> <span class="toc-text">消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F18_u5316"><span class="toc-number">1.8.</span> <span class="toc-text">优化</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><span class="toc-number">1.</span> <span class="toc-text">Objective-C类和对象的实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Class_u7ED3_u6784"><span class="toc-number">1.1.</span> <span class="toc-text">Class结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7C7B_u7684_u7EE7_u627F"><span class="toc-number">1.2.</span> <span class="toc-text">类的继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><span class="toc-number">2.</span> <span class="toc-text">Objective—C消息发送与转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F"><span class="toc-number">2.1.</span> <span class="toc-text">消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F16_u8BD1_u8F6C_u5316"><span class="toc-number">2.2.</span> <span class="toc-text">编译转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc_msgSend"><span class="toc-number">2.3.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><span class="toc-number">2.4.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91CD_u5B9A_u5411"><span class="toc-number">2.5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F_u8F6C_u53D1"><span class="toc-number">2.6.</span> <span class="toc-text">消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3-1"><span class="toc-number">2.7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F18_u5316"><span class="toc-number">2.8.</span> <span class="toc-text">优化</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><a href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1" class="headerlink" title="Objective—C消息发送与转发"></a>Objective—C消息发送与转发</h1><p>我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，<a href="http://lastdays.cn">LastDays</a></p>
+		<h1 id="Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><a href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406" class="headerlink" title="Objective-C类和对象的实现原理"></a>Objective-C类和对象的实现原理</h1><p>我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
+<p>最近一直在了解runtime的实现原理，所以简单的分享一下。</p>
+<p>Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来</p>
+<p>在这里可以下载Runtime的源码：<a href="http://www.opensource.apple.com/tarballs/objc4/" target="_blank" rel="external">objc4</a></p>
+<a id="more"></a>
+<h2 id="Class_u7ED3_u6784"><a href="#Class_u7ED3_u6784" class="headerlink" title="Class结构"></a>Class结构</h2><p>runtime中NSObject.mm中的一段代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">@protocol NSObject</span><br><span class="line"></span><br><span class="line">- (BOOL)isEqual:(id)object;</span><br><span class="line">- (NSUInteger)<span class="built_in">hash</span>;</span><br><span class="line"></span><br><span class="line">- (Class)superclass;</span><br><span class="line">- (Class)class;</span><br><span class="line">- (id)self;</span><br><span class="line">- (NSZone *)zone;</span><br><span class="line"></span><br><span class="line">- (id)performSelector:(SEL)aSelector;</span><br><span class="line">- (id)performSelector:(SEL)aSelector withObject:(id)object;</span><br><span class="line">- (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2;</span><br><span class="line"></span><br><span class="line">- (BOOL)isProxy;</span><br><span class="line"></span><br><span class="line">- (BOOL)isKindOfClass:(Class)aClass;</span><br><span class="line">- (BOOL)isMemberOfClass:(Class)aClass;</span><br><span class="line">- (BOOL)conformsToProtocol:(Protocol *)aProtocol;</span><br><span class="line"></span><br><span class="line">- (BOOL)respondsToSelector:(SEL)aSelector;</span><br><span class="line"></span><br><span class="line">- (id)retain;</span><br><span class="line">- (oneway void)release;</span><br><span class="line">- (id)autorelease;</span><br><span class="line">- (NSUInteger)retainCount;</span><br><span class="line"></span><br><span class="line">- (NSString *)description;</span><br><span class="line">- (NSString *)debugDescription;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">OBJC_EXPORT</span><br><span class="line">@interface NSObject &lt;NSObject&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>这段代码中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@interface NSObject &lt;NSObject&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>引起了我的关注,接着发现runtime中声明了id和Class两种类型：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// An opaque <span class="built_in">type</span> that represents an Objective-C class.</span><br><span class="line">typedef struct objc_class *Class;</span><br><span class="line"></span><br><span class="line">/// Represents an instance of a class.</span><br><span class="line">struct objc_object &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/// A pointer to an instance of a class.</span><br><span class="line">typedef struct objc_object *id;</span><br></pre></td></tr></table></figure>
+<p>在runtime的objc.h中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br><span class="line">typedef struct objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125; *id;</span><br></pre></td></tr></table></figure>
+<p>其实，Objective-C中的对象就是一个结构体，并且所有的对象都有一个相同的结构体。其实，Class就是类，id就是对象。而且我们可以看到每一个对象都有一个isa指针，这是这个isa就是指向该类。</p>
+<p>看一下objc_class：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">struct objc_class &#123;</span><br><span class="line">    Class isa;</span><br><span class="line"></span><br><span class="line"><span class="comment">#if !__OBJC2__</span></span><br><span class="line">    Class super_class                                        OBJC2_UNAVAILABLE;</span><br><span class="line">    const char *name                                         OBJC2_UNAVAILABLE;</span><br><span class="line">    long version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    long info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    long instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_method_list **methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_cache *cache                                 OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
+<p>进行一下简单的描述（如果不对希望大家能够指出）</p>
+<ul>
+<li>super_class   父类</li>
+<li>name          类名</li>
+<li>version       类版本信息（默认为0）</li>
+<li>info          类信息</li>
+<li>instance_size 实例变量大小</li>
+<li>ivars         成员变量</li>
+<li>methodLists   方法</li>
+<li>cache         方法缓存</li>
+<li>protocols     协议</li>
+</ul>
+<p>在这里我们同样也看到了一个isa指针，他被称为元类。这里Class其实看起来就像是一个对象，需要有地方去存储它的方法列表，类名等信息。那么元类就是Class的isa指针。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface LastDays : NSObject</span><br><span class="line"></span><br><span class="line">@property NSString *name;</span><br><span class="line"></span><br><span class="line">-(void)showName1;</span><br><span class="line"></span><br><span class="line">+(void)showName2;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@implementation LastDays</span><br><span class="line"></span><br><span class="line">-(void)showName1&#123;</span><br><span class="line">    NSLog(@<span class="string">"类"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(void)showName2&#123;</span><br><span class="line">    NSLog(@<span class="string">"元类"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><strong>所有LastDays的实例化对象的isa都指向LastDays(类)，LastDays中记录着父类类名,类版本信息（默认为0）,类信息,实例变量大小,成员变量,方法,方法缓存,协议等信息，那么LastDays中的isa指向了元类，元类中只记录着类名，类方法列表等，所有的元类指向一个根元类，根元类的isa指向自己，这样就实现了一个封闭的内循环</strong></p>
+<p><img src="/2.jpg" alt=""></p>
+<p>举例说明:                                                                         </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Lastdays *ly = [[LastDays] alloc] init]; //初始化ly</span><br><span class="line"></span><br><span class="line">[ly showName1];//发送showName1消息时，ly变量中的isa会遍历LastDays中的类方法列表找到showName1</span><br><span class="line"></span><br><span class="line">[LastDays showName2];//发送showName2时，LastDays的isa指针会遍历LastDays的元类类方法</span><br></pre></td></tr></table></figure>
+<h2 id="u7C7B_u7684_u7EE7_u627F"><a href="#u7C7B_u7684_u7EE7_u627F" class="headerlink" title="类的继承"></a>类的继承</h2><p>关于类的继承，其实我们可以根据类的实现可以推断出来。</p>
+<p>在<strong>objc_class</strong>结构中我们可以发现有一个super_class指针，其实这个指针是指向我们的父类。</p>
+<p>我们设计这么一种继承结构： LastDays：Last：NSObject</p>
+<p>如图所示就是继承实现的原理：</p>
+<p><img src="/picture.jpg" alt=""></p>
+<p>通过以上图形，根据蓝线我们可以看出，每个对象的isa都不为空，这样只要是有一个id类型的对象，通过runtime机制都可以获取该对象。</p>
+<p>根据黑线我们可以看出，最终继承自NSObject，并且NSObject的superclass为nil。</p>
+<p>同样也有很多公开的函数可以访问类信息</p>
+<p>例如：输出类方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">PrintObjectMethods</span></span>() &#123;</span><br><span class="line">  unsigned int count = <span class="number">0</span>;</span><br><span class="line">  Method *methods = class_copyMethodList(self,</span><br><span class="line">                                         &amp;count);</span><br><span class="line">  <span class="keyword">for</span> (unsigned int i = <span class="number">0</span>; i &lt; count; ++i) &#123;</span><br><span class="line">    SEL sel = method_getName(methods[i]);</span><br><span class="line">    const char *name = sel_getName(sel);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, name);</span><br><span class="line">  &#125;</span><br><span class="line">  free(methods);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>以上就是我对Objective-C类和对象的实现原理的理解，有什么问题或者错误欢迎大家在评论处指出。</p>
+<h1 id="Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><a href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1" class="headerlink" title="Objective—C消息发送与转发"></a>Objective—C消息发送与转发</h1><p>我是LastDays一个热爱分享交流的，一个喜欢白菜的90后，<a href="http://lastdays.cn">LastDays</a></p>
 <h2 id="u6D88_u606F"><a href="#u6D88_u606F" class="headerlink" title="消息"></a>消息</h2><p>上一篇文章<a href="http://lastdays.cn/2016/02/20/runtime1/">Objective-C类和对象的实现原理</a>对Objective-C类和对象的实现原理的实现原理进行了总结。我在最开始学习的时候，一直认为[receiver message]仅仅就是一个方法调用，但是后来深入学习以后才明白这是”发送消息”</p>
 <h2 id="u7F16_u8BD1_u8F6C_u5316"><a href="#u7F16_u8BD1_u8F6C_u5316" class="headerlink" title="编译转化"></a>编译转化</h2><p>在[receiver message]的执行过程当中，[receiver message]是会被动态编译的，Objc是动态语言，因此它会想尽办法将编译连接推迟到运行时来做。runtime这个时实运行系统就是来执行编译后的代码，编译成什么样runtime才能认识呢？</p>
 <p>这里有段代码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;Receiver.h&#34;&#10;&#10;int main(int argc, const char * argv[]) &#123;&#10;    @autoreleasepool &#123;&#10;            &#10;        Receiver *receiver = [[Receiver alloc] init];&#10;        [receiver message];&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
 <p>我们使用<a href="http://baike.baidu.com/link?url=ih_mOam2ZpW0a7GOQRoEfjX7pCLN3if2PCJFjlCyOnRC19pQJ9Ib_ZpZGB39b4JiCaYaaRgulQgTl279bVM41q" target="_blank" rel="external">clang</a>将main.m转换为c代码来看下结构</p>
 <p>我们终端下输入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang -rewrite-objc main.m</span><br></pre></td></tr></table></figure>
@@ -160,7 +209,7 @@
 <p>(2)调用forwardInvocation:方法，将地1步获取到的方法签名包装成Invocation传入，如何处理就在这里面了。</p>
 <p>这就是消息转发，当调用forwardInvocation的时候，我们同样可以重载forwardInvocation，来定义我们的转发逻辑：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation</span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p><strong>resolveInstanceMethod</strong>，<strong>forwardingTargetForSelector</strong>，<strong>methodSignatureForSelector</strong>，<strong>forwardInvocation</strong>，这四个方法在开发的过程当中都可以进行override，使用runtime来调用，经常使用的可能是实现消息转发，就是重写方法<strong>methodSignatureForSelector</strong>和<strong>forwardInvocation</strong>，吞掉一个消息或者代理给其他对象都是没问题的。</p>
+<h2 id="u603B_u7ED3-1"><a href="#u603B_u7ED3-1" class="headerlink" title="总结"></a>总结</h2><p><strong>resolveInstanceMethod</strong>，<strong>forwardingTargetForSelector</strong>，<strong>methodSignatureForSelector</strong>，<strong>forwardInvocation</strong>，这四个方法在开发的过程当中都可以进行override，使用runtime来调用，经常使用的可能是实现消息转发，就是重写方法<strong>methodSignatureForSelector</strong>和<strong>forwardInvocation</strong>，吞掉一个消息或者代理给其他对象都是没问题的。</p>
 <p>整个过程也可以用这个图表示：</p>
 <p><img src="/image/runtime2.png" alt=""></p>
 <h2 id="u4F18_u5316"><a href="#u4F18_u5316" class="headerlink" title="优化"></a>优化</h2><p>其实一个objc程序在启动的时候，需要一个准备时间，这个准备时间就是对cache的初始化，之后所有的消息发送都是先访问cache，这样的设计可以提高效率。</p>
@@ -177,7 +226,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Objective—C消息发送与转发/">Objective—C消息发送与转发</a>
+  <span></span> <a href="/tags/Objective-C类和对象的实现原理/">Objective-C类和对象的实现原理</a><a href="/tags/Objective—C消息发送与转发/">Objective—C消息发送与转发</a>
   </div>
 
 </div>
@@ -186,7 +235,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://Lastdays.cn/2016/02/20/runtime2/" data-title="Runtime 学习笔记(二) | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  <div data-url="http://Lastdays.cn/2016/02/22/runtime/" data-title="Runtime 学习笔记(总) | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -200,18 +249,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/02/22/runtime/" title="Runtime 学习笔记(总)">
+ <a href="/2016/02/22/base1/" title="iOS 基础知识，你知道几个？（一）">
   <strong>上一篇：</strong><br/>
   <span>
-  Runtime 学习笔记(总)</span>
+  iOS 基础知识，你知道几个？（一）</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/02/20/runtime1/"  title="Runtime 学习笔记(一)">
+<a href="/2016/02/20/runtime2/"  title="Runtime 学习笔记(二)">
  <strong>下一篇：</strong><br/> 
- <span>Runtime 学习笔记(一)
+ <span>Runtime 学习笔记(二)
 </span>
 </a>
 </div>
@@ -220,7 +269,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/02/20/runtime2/" data-title="Runtime 学习笔记(二)" data-url="http://Lastdays.cn/2016/02/20/runtime2/"></div>
+	<div class="ds-thread" data-thread-key="2016/02/22/runtime/" data-title="Runtime 学习笔记(总)" data-url="http://Lastdays.cn/2016/02/22/runtime/"></div>
 </section>
 
 
@@ -230,7 +279,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><span class="toc-number">1.</span> <span class="toc-text">Objective—C消息发送与转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F"><span class="toc-number">1.1.</span> <span class="toc-text">消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F16_u8BD1_u8F6C_u5316"><span class="toc-number">1.2.</span> <span class="toc-text">编译转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc_msgSend"><span class="toc-number">1.3.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><span class="toc-number">1.4.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91CD_u5B9A_u5411"><span class="toc-number">1.5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F_u8F6C_u53D1"><span class="toc-number">1.6.</span> <span class="toc-text">消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F18_u5316"><span class="toc-number">1.8.</span> <span class="toc-text">优化</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><span class="toc-number">1.</span> <span class="toc-text">Objective-C类和对象的实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Class_u7ED3_u6784"><span class="toc-number">1.1.</span> <span class="toc-text">Class结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7C7B_u7684_u7EE7_u627F"><span class="toc-number">1.2.</span> <span class="toc-text">类的继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective_u2014C_u6D88_u606F_u53D1_u9001_u4E0E_u8F6C_u53D1"><span class="toc-number">2.</span> <span class="toc-text">Objective—C消息发送与转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F"><span class="toc-number">2.1.</span> <span class="toc-text">消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7F16_u8BD1_u8F6C_u5316"><span class="toc-number">2.2.</span> <span class="toc-text">编译转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc_msgSend"><span class="toc-number">2.3.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u65B9_u6CD5_u89E3_u6790"><span class="toc-number">2.4.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u91CD_u5B9A_u5411"><span class="toc-number">2.5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D88_u606F_u8F6C_u53D1"><span class="toc-number">2.6.</span> <span class="toc-text">消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3-1"><span class="toc-number">2.7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F18_u5316"><span class="toc-number">2.8.</span> <span class="toc-text">优化</span></a></li></ol></li></ol>
  
   </div>
 
