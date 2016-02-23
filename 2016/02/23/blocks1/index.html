@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Lastdays's Blog">
 <meta property="og:description" content="Blocks的使用Blocks无论是在Objective-C还是Swift都被大量的应用，尤其是将函数作为一等公民的Swift。今天先分享给大家Blocks的集中语法,以及什么是Blocks;
 简介Blocks是C语言的一种扩展，被称为带自动变量的匿名函数，就是没有函数名的函数，在C语言中这种函数是肯定不允许存在的，但是在C语言中也可以实现，那就是通过函数指针，但是通过函数指针也需要知道函数名是什">
-<meta property="og:updated_time" content="2016-02-23T15:45:24.000Z">
+<meta property="og:updated_time" content="2016-02-23T15:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存管理之Blocks的实现（一）">
 <meta name="twitter:description" content="Blocks的使用Blocks无论是在Objective-C还是Swift都被大量的应用，尤其是将函数作为一等公民的Swift。今天先分享给大家Blocks的集中语法,以及什么是Blocks;
@@ -89,7 +89,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-23T15:45:24.000Z" itemprop="datePublished"> 发表于 2016-02-23</time>
+    <time datetime="2016-02-23T15:47:37.000Z" itemprop="datePublished"> 发表于 2016-02-23</time>
     
   </p>
 </header>
@@ -106,6 +106,7 @@
 <h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p>Blocks是C语言的一种扩展，被称为带自动变量的匿名函数，就是没有函数名的函数，在C语言中这种函数是肯定不允许存在的，但是在C语言中也可以实现，那就是通过函数指针，但是通过函数指针也需要知道函数名是什么，就像这样：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int addNum(int num);</span><br><span class="line">int (*funcptr)(int) = &amp;addNum;</span><br><span class="line">int result = (*funcptr)(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
 <p>但是在Blocks中我们可以使用匿名函数（不带名的函数），这样有什么好处？其实最基本的就是对我们的工作来说，每天做的事情就是在围绕函数名，变量名，属性名，类明…..。因此听起来还是挺好用的。</p>
+<a id="more"></a>
 <h2 id="u95ED_u5305_u6027"><a href="#u95ED_u5305_u6027" class="headerlink" title="闭包性"></a>闭包性</h2><p>在计算机科学中，Blocks拥有的特性被称为闭包，那么什么是闭包呢?</p>
 <p>闭包是指可以包含自由（未绑定到特定对象）变量的代码块；这些变量不是在这个代码块内或者任何全局上下文中定义的，而是在定义代码块的环境中定义（局部变量）。“闭包” 一词来源于以下两者的结合：要执行的代码块（由于自由变量被包含在代码块中，这些自由变量以及它们引用的对象没有被释放）和为自由变量提供绑定的计算环境（作用域）。在PHP、Scala、Scheme、Common Lisp、Smalltalk、Groovy、JavaScript、Ruby、 Python、Go、Lua、objective c、swift 以及Java（Java8及以上）等语言中都能找到对闭包不同程度的支持。</p>
 <p>举个例子：</p>
