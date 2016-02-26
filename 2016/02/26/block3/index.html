@@ -1,0 +1,537 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iOS内存管理之Blocks的实现（三） | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="__block的实现
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+使用__block看一下这段代码：
+123456789101112131415#import &amp;lt;Foundation/Foundation.h&amp;gt;int main(int argc, const char * argv[]) &amp;#123;    @aut">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS内存管理之Blocks的实现（三）">
+<meta property="og:url" content="http://Lastdays.cn/2016/02/26/block3/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="__block的实现
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+使用__block看一下这段代码：
+123456789101112131415#import &amp;lt;Foundation/Foundation.h&amp;gt;int main(int argc, const char * argv[]) &amp;#123;    @aut">
+<meta property="og:updated_time" content="2016-02-26T13:01:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS内存管理之Blocks的实现（三）">
+<meta name="twitter:description" content="__block的实现
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+使用__block看一下这段代码：
+123456789101112131415#import &amp;lt;Foundation/Foundation.h&amp;gt;int main(int argc, const char * argv[]) &amp;#123;    @aut">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">欢迎来到一个喜欢白菜的90后的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/26/block3/" title="iOS内存管理之Blocks的实现（三）" itemprop="url">iOS内存管理之Blocks的实现（三）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-26T13:01:03.000Z" itemprop="datePublished"> 发表于 2016-02-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#block_u7684_u5B9E_u73B0"><span class="toc-number">1.</span> <span class="toc-text">__block的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528__block"><span class="toc-number">1.1.</span> <span class="toc-text">使用__block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u8F6C_u5316_u5206_u6790"><span class="toc-number">1.2.</span> <span class="toc-text">转化分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="block_u7684_u5B9E_u73B0"><a href="#block_u7684_u5B9E_u73B0" class="headerlink" title="__block的实现"></a>__block的实现</h1><ul>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place" target="_blank" rel="external">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<h2 id="u4F7F_u7528__block"><a href="#u4F7F_u7528__block" class="headerlink" title="使用__block"></a>使用__block</h2><p>看一下这段代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果为：1</p>
+<p>疑惑的问题可能是为什么没有输出2？</p>
+<p><strong>其实原因很简单，block的isa指向该block的Class。当struct第一次被创建时，它是存在于该函数的栈帧上的，其Class是固定的_NSConcreteStackBlock。其捕获的变量是会赋值到结构体的成员上，所以当block初始化完成后，捕获到的变量不能更改。</strong></p>
+<p>如果我们希望在block语法中更改外部的自动变量x，这个时候我们需要使用__block说明符，就像这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        __block int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u8F6C_u5316_u5206_u6790"><a href="#u8F6C_u5316_u5206_u6790" class="headerlink" title="转化分析"></a>转化分析</h2><p>接下来就是讨论__block的实现原理,讲下面的代码转化为C的代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang -rewrite-objc main.m</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        __block int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转化后代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">struct __block_impl &#123;&#10;  void *isa;&#10;  int Flags;&#10;  int Reserved;&#10;  void *FuncPtr;&#10;&#125;;&#10;&#10;struct __Block_byref_x_0 &#123;&#10;  void *__isa;&#10;__Block_byref_x_0 *__forwarding;&#10; int __flags;&#10; int __size;&#10; int x;&#10;&#125;;&#10;&#10;struct __main_block_impl_0 &#123;&#10;  struct __block_impl impl;&#10;  struct __main_block_desc_0* Desc;&#10;  __Block_byref_x_0 *x; // by ref&#10;  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_x_0 *_x, int flags=0) : x(_x-&#62;__forwarding) &#123;&#10;    impl.isa = &#38;_NSConcreteStackBlock;&#10;    impl.Flags = flags;&#10;    impl.FuncPtr = fp;&#10;    Desc = desc;&#10;  &#125;&#10;&#125;;&#10;static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;&#10;  __Block_byref_x_0 *x = __cself-&#62;x; // bound by ref&#10;&#10;            (x-&#62;__forwarding-&#62;x) = 2;&#10;            printf(&#34;%d\n&#34;,(x-&#62;__forwarding-&#62;x));&#10;        &#125;&#10;static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) &#123;_Block_object_assign((void*)&#38;dst-&#62;x, (void*)src-&#62;x, 8/*BLOCK_FIELD_IS_BYREF*/);&#125;&#10;&#10;static void __main_block_dispose_0(struct __main_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&#62;x, 8/*BLOCK_FIELD_IS_BYREF*/);&#125;&#10;&#10;static struct __main_block_desc_0 &#123;&#10;  size_t reserved;&#10;  size_t Block_size;&#10;  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);&#10;  void (*dispose)(struct __main_block_impl_0*);&#10;&#125; __main_block_desc_0_DATA = &#123; 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0&#125;;&#10;int main(int argc, const char * argv[]) &#123;&#10;    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool; &#10;&#10;        __attribute__((__blocks__(byref))) __Block_byref_x_0 x = &#123;(void*)0,(__Block_byref_x_0 *)&#38;x, 0, sizeof(__Block_byref_x_0), 1&#125;;&#10;&#10;&#10;        void (*blk)(void) = ((void (*)())&#38;__main_block_impl_0((void *)__main_block_func_0, &#38;__main_block_desc_0_DATA, (__Block_byref_x_0 *)&#38;x, 570425344));&#10;&#10;        ((void (*)(__block_impl *))((__block_impl *)blk)-&#62;FuncPtr)((__block_impl *)blk);&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们并不能找到我们定义的x变量，但是却找到了一个新的结构体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct __Block_byref_x_0 &#123;</span><br><span class="line">  void *__isa;</span><br><span class="line">__Block_byref_x_0 *__forwarding;</span><br><span class="line"> int __flags;</span><br><span class="line"> int __size;</span><br><span class="line"> int x;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在这里我们找到了我们的声明的变量x，还记得<a href="http://lastdays.cn/2016/02/24/Blocks2/">iOS内存管理之Blocks的实现（二）</a>，分析得出，block被转化为了一个c函数，然后被调用。</p>
+<p>看一下我们的main函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__block int x = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>对应转化后的代码为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((__blocks__(byref))) __Block_byref_x_0 x = &#123;(void*)<span class="number">0</span>,(__Block_byref_x_0 *)&amp;x, <span class="number">0</span>, sizeof(__Block_byref_x_0), <span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>在这里我们基本上也就能看出来了，其实，这根我们的block的实现原理差不多，<strong>block转变为</strong>Block_byref_x_0结构体实例，那么这个实例中，也就拥有x成员变量。</p>
+<p>接着看一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>转化后对应的代码:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;</span><br><span class="line">  __Block_byref_x_0 *x = __cself-&gt;x; // bound by ref</span><br><span class="line"></span><br><span class="line">            (x-&gt;__forwarding-&gt;x) = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,(x-&gt;__forwarding-&gt;x));</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>在<strong>_<em> Block</em> byref_ x_0</strong>结构体中我们能发现，这个struct的首地址同样为<em>isa，并且我们可以简化一下<em>*_<em> Block</em> byref_ x_0</em></em>结构体的初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__Block_byref_x_0 x = &#123;</span><br><span class="line"><span class="number">0</span>,</span><br><span class="line">&amp;x, </span><br><span class="line"><span class="number">0</span>, </span><br><span class="line">sizeof(__Block_byref_x_0),</span><br><span class="line"> <span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看见，<strong>_<em> Block</em> byref_ x_0</strong>结构体成员中的<strong>__forwarding</strong>拥有指向该实例自身的指针，并且这里的x就相当于以下代码中的x：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>OK那么我们也就基本上分析出来了<strong>block的原理，其实跟block差不多，两者都拥有自己的结构体，并且是现实的时候都进行初始话处理。其实也就相当于main初始化调用 <em> main</em> block_ impl<em>0结构体,</em> main<em> block</em> impl_0结构体初始化调用</strong>Block<em> byref</em> x<em> 0 结构体和 __ block</em> impl结构体。 人后分别通过__forwarding与FuncPtr调用响应的东西。</p>
+<p>PS：为什么会有<strong>forwarding，接下来通过block和</strong>block的存储域分析。有什么问题，或者讨论，欢迎留言。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Blocks/">Blocks</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/02/26/block3/" data-title="iOS内存管理之Blocks的实现（三） | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/24/Blocks2/"  title="iOS内存管理之Blocks的实现（二）">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS内存管理之Blocks的实现（二）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/26/block3/" data-title="iOS内存管理之Blocks的实现（三）" data-url="http://Lastdays.cn/2016/02/26/block3/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#block_u7684_u5B9E_u73B0"><span class="toc-number">1.</span> <span class="toc-text">__block的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528__block"><span class="toc-number">1.1.</span> <span class="toc-text">使用__block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u8F6C_u5316_u5206_u6790"><span class="toc-number">1.2.</span> <span class="toc-text">转化分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢白菜的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -80,6 +80,97 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/02/26/block3/" title="iOS内存管理之Blocks的实现（三）" itemprop="url">iOS内存管理之Blocks的实现（三）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-26T13:01:03.000Z" itemprop="datePublished"> 发表于 2016-02-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="block_u7684_u5B9E_u73B0"><a href="#block_u7684_u5B9E_u73B0" class="headerlink" title="__block的实现"></a>__block的实现</h1><ul>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place" target="_blank" rel="external">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<h2 id="u4F7F_u7528__block"><a href="#u4F7F_u7528__block" class="headerlink" title="使用__block"></a>使用__block</h2><p>看一下这段代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果为：1</p>
+<p>疑惑的问题可能是为什么没有输出2？</p>
+<p><strong>其实原因很简单，block的isa指向该block的Class。当struct第一次被创建时，它是存在于该函数的栈帧上的，其Class是固定的_NSConcreteStackBlock。其捕获的变量是会赋值到结构体的成员上，所以当block初始化完成后，捕获到的变量不能更改。</strong></p>
+<p>如果我们希望在block语法中更改外部的自动变量x，这个时候我们需要使用__block说明符，就像这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        __block int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u8F6C_u5316_u5206_u6790"><a href="#u8F6C_u5316_u5206_u6790" class="headerlink" title="转化分析"></a>转化分析</h2><p>接下来就是讨论__block的实现原理,讲下面的代码转化为C的代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang -rewrite-objc main.m</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        __block int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转化后代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">struct __block_impl &#123;&#10;  void *isa;&#10;  int Flags;&#10;  int Reserved;&#10;  void *FuncPtr;&#10;&#125;;&#10;&#10;struct __Block_byref_x_0 &#123;&#10;  void *__isa;&#10;__Block_byref_x_0 *__forwarding;&#10; int __flags;&#10; int __size;&#10; int x;&#10;&#125;;&#10;&#10;struct __main_block_impl_0 &#123;&#10;  struct __block_impl impl;&#10;  struct __main_block_desc_0* Desc;&#10;  __Block_byref_x_0 *x; // by ref&#10;  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_x_0 *_x, int flags=0) : x(_x-&#62;__forwarding) &#123;&#10;    impl.isa = &#38;_NSConcreteStackBlock;&#10;    impl.Flags = flags;&#10;    impl.FuncPtr = fp;&#10;    Desc = desc;&#10;  &#125;&#10;&#125;;&#10;static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;&#10;  __Block_byref_x_0 *x = __cself-&#62;x; // bound by ref&#10;&#10;            (x-&#62;__forwarding-&#62;x) = 2;&#10;            printf(&#34;%d\n&#34;,(x-&#62;__forwarding-&#62;x));&#10;        &#125;&#10;static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) &#123;_Block_object_assign((void*)&#38;dst-&#62;x, (void*)src-&#62;x, 8/*BLOCK_FIELD_IS_BYREF*/);&#125;&#10;&#10;static void __main_block_dispose_0(struct __main_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&#62;x, 8/*BLOCK_FIELD_IS_BYREF*/);&#125;&#10;&#10;static struct __main_block_desc_0 &#123;&#10;  size_t reserved;&#10;  size_t Block_size;&#10;  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);&#10;  void (*dispose)(struct __main_block_impl_0*);&#10;&#125; __main_block_desc_0_DATA = &#123; 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0&#125;;&#10;int main(int argc, const char * argv[]) &#123;&#10;    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool; &#10;&#10;        __attribute__((__blocks__(byref))) __Block_byref_x_0 x = &#123;(void*)0,(__Block_byref_x_0 *)&#38;x, 0, sizeof(__Block_byref_x_0), 1&#125;;&#10;&#10;&#10;        void (*blk)(void) = ((void (*)())&#38;__main_block_impl_0((void *)__main_block_func_0, &#38;__main_block_desc_0_DATA, (__Block_byref_x_0 *)&#38;x, 570425344));&#10;&#10;        ((void (*)(__block_impl *))((__block_impl *)blk)-&#62;FuncPtr)((__block_impl *)blk);&#10;    &#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们并不能找到我们定义的x变量，但是却找到了一个新的结构体：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct __Block_byref_x_0 &#123;</span><br><span class="line">  void *__isa;</span><br><span class="line">__Block_byref_x_0 *__forwarding;</span><br><span class="line"> int __flags;</span><br><span class="line"> int __size;</span><br><span class="line"> int x;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在这里我们找到了我们的声明的变量x，还记得<a href="http://lastdays.cn/2016/02/24/Blocks2/">iOS内存管理之Blocks的实现（二）</a>，分析得出，block被转化为了一个c函数，然后被调用。</p>
+<p>看一下我们的main函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__block int x = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>对应转化后的代码为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((__blocks__(byref))) __Block_byref_x_0 x = &#123;(void*)<span class="number">0</span>,(__Block_byref_x_0 *)&amp;x, <span class="number">0</span>, sizeof(__Block_byref_x_0), <span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>在这里我们基本上也就能看出来了，其实，这根我们的block的实现原理差不多，<strong>block转变为</strong>Block_byref_x_0结构体实例，那么这个实例中，也就拥有x成员变量。</p>
+<p>接着看一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>转化后对应的代码:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;</span><br><span class="line">  __Block_byref_x_0 *x = __cself-&gt;x; // bound by ref</span><br><span class="line"></span><br><span class="line">            (x-&gt;__forwarding-&gt;x) = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,(x-&gt;__forwarding-&gt;x));</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>在<strong>_<em> Block</em> byref_ x_0</strong>结构体中我们能发现，这个struct的首地址同样为<em>isa，并且我们可以简化一下<em>*_<em> Block</em> byref_ x_0</em></em>结构体的初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__Block_byref_x_0 x = &#123;</span><br><span class="line"><span class="number">0</span>,</span><br><span class="line">&amp;x, </span><br><span class="line"><span class="number">0</span>, </span><br><span class="line">sizeof(__Block_byref_x_0),</span><br><span class="line"> <span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看见，<strong>_<em> Block</em> byref_ x_0</strong>结构体成员中的<strong>__forwarding</strong>拥有指向该实例自身的指针，并且这里的x就相当于以下代码中的x：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void (^blk)(void) = ^&#123;</span><br><span class="line">            x = <span class="number">2</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>OK那么我们也就基本上分析出来了<strong>block的原理，其实跟block差不多，两者都拥有自己的结构体，并且是现实的时候都进行初始话处理。其实也就相当于main初始化调用 <em> main</em> block_ impl<em>0结构体,</em> main<em> block</em> impl_0结构体初始化调用</strong>Block<em> byref</em> x<em> 0 结构体和 __ block</em> impl结构体。 人后分别通过__forwarding与FuncPtr调用响应的东西。</p>
+<p>PS：为什么会有<strong>forwarding，接下来通过block和</strong>block的存储域分析。有什么问题，或者讨论，欢迎留言。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Blocks/">Blocks</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/26/block3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/26/block3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/02/24/Blocks2/" title="iOS内存管理之Blocks的实现（二）" itemprop="url">iOS内存管理之Blocks的实现（二）</a>
   </h1>
   <p class="article-author">By
@@ -649,65 +740,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/IP/" title="IP协议总结" itemprop="url">IP协议总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-03T16:53:50.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002"><a href="#IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002" class="headerlink" title="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。"></a>IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</h1><h2 id="u7F51_u7EDC_u5C42_u6982_u8FF0"><a href="#u7F51_u7EDC_u5C42_u6982_u8FF0" class="headerlink" title="网络层概述"></a>网络层概述</h2><h3 id="IP_u670D_u52A1_u7279_u70B9_3A"><a href="#IP_u670D_u52A1_u7279_u70B9_3A" class="headerlink" title="IP服务特点:"></a>IP服务特点:</h3><p>IP协议为上层协议提供无状态，无连接，不可靠的服务。</p>
-<ul>
-<li>无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的状态也是有优点的，它简单高效，因为我们无需为保证它的状态而分配一些内核数据结构。</li>
-<li>无连接：通信双方都不长久的维持对方的任何信息，那么就需要上层协议去指定传输的IP地址。</li>
-<li>不可靠服务：不可靠指的是IP协议不能保证IP数据报完整并且准确的到达接收端。因此使用IP的上层协议需要自己做数据确认，超时重传等可靠传输机制。</li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/IP/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/IP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/IP/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -726,7 +758,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>2</sup></a></li>
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
 		  
 		
 		  
