@@ -1,0 +1,523 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="iOS设计模式-适配器简介很好奇，什么是适配器，大家有没有听说过电源适配器，其实原理都是一样的，就是说我们的iPhone手机，在中国，可以用iPhone充电器给手机充电，都知道，中国的电压是220V，对吧，我们的iPhone额定输入电压是5V，其实这就是我们适配器的功劳，而且，我们的充电器在中国能用，当然如果我们去了美国，没过不是220V，难道我们的手机就不能充电了吗？当然肯定不会，总结来说：在计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lastdays's Blog">
+<meta property="og:url" content="http://Lastdays.cn/2016/02/29/Adapter/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="iOS设计模式-适配器简介很好奇，什么是适配器，大家有没有听说过电源适配器，其实原理都是一样的，就是说我们的iPhone手机，在中国，可以用iPhone充电器给手机充电，都知道，中国的电压是220V，对吧，我们的iPhone额定输入电压是5V，其实这就是我们适配器的功劳，而且，我们的充电器在中国能用，当然如果我们去了美国，没过不是220V，难道我们的手机就不能充电了吗？当然肯定不会，总结来说：在计">
+<meta property="og:image" content="http://Lastdays.cn/Adapter/image/1.jpg">
+<meta property="og:image" content="http://Lastdays.cn/Adapter/image/2.jpg">
+<meta property="og:image" content="http://Lastdays.cn/Adapter/image/3.jpg">
+<meta property="og:updated_time" content="2016-02-29T13:35:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lastdays's Blog">
+<meta name="twitter:description" content="iOS设计模式-适配器简介很好奇，什么是适配器，大家有没有听说过电源适配器，其实原理都是一样的，就是说我们的iPhone手机，在中国，可以用iPhone充电器给手机充电，都知道，中国的电压是220V，对吧，我们的iPhone额定输入电压是5V，其实这就是我们适配器的功劳，而且，我们的充电器在中国能用，当然如果我们去了美国，没过不是220V，难道我们的手机就不能充电了吗？当然肯定不会，总结来说：在计">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">欢迎来到一个喜欢白菜的90后的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/29/Adapter/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-29T13:35:48.000Z" itemprop="datePublished"> 发表于 2016-02-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS_u8BBE_u8BA1_u6A21_u5F0F-_u9002_u914D_u5668"><span class="toc-number">1.</span> <span class="toc-text">iOS设计模式-适配器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B80_u4ECB"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4E3A_u4F55_u4F7F_u7528_u9002_u914D_u5668_uFF1F"><span class="toc-number">1.2.</span> <span class="toc-text">为何使用适配器？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u76F4_u63A5_u8D4B_u503C_u7684_u7F3A_u70B9"><span class="toc-number">1.2.1.</span> <span class="toc-text">直接赋值的缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528_u9002_u914D_u5668_u6A21_u578B"><span class="toc-number">1.3.</span> <span class="toc-text">使用适配器模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4F18_u70B9"><span class="toc-number">1.4.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7F3A_u70B9"><span class="toc-number">1.4.2.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="iOS_u8BBE_u8BA1_u6A21_u5F0F-_u9002_u914D_u5668"><a href="#iOS_u8BBE_u8BA1_u6A21_u5F0F-_u9002_u914D_u5668" class="headerlink" title="iOS设计模式-适配器"></a>iOS设计模式-适配器</h1><h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p>很好奇，什么是适配器，大家有没有听说过电源适配器，其实原理都是一样的，就是说我们的iPhone手机，在中国，可以用iPhone充电器给手机充电，都知道，中国的电压是220V，对吧，我们的iPhone额定输入电压是5V，其实这就是我们适配器的功劳，而且，我们的充电器在中国能用，当然如果我们去了美国，没过不是220V，难道我们的手机就不能充电了吗？当然肯定不会，总结来说：<strong>在计算机编程中，适配器模式（有时候也称包装样式或者包装）将一个类的接口适配成用户所期待的。一个适配允许通常因为接口不兼容而不能在一起工作的类工作在一起，做法是将类自己的接口包裹在一个已存在的类中。</strong>        </p>
+<h2 id="u4E3A_u4F55_u4F7F_u7528_u9002_u914D_u5668_uFF1F"><a href="#u4E3A_u4F55_u4F7F_u7528_u9002_u914D_u5668_uFF1F" class="headerlink" title="为何使用适配器？"></a>为何使用适配器？</h2><h3 id="u76F4_u63A5_u8D4B_u503C_u7684_u7F3A_u70B9"><a href="#u76F4_u63A5_u8D4B_u503C_u7684_u7F3A_u70B9" class="headerlink" title="直接赋值的缺点"></a>直接赋值的缺点</h3><p>最简单明了就是直接写一个示例来说名</p>
+<p>制作一张卡片：</p>
+<p><img src="/Adapter/image/1.jpg" alt=""></p>
+<p>对卡片的数据直接赋值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"><span class="comment">#import "BusinessCard.h"</span></span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    BusinessCard *card = [[BusinessCard alloc] initWithFrame:BUSINESS_FRAME];</span><br><span class="line">    card.name = @<span class="string">"姓名"</span>;</span><br><span class="line">    card.color = [UIColor blueColor];</span><br><span class="line">    card.phoneNumber = @<span class="string">"电话"</span>;</span><br><span class="line">    </span><br><span class="line">    card.center = self.view.center;</span><br><span class="line">   </span><br><span class="line">    </span><br><span class="line">    [self.view addSubview:card];</span><br><span class="line"> </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="/Adapter/image/2.jpg" alt=""></p>
+<p>非常简单的一个示例，这基本上就是我们以前经常使用的一种方法直接赋值，这种的缺点，其实很简单，就是耦合性太强了，简简单单的移除更改，可能就会造成很多地方进行更改。现在看起来很简单就更改，但是如果我们的数据很多很多呢？</p>
+<p>因此我们现在简单的来改进一下，设计一个model。并且在BusinessCard添加如下代码:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10; *  &#21021;&#22987;&#21270;&#25968;&#25454;&#10; *&#10; *  @param model BusinessCard&#10; */&#10;-(void)loadDataWithModel:(Model *)model&#123;&#10;    self.name        = model.name;&#10;    self.phoneNumber = model.phoneNumber;&#10;    self.line        = model.lineColor;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>ViewController:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib</span><br><span class="line">    Model *model = [[Model alloc] initWithName:@<span class="string">"lastdays"</span> phoneNumber:@<span class="string">"158******1111"</span> lineColor:[UIColor blueColor]];</span><br><span class="line">    BusinessCard *card = [[BusinessCard alloc] initWithFrame:BUSINESS_FRAME];</span><br><span class="line">    card.center = self.view.center;</span><br><span class="line">    [card loadDataWithModel:model];</span><br><span class="line">    [self.view addSubview:card];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>这样就降低了一些耦合性，这就是以对象形式赋值。</p>
+<p>但是我们现在来阐述一个很致命的问题，那就是如果我们来了一个新的Model数据类型，其中的UIcolor是二进制形的。跟我们原来处理的数据类型不符合？这个时候怎么办？</p>
+<p>其实解决方案很简单，这也就是上面提到过的，电源适配器原理。</p>
+<h2 id="u4F7F_u7528_u9002_u914D_u5668_u6A21_u578B"><a href="#u4F7F_u7528_u9002_u914D_u5668_u6A21_u578B" class="headerlink" title="使用适配器模型"></a>使用适配器模型</h2><p>电源有输入和输出，当然我们先来构建适配器</p>
+<p>CardAdapterProtocol:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"><span class="comment">#import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line">@protocol CardAdapterProtocol &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (NSString *)name;</span><br><span class="line"></span><br><span class="line">- (UIColor *)lineColor;</span><br><span class="line"></span><br><span class="line">- (NSString *)phoneNumber;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>CardAdapter:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"><span class="comment">#import "CardAdapterProtocol.h"</span></span><br><span class="line"><span class="comment">#import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@interface CardAdapter : NSObject&lt;CardAdapterProtocol&gt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  建立输入关系</span><br><span class="line"> */</span><br><span class="line">@property(nonatomic,weak) id data;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  与输入对象建立联系</span><br><span class="line"> *</span><br><span class="line"> *  @param data 输入的对象</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 当前实例对象</span><br><span class="line"> */</span><br><span class="line">- (instancetype)initWithModel:(id)data;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line"><span class="comment">#import "CardAdapter.h"</span></span><br><span class="line"></span><br><span class="line">@implementation CardAdapter</span><br><span class="line"></span><br><span class="line">- (NSString *)name&#123;</span><br><span class="line">    <span class="built_in">return</span> nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (UIColor *)lineColor&#123;</span><br><span class="line">    <span class="built_in">return</span> nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)phoneNumber&#123;</span><br><span class="line">    <span class="built_in">return</span> nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>这里我们构建了<strong>CardAdapterProtocol</strong>协议，以及抽象类<strong>CardAdapter</strong>，接下来就是创建<strong>ModelCardAdapter</strong>，这就是针对<strong>Model</strong>构建的适配器，然后覆盖内部方法进行重写。</p>
+<p>这里需要做一下说明<strong>CardAdapter</strong>中通过<strong>initWithModel</strong>建立与Model的输入关系，就是我们在国内用充电器给手机充电，CardAdapter与Model的关系就是充电器跟220V电压的关系。</p>
+<p>接下来就该建立充电器跟手机的关系了，这里面相当于构建CardAdapter和View的关系。</p>
+<p>BusinessCard</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  初始化卡片数据</span><br><span class="line"> *</span><br><span class="line"> *  @param model BusinessCard</span><br><span class="line"> */</span><br><span class="line">-(void)loadDataWithModel:(id&lt;CardAdapterProtocol&gt;)data&#123;</span><br><span class="line">    self.name        = [data name];</span><br><span class="line">    self.phoneNumber = [data phoneNumber];</span><br><span class="line">    self.line        = [data lineColor];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，我们基本上就完成了构建,测试：</p>
+<p>ViewController：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"><span class="comment">#import "BusinessCard.h"</span></span><br><span class="line"><span class="comment">#import "Model.h"</span></span><br><span class="line"><span class="comment">#import "ModelCardAdapter.h"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    Model *model = [[Model alloc] initWithName:@<span class="string">"lastdays"</span> phoneNumber:@<span class="string">"158******1111"</span> lineColor:[UIColor blueColor]];</span><br><span class="line">    </span><br><span class="line">    //建立充电器跟电源关系</span><br><span class="line">    CardAdapter *cardAdapter = [[ModelCardAdapter alloc] initWithModel:model];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    BusinessCard *card = [[BusinessCard alloc] initWithFrame:BUSINESS_FRAME];</span><br><span class="line">    card.center = self.view.center;</span><br><span class="line">    </span><br><span class="line">    //建立手机跟充电器关系</span><br><span class="line">    [card loadDataWithModel:cardAdapter];</span><br><span class="line">    [self.view addSubview:card];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>测试结果：</p>
+<p><img src="/Adapter/image/3.jpg" alt=""></p>
+<p>以上我们使用的就是类适配器，当然还有一种叫做对象适配器，就是说无论我们是220V，还是100V，用这一个充电器都能给手机充电。这种如何实现？简单的说就是我们可以构建一个<strong>Adapter</strong>继承<strong>CardAdapter</strong>,简单的举个例子</p>
+<p>Adapter</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (NSString *)name &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *name = nil;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([self.data isMemberOfClass:[Model class]]) &#123;</span><br><span class="line">        </span><br><span class="line">        Model *model = self.data;</span><br><span class="line">        name         = model.name;</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([self.data isMemberOfClass:[NewCardModel class]]) &#123;</span><br><span class="line">        </span><br><span class="line">        NewCardModel *model = self.data;</span><br><span class="line">        name                = model.name;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根绝对象类型进行判断返回哪种处理结果。这种其实并不推荐，因为什么？因为现在的数据模型比较少，如果有10个，20个数据模型，那这个类到最好会非常的臃肿，并不方便我们维护。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><h3 id="u4F18_u70B9"><a href="#u4F18_u70B9" class="headerlink" title="优点"></a>优点</h3><p>优点显而易见，就是让适配器可以让我们的View更加强大，可以适配不同的数据，降低我们的耦合性</p>
+<h3 id="u7F3A_u70B9"><a href="#u7F3A_u70B9" class="headerlink" title="缺点"></a>缺点</h3><p>其实在代码中就可以看出来，一个简单赋值的东西，用了这么多东西，比较麻烦，有的时候是很繁琐的。但是呢？话又说回来，我们如果做了一个很牛的控件，为了提高它的通用性，加一个适配器会更好一些。 当我们的代码能力增加。但是呢？ 这同样也是一个缺点，那就是代码的可读性不好。这点的权衡就靠自己来衡量，虽然麻烦一些，但是确实能够提高扩展性。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/02/29/Adapter/" data-title="Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/26/block3/"  title="iOS内存管理之Blocks的实现（三）">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS内存管理之Blocks的实现（三）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/29/Adapter/" data-title="" data-url="http://Lastdays.cn/2016/02/29/Adapter/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS_u8BBE_u8BA1_u6A21_u5F0F-_u9002_u914D_u5668"><span class="toc-number">1.</span> <span class="toc-text">iOS设计模式-适配器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7B80_u4ECB"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4E3A_u4F55_u4F7F_u7528_u9002_u914D_u5668_uFF1F"><span class="toc-number">1.2.</span> <span class="toc-text">为何使用适配器？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u76F4_u63A5_u8D4B_u503C_u7684_u7F3A_u70B9"><span class="toc-number">1.2.1.</span> <span class="toc-text">直接赋值的缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528_u9002_u914D_u5668_u6A21_u578B"><span class="toc-number">1.3.</span> <span class="toc-text">使用适配器模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4F18_u70B9"><span class="toc-number">1.4.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7F3A_u70B9"><span class="toc-number">1.4.2.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢白菜的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
