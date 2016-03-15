@@ -1,0 +1,544 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>UITableView 从设计到到优化 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="UITableView 从设计到到优化
+LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+经常使用UITableView，在一些应用，发现他们写的TableView非常的流畅漂亮，因此自己准备系统的学习一下TableView，最后进行一下总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UITableView 从设计到到优化">
+<meta property="og:url" content="http://Lastdays.cn/2016/03/15/UITableView/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="UITableView 从设计到到优化
+LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+经常使用UITableView，在一些应用，发现他们写的TableView非常的流畅漂亮，因此自己准备系统的学习一下TableView，最后进行一下总结">
+<meta property="og:updated_time" content="2016-03-15T03:58:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UITableView 从设计到到优化">
+<meta name="twitter:description" content="UITableView 从设计到到优化
+LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+经常使用UITableView，在一些应用，发现他们写的TableView非常的流畅漂亮，因此自己准备系统的学习一下TableView，最后进行一下总结">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">欢迎来到一个90后开发者的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/15/UITableView/" title="UITableView 从设计到到优化" itemprop="url">UITableView 从设计到到优化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-15T03:58:40.000Z" itemprop="datePublished"> 发表于 2016-03-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UITableView__u4ECE_u8BBE_u8BA1_u5230_u5230_u4F18_u5316"><span class="toc-number">1.</span> <span class="toc-text">UITableView 从设计到到优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8BBE_u8BA1"><span class="toc-number">1.1.</span> <span class="toc-text">设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UITableView_u4F18_u5316_u6280_u5DE7"><span class="toc-number">1.2.</span> <span class="toc-text">UITableView优化技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UITableViewCell_u7684_u91CD_u7528"><span class="toc-number">1.2.1.</span> <span class="toc-text">UITableViewCell的重用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u56DE_u8C03_u5206_u6790"><span class="toc-number">1.2.2.</span> <span class="toc-text">回调分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u5355_u4F18_u5316"><span class="toc-number">1.2.3.</span> <span class="toc-text">简单优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u52A8_u6001_u6309_u9700_u52A0_u8F7D"><span class="toc-number">1.2.4.</span> <span class="toc-text">动态按需加载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="UITableView__u4ECE_u8BBE_u8BA1_u5230_u5230_u4F18_u5316"><a href="#UITableView__u4ECE_u8BBE_u8BA1_u5230_u5230_u4F18_u5316" class="headerlink" title="UITableView 从设计到到优化"></a>UITableView 从设计到到优化</h1><ul>
+<li>LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place" target="_blank" rel="external">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<p>经常使用UITableView，在一些应用，发现他们写的TableView非常的流畅漂亮，因此自己准备系统的学习一下TableView，最后进行一下总结</p>
+<a id="more"></a>  
+<h2 id="u8BBE_u8BA1"><a href="#u8BBE_u8BA1" class="headerlink" title="设计"></a>设计</h2><p>总结了以下的基本使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  ViewController.m</span><br><span class="line">//  TableView</span><br><span class="line">//</span><br><span class="line">//  Created by LastDay on <span class="number">16</span>/<span class="number">3</span>/<span class="number">13</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"></span><br><span class="line">@interface ViewController ()&lt;UITableViewDelegate,UITableViewDataSource&gt;</span><br><span class="line">@property (weak, nonatomic) IBOutlet UITableView *tableView;</span><br><span class="line">@property (nonatomic,strong) NSDictionary *myDictonary;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    </span><br><span class="line">    NSArray *oneArray = @[@<span class="string">"LastDays1"</span>,@<span class="string">"LastDays2"</span>,@<span class="string">"LastDays3"</span>];</span><br><span class="line">    NSArray *twoArray = @[@<span class="string">"白菜1"</span>,@<span class="string">"白菜2"</span>,@<span class="string">"白菜3"</span>];</span><br><span class="line">    NSArray *threeArray = @[@<span class="string">"小猪1"</span>,@<span class="string">"小猪2"</span>,@<span class="string">"小猪3"</span>];</span><br><span class="line">    </span><br><span class="line">    self.myDictonary = @&#123;@<span class="string">"LastDays"</span>:oneArray,@<span class="string">"白菜"</span>:twoArray,@<span class="string">"小猪"</span>:threeArray&#125;;</span><br><span class="line">    </span><br><span class="line">    [self configureTbaleView];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  配置TableView基本属性</span><br><span class="line"> */</span><br><span class="line">-(void)configureTbaleView&#123;</span><br><span class="line">    //改变行线颜色</span><br><span class="line">    _tableView.separatorColor = [UIColor blueColor];</span><br><span class="line">    //设定Header的高度，</span><br><span class="line">    _tableView.sectionHeaderHeight=<span class="number">100</span>;</span><br><span class="line">    //设定footer的高度，</span><br><span class="line">    _tableView.sectionFooterHeight=<span class="number">100</span>;</span><br><span class="line">    //设定行高</span><br><span class="line">    _tableView.rowHeight=<span class="number">100</span>;</span><br><span class="line">    //设定cell分行线的样式，默认为UITableViewCellSeparatorStyleSingleLine</span><br><span class="line">    [_tableView <span class="built_in">set</span>SeparatorStyle:UITableViewCellSeparatorStyleSingleLine];</span><br><span class="line">    //设定cell分行线颜色</span><br><span class="line">    [_tableView <span class="built_in">set</span>SeparatorColor:[UIColor redColor]];</span><br><span class="line">    //编辑tableView</span><br><span class="line">    _tableView.editing=NO;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  指定多少个分区</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> myDictonary键值个数</span><br><span class="line"> */</span><br><span class="line">-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView&#123;</span><br><span class="line">    <span class="built_in">return</span> [[_myDictonary allKeys] count];</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *  指定每个分区中有多少行</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 返回当前section所需行数</span><br><span class="line"> */</span><br><span class="line">-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section&#123;</span><br><span class="line">    <span class="built_in">return</span> [[self.myDictonary objectForKey:[[self.myDictonary allKeys]objectAtIndex:section]] count];;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  section底部标题高度（实现这个代理方法后前面 sectionHeaderHeight 设定的高度无效）</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 底部标题所需高度</span><br><span class="line"> */</span><br><span class="line">-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section&#123;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  每个section头部标题高度（实现这个代理方法后前面 sectionFooterHeight 设定的高度无效）</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 头部标题所需高度</span><br><span class="line"> */</span><br><span class="line">-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section&#123;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  每个section头部标题</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 头部标题</span><br><span class="line"> */</span><br><span class="line">- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section&#123;</span><br><span class="line">    <span class="built_in">return</span> [[self.myDictonary allKeys] objectAtIndex:section];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  每个人section底部标题</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 底部标题</span><br><span class="line"> */</span><br><span class="line">- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section&#123;</span><br><span class="line">    <span class="built_in">return</span> @<span class="string">"底部标题"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  自定义section头部View，想测试可以去掉注释</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 自定义UIView</span><br><span class="line"> */</span><br><span class="line">-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section&#123;</span><br><span class="line">    </span><br><span class="line">//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>)];</span><br><span class="line">//    imageView.image = [UIImage imageNamed:@<span class="string">"author.png"</span>];</span><br><span class="line">//    <span class="built_in">return</span> imageView;</span><br><span class="line">    <span class="built_in">return</span> nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  自定义底部View</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param section   section</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 自定义UIView</span><br><span class="line"> */</span><br><span class="line">-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section&#123;</span><br><span class="line">    <span class="built_in">return</span> nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  改变行高，需要注意，实现这个代理方法后， rowHeight 设定的高度无效无效</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 返回行高</span><br><span class="line"> */</span><br><span class="line">-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  绘制Cell</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> Cell</span><br><span class="line"> */</span><br><span class="line">-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    </span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"Cell"</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (cell == nil) &#123;</span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@<span class="string">"Cell"</span>];</span><br><span class="line">        /**</span><br><span class="line">         *  设定附加视图</span><br><span class="line">         *  UITableViewCellAccessoryNone,                    没有标示</span><br><span class="line">         *  UITableViewCellAccessoryDisclosureIndicator,     下一层标示</span><br><span class="line">         *  UITableViewCellAccessoryDetailDisclosureButton,  详情button</span><br><span class="line">         *  UITableViewCellAccessoryCheckmark                勾选标记</span><br><span class="line">         */</span><br><span class="line">        [cell <span class="built_in">set</span>AccessoryType:UITableViewCellAccessoryDetailDisclosureButton];</span><br><span class="line">        </span><br><span class="line">        /**</span><br><span class="line">         *  选定cell时改变颜色</span><br><span class="line">         *  cell.selectionStyle=UITableViewCellSelectionStyleBlue;   选中时蓝色效果</span><br><span class="line">         *  cell.selectionStyle=UITableViewCellSelectionStyleNone;   选中时没有颜色效果</span><br><span class="line">         *  cell.selectionStyle=UITableViewCellSelectionStyleGray;   选中时灰色效果</span><br><span class="line">         */</span><br><span class="line">        cell.selectionStyle=UITableViewCellSelectionStyleBlue;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    //[cell <span class="built_in">set</span>AccessoryType:UITableViewCellAccessoryDetailDisclosureButton];</span><br><span class="line">    cell.contentView.backgroundColor = [UIColor clearColor];</span><br><span class="line">    cell.imageView.image=[UIImage imageNamed:@<span class="string">"author.png"</span>];//未选cell时的图片</span><br><span class="line">    cell.imageView.highlightedImage=[UIImage imageNamed:@<span class="string">"logo.png"</span>];//选中cell后的图片</span><br><span class="line">    </span><br><span class="line">    cell.textLabel.text = [[self.myDictonary objectForKey:[[self.myDictonary allKeys]objectAtIndex:indexPath.section]]objectAtIndex:indexPath.row];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> cell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  行缩进，按照阶梯状下移</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> row</span><br><span class="line"> */</span><br><span class="line">-(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    NSUInteger row = [indexPath row];</span><br><span class="line">    <span class="built_in">return</span> row;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  行将显示的时候调用，预加载行</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param cell      cell</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> */</span><br><span class="line">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell <span class="keyword">for</span>RowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">   // NSLog(@<span class="string">"将要显示的行是\n cell=%@  \n indexpath=%@"</span>,cell,indexPath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  选中Cell响应</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> */</span><br><span class="line">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    [tableView deselectRowAtIndexPath:indexPath animated:YES];//选中后的反显颜色即刻消失</span><br><span class="line">    </span><br><span class="line">    //得到当前选中的cell</span><br><span class="line">    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];</span><br><span class="line">    NSLog(@<span class="string">"cell=%@"</span>,cell);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  didSelectRowAtIndexPath操作之前执行，这里我们设置第二行不可选</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param cell      选中的cell</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> */</span><br><span class="line">-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    NSInteger row = [indexPath row];</span><br><span class="line">    <span class="keyword">if</span> (row == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="built_in">return</span> nil;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> indexPath;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  cell右边按钮格式为UITableViewCellAccessoryDetailDisclosureButton时，点击按扭时调用的方法</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> */</span><br><span class="line">-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    NSLog(@<span class="string">"当前点击的详情button \n indexpath=%@"</span>,indexPath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  右侧添加索引表</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 索引NSArray</span><br><span class="line"> */</span><br><span class="line">- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView&#123;</span><br><span class="line">    <span class="built_in">return</span> [self.myDictonary allKeys];</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *  侧滑Cell是否出现删除</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> BOOl</span><br><span class="line"> */</span><br><span class="line">-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  设定横向滑动时是否出现删除按扭</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> UITableViewCellEditingStyle</span><br><span class="line"> */</span><br><span class="line">-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">return</span> UITableViewCellEditingStyleDelete;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  自定义delete按钮</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> NSString</span><br><span class="line"> */</span><br><span class="line">- (NSString *)tableView:(UITableView *)tableView</span><br><span class="line">titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    <span class="built_in">return</span> @<span class="string">"删除这行"</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *  开始移动row时执行</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> NSString</span><br><span class="line"> */</span><br><span class="line">-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)<span class="built_in">source</span>IndexPath toIndexPath:(NSIndexPath*)destinationIndexPath</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@<span class="string">"sourceIndexPath=%@"</span>,<span class="built_in">source</span>IndexPath);</span><br><span class="line">    NSLog(@<span class="string">"sourceIndexPath=%@"</span>,destinationIndexPath);</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *  滑动可以编辑时执行</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> NSString</span><br><span class="line"> */</span><br><span class="line">-(void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@<span class="string">"willBeginEditingRowAtIndexPath"</span>);</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *  将取消选中时执行, 也就是上次先中的行</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> NSString</span><br><span class="line"> */</span><br><span class="line">-(NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@<span class="string">"上次选中的行是  \n indexpath=%@"</span>,indexPath);</span><br><span class="line">    <span class="built_in">return</span> indexPath;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  让行可以移动</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> NSString</span><br><span class="line"> */</span><br><span class="line">-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *  移动row时执行</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> NSString</span><br><span class="line"> */</span><br><span class="line">-(NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)<span class="built_in">source</span>IndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@<span class="string">"targetIndexPathForMoveFromRowAtIndexPath"</span>);</span><br><span class="line">    //用于限制只在当前section下面才可以移动</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">source</span>IndexPath.section != proposedDestinationIndexPath.section)&#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="built_in">source</span>IndexPath;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> proposedDestinationIndexPath;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h2 id="UITableView_u4F18_u5316_u6280_u5DE7"><a href="#UITableView_u4F18_u5316_u6280_u5DE7" class="headerlink" title="UITableView优化技巧"></a>UITableView优化技巧</h2><p>UITableView的优化是UITableView的难点，流畅的运行，打造出类是朋友圈的功能，优化就是我们需要考虑的东西了。</p>
+<h3 id="UITableViewCell_u7684_u91CD_u7528"><a href="#UITableViewCell_u7684_u91CD_u7528" class="headerlink" title="UITableViewCell的重用"></a>UITableViewCell的重用</h3><p><strong>用过UITableView的人都知道，其实它最关键的地方就是UITableViewCell，重用思想我理解的就是，Cell滑出屏幕大小的时候，将它放到一个集合中，当要显示某一位置的时候，我们将从我们之前的集合中取出，如果集合中没有，那么我们就重新创建一个，很简单，这么做的结果就是减小了内存的开销。</strong></p>
+<h3 id="u56DE_u8C03_u5206_u6790"><a href="#u56DE_u8C03_u5206_u6790" class="headerlink" title="回调分析"></a>回调分析</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  改变行高，需要注意，实现这个代理方法后， rowHeight 设定的高度无效无效</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> 返回行高</span><br><span class="line"> */</span><br><span class="line">-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"Cell"</span>];</span><br><span class="line">    <span class="built_in">return</span> cell.frame.size.height;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  绘制Cell</span><br><span class="line"> *</span><br><span class="line"> *  @param tableView tableView</span><br><span class="line"> *  @param indexPath indexPath</span><br><span class="line"> *</span><br><span class="line"> *  @<span class="built_in">return</span> Cell</span><br><span class="line"> */</span><br><span class="line">-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    </span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"Cell"</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (cell == nil) &#123;</span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@<span class="string">"Cell"</span>];</span><br><span class="line">        /**</span><br><span class="line">         *  设定附加视图</span><br><span class="line">         *  UITableViewCellAccessoryNone,                    没有标示</span><br><span class="line">         *  UITableViewCellAccessoryDisclosureIndicator,     下一层标示</span><br><span class="line">         *  UITableViewCellAccessoryDetailDisclosureButton,  详情button</span><br><span class="line">         *  UITableViewCellAccessoryCheckmark                勾选标记</span><br><span class="line">         */</span><br><span class="line">        [cell <span class="built_in">set</span>AccessoryType:UITableViewCellAccessoryDetailDisclosureButton];</span><br><span class="line">        </span><br><span class="line">        /**</span><br><span class="line">         *  选定cell时改变颜色</span><br><span class="line">         *  cell.selectionStyle=UITableViewCellSelectionStyleBlue;   选中时蓝色效果</span><br><span class="line">         *  cell.selectionStyle=UITableViewCellSelectionStyleNone;   选中时没有颜色效果</span><br><span class="line">         *  cell.selectionStyle=UITableViewCellSelectionStyleGray;   选中时灰色效果</span><br><span class="line">         */</span><br><span class="line">        cell.selectionStyle=UITableViewCellSelectionStyleBlue;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    //[cell <span class="built_in">set</span>AccessoryType:UITableViewCellAccessoryDetailDisclosureButton];</span><br><span class="line">    cell.contentView.backgroundColor = [UIColor clearColor];</span><br><span class="line">    cell.imageView.image=[UIImage imageNamed:@<span class="string">"author.png"</span>];//未选cell时的图片</span><br><span class="line">    cell.imageView.highlightedImage=[UIImage imageNamed:@<span class="string">"logo.png"</span>];//选中cell后的图片</span><br><span class="line">    </span><br><span class="line">    cell.textLabel.text = [[self.myDictonary objectForKey:[[self.myDictonary allKeys]objectAtIndex:indexPath.section]]objectAtIndex:indexPath.row];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UITableView两个回调方法tableView:cellForRowAtIndexPath:和tableView:heightForRowAtIndexPath:他们的调用顺序我开始的时候认为先调，用的tableView:cellForRowAtIndexPath:在调用tableView:cellForRowAtIndexPath:先绘制控件，然后在设置布局，这是我们写控件的时候基本的思路，然而UITableView并没有那么做，而是先确定Cell的位置，在将Cell绘制在相应的位置上，就是说先调用tableView:heightForRowAtIndexPath:，在调用tableView:cellForRowAtIndexPath:</p>
+<p>就像我们上面的例子，每个section要显示3个Cell，那么就是先调用三次tableView:heightForRowAtIndexPath:显示50个Cell时我们就先调用50次，然后在调用3次tableView:cellForRowAtIndexPath:。我们滚动屏幕时，每当Cell滚入屏幕，都会调用一次tableView:heightForRowAtIndexPath:、tableView:cellForRowAtIndexPath:方法。</p>
+<p>基本上已经很清晰了，我们的优化主要也就是针对这两个回调展开。</p>
+<h3 id="u7B80_u5355_u4F18_u5316"><a href="#u7B80_u5355_u4F18_u5316" class="headerlink" title="简单优化"></a>简单优化</h3><p>具体的优化思路就是让tableView:cellForRowAtIndexPath:方法只负责赋值，tableView:heightForRowAtIndexPath:方法只负责计算高度，不要出现代码重叠现象。根据这样的思路，其实我们可以在得到数据的时候就进行优化，计算出对应的布局，并且缓存起来，这样我们在tableView:heightForRowAtIndexPath:方法中直接返回高度，在这里又节省了计算的开销</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary * frameDictionary = self. frameList[indexPath.row];</span><br><span class="line">CGRect rect = [dict[@<span class="string">"frame"</span>] CGRectValue];</span><br><span class="line"><span class="built_in">return</span> rect.frame.height;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###自定义Cell</span></span><br><span class="line">以上的简单思路就是应对简单的布局而已，如果要是那种朋友圈图文混排的，还是需要自定义Cell的，重写drawRect,然后进行异步绘制，在这里找到一个简单的示例代码</span><br><span class="line"></span><br><span class="line">``` bahs</span><br><span class="line">//异步绘制</span><br><span class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        CGRect rect = [_data[@<span class="string">"frame"</span>] CGRectValue];</span><br><span class="line">        UIGraphicsBeginImageContextWithOptions(rect.size, YES, <span class="number">0</span>);</span><br><span class="line">        CGContextRef context = UIGraphicsGetCurrentContext();</span><br><span class="line">	//整个内容的背景</span><br><span class="line">        [[UIColor colorWithRed:<span class="number">250</span>/<span class="number">255.0</span> green:<span class="number">250</span>/<span class="number">255.0</span> blue:<span class="number">250</span>/<span class="number">255.0</span> alpha:<span class="number">1</span>] <span class="built_in">set</span>];</span><br><span class="line">        CGContextFillRect(context, rect);</span><br><span class="line">	//转发内容的背景</span><br><span class="line">        <span class="keyword">if</span> ([_data valueForKey:@<span class="string">"subData"</span>]) &#123;</span><br><span class="line">            [[UIColor colorWithRed:<span class="number">243</span>/<span class="number">255.0</span> green:<span class="number">243</span>/<span class="number">255.0</span> blue:<span class="number">243</span>/<span class="number">255.0</span> alpha:<span class="number">1</span>] <span class="built_in">set</span>];</span><br><span class="line">            CGRect subFrame = [_data[@<span class="string">"subData"</span>][@<span class="string">"frame"</span>] CGRectValue];</span><br><span class="line">            CGContextFillRect(context, subFrame);</span><br><span class="line">            [[UIColor colorWithRed:<span class="number">200</span>/<span class="number">255.0</span> green:<span class="number">200</span>/<span class="number">255.0</span> blue:<span class="number">200</span>/<span class="number">255.0</span> alpha:<span class="number">1</span>] <span class="built_in">set</span>];</span><br><span class="line">            CGContextFillRect(context, CGRectMake(<span class="number">0</span>, subFrame.origin.y, rect.size.width, .<span class="number">5</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        &#123;</span><br><span class="line">	    //名字</span><br><span class="line">            <span class="built_in">float</span> leftX = SIZE_GAP_LEFT+SIZE_AVATAR+SIZE_GAP_BIG;</span><br><span class="line">            <span class="built_in">float</span> x = leftX;</span><br><span class="line">            <span class="built_in">float</span> y = (SIZE_AVATAR-(SIZE_FONT_NAME+SIZE_FONT_SUBTITLE+<span class="number">6</span>))/<span class="number">2</span>-<span class="number">2</span>+SIZE_GAP_TOP+SIZE_GAP_SMALL-<span class="number">5</span>;</span><br><span class="line">            [_data[@<span class="string">"name"</span>] drawInContext:context withPosition:CGPointMake(x, y) andFont:FontWithSize(SIZE_FONT_NAME)</span><br><span class="line">                             andTextColor:[UIColor colorWithRed:<span class="number">106</span>/<span class="number">255.0</span> green:<span class="number">140</span>/<span class="number">255.0</span> blue:<span class="number">181</span>/<span class="number">255.0</span> alpha:<span class="number">1</span>]</span><br><span class="line">                                andHeight:rect.size.height];</span><br><span class="line">	    //时间+设备</span><br><span class="line">            y += SIZE_FONT_NAME+<span class="number">5</span>;</span><br><span class="line">            <span class="built_in">float</span> fromX = leftX;</span><br><span class="line">            <span class="built_in">float</span> size = [UIScreen screenWidth]-leftX;</span><br><span class="line">            NSString *from = [NSString stringWithFormat:@<span class="string">"%@  %@"</span>, _data[@<span class="string">"time"</span>], _data[@<span class="string">"from"</span>]];</span><br><span class="line">            [from drawInContext:context withPosition:CGPointMake(fromX, y) andFont:FontWithSize(SIZE_FONT_SUBTITLE)</span><br><span class="line">                   andTextColor:[UIColor colorWithRed:<span class="number">178</span>/<span class="number">255.0</span> green:<span class="number">178</span>/<span class="number">255.0</span> blue:<span class="number">178</span>/<span class="number">255.0</span> alpha:<span class="number">1</span>]</span><br><span class="line">                      andHeight:rect.size.height andWidth:size];</span><br><span class="line">        &#125;</span><br><span class="line">	//将绘制的内容以图片的形式返回，并调主线程显示</span><br><span class="line">	UIImage *temp = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">        UIGraphicsEndImageContext();</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            <span class="keyword">if</span> (flag==drawColorFlag) &#123;</span><br><span class="line">                postBGView.frame = rect;</span><br><span class="line">                postBGView.image = nil;</span><br><span class="line">                postBGView.image = temp;</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	//内容如果是图文混排，就添加View，用CoreText绘制</span><br><span class="line">	[self drawText];</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u52A8_u6001_u6309_u9700_u52A0_u8F7D"><a href="#u52A8_u6001_u6309_u9700_u52A0_u8F7D" class="headerlink" title="动态按需加载"></a>动态按需加载</h3><p>按需加载 - 如果目标行与当前行相差超过指定行数，只在目标滚动范围的前后指定3行加载。节省开销</p>
+<p>一段示例代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset&#123;&#10;    NSIndexPath *ip = [self indexPathForRowAtPoint:CGPointMake(0, targetContentOffset-&#62;y)];&#10;    NSIndexPath *cip = [[self indexPathsForVisibleRows] firstObject];&#10;    NSInteger skipCount = 8;&#10;    if (labs(cip.row-ip.row)&#62;skipCount) &#123;&#10;        NSArray *temp = [self indexPathsForRowsInRect:CGRectMake(0, targetContentOffset-&#62;y, self.width, self.height)];&#10;        NSMutableArray *arr = [NSMutableArray arrayWithArray:temp];&#10;        if (velocity.y&#60;0) &#123;&#10;            NSIndexPath *indexPath = [temp lastObject];&#10;            if (indexPath.row+3&#60;datas.count) &#123;&#10;                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];&#10;                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row+2 inSection:0]];&#10;                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row+3 inSection:0]];&#10;            &#125;&#10;        &#125; else &#123;&#10;            NSIndexPath *indexPath = [temp firstObject];&#10;            if (indexPath.row&#62;3) &#123;&#10;                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row-3 inSection:0]];&#10;                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row-2 inSection:0]];&#10;                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];&#10;            &#125;&#10;        &#125;&#10;        [needLoadArr addObjectsFromArray:arr];&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>设计和优化简单的流程就是这些，我们总结下</p>
+<ul>
+<li>流畅的优化主要是先计算好高度布局，然后让tableView heightForRowAtIndexPath:直接返回高度节省内存开销。</li>
+<li>异步加载，按需加载Cell</li>
+<li>在TableView中我们经常会结合网络请求，大量加载图片，SDWebImage异步图片加载非常强大，善于利用。</li>
+</ul>
+<p>除了上面最主要的三个方面外，还有很多几乎大伙都很熟知的优化点：</p>
+<p>上面的三点是一个核心，还有一些常识</p>
+<ul>
+<li>Cell内容来自web，尽量使用异步加载，缓存我们的请求结果，减少网络请求</li>
+<li>减少图层</li>
+<li>使用reuseIdentifier来重用Cells<br>如果Cell内现实的内容来自web，使用异步加载，缓存请求结果<br>减少subviews的数量</li>
+<li>在heightForRowAtIndexPath:中尽量不使用cellForRowAtIndexPath:，如果你需要用到它，只用一次然后缓存结果</li>
+</ul>
+<p>sunnyxx大神写过的一篇文章<a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/" target="_blank" rel="external">优化UITableViewCell高度计算的那些事</a> 非常值得仔细看看</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/控件设计优化/">控件设计优化</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/03/15/UITableView/" data-title="UITableView 从设计到到优化 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/29/Adapter/"  title="iOS设计模式-适配器">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS设计模式-适配器
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/15/UITableView/" data-title="UITableView 从设计到到优化" data-url="http://Lastdays.cn/2016/03/15/UITableView/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UITableView__u4ECE_u8BBE_u8BA1_u5230_u5230_u4F18_u5316"><span class="toc-number">1.</span> <span class="toc-text">UITableView 从设计到到优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8BBE_u8BA1"><span class="toc-number">1.1.</span> <span class="toc-text">设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UITableView_u4F18_u5316_u6280_u5DE7"><span class="toc-number">1.2.</span> <span class="toc-text">UITableView优化技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UITableViewCell_u7684_u91CD_u7528"><span class="toc-number">1.2.1.</span> <span class="toc-text">UITableViewCell的重用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u56DE_u8C03_u5206_u6790"><span class="toc-number">1.2.2.</span> <span class="toc-text">回调分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u5355_u4F18_u5316"><span class="toc-number">1.2.3.</span> <span class="toc-text">简单优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u52A8_u6001_u6309_u9700_u52A0_u8F7D"><span class="toc-number">1.2.4.</span> <span class="toc-text">动态按需加载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
