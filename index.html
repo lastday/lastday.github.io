@@ -80,6 +80,77 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/18/json/" title="iOS 手动打造JSON Model转换库" itemprop="url">iOS 手动打造JSON Model转换库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-18T10:24:27.000Z" itemprop="datePublished"> 发表于 2016-03-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93"><a href="#iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93" class="headerlink" title="iOS 手动打造JSON Model转换库"></a>iOS 手动打造JSON Model转换库</h1><ul>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<p>前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。</p>
+<p>建议查看</p>
+<ul>
+<li><strong>参考资料 ：<a href="http://lastdays.cn/2016/02/22/runtime/">Runtime学习笔记</a></strong></li>
+<li><strong>项目地址： <a href="/">LDModelData</a></strong></li>
+</ul>
+<p>观察下面这个JSON数据和Model数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSString *girlFriend = @<span class="string">"白菜"</span>;</span><br><span class="line">id parmenters = @&#123;</span><br><span class="line">                   @<span class="string">"girlFriend"</span>:girlFriend,</span><br><span class="line">                   @<span class="string">"age"</span>:@<span class="number">22.1</span>,</span><br><span class="line">                   @<span class="string">"name"</span>:@<span class="string">"Lastdays"</span>,</span><br><span class="line">                   @<span class="string">"time"</span>:@<span class="string">"2016-03-18 5:55:49 +0000"</span></span><br><span class="line">                 	&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@interface Model : NSObject</span><br><span class="line"></span><br><span class="line">@property NSNumber *age;</span><br><span class="line">@property NSString *name;</span><br><span class="line">@property NSString *girlFriend;</span><br><span class="line">@property NSData *time;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/18/json/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Tools/">Tools</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/18/json/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/18/json/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/16/heart/" title="不忘初心" itemprop="url">不忘初心</a>
   </h1>
   <p class="article-author">By
@@ -657,73 +728,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/runtime1/" title="Runtime 学习笔记(一)" itemprop="url">Runtime 学习笔记(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T12:50:02.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406"><a href="#Objective-C_u7C7B_u548C_u5BF9_u8C61_u7684_u5B9E_u73B0_u539F_u7406" class="headerlink" title="Objective-C类和对象的实现原理"></a>Objective-C类和对象的实现原理</h1><p>我是LastDays,我的博客：<a href="/LastDays.cn">LastDays.cn</a></p>
-<p>最近一直在了解runtime的实现原理，所以简单的分享一下。</p>
-<p>Objective-C的runtime是开源的，但是开始的时候并没有开源NSObject底层的实现，但是后来objc4-532.2发布后，苹果也将NSObject的实现原理加了进来</p>
-<p>在这里可以下载Runtime的源码：<a href="http://www.opensource.apple.com/tarballs/objc4/">objc4</a></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/20/runtime1/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Runtime/">Runtime</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Objective-C类和对象的实现原理/">Objective-C类和对象的实现原理</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/20/runtime1/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/20/runtime1/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -747,6 +751,10 @@
 		
 		  
 			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>1</sup></a></li>
 		  
 		
 		  

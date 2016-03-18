@@ -1,0 +1,588 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iOS 手动打造JSON Model转换库 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="iOS 手动打造JSON Model转换库
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。
+建议查看
+
+参考资料 ：Runtime学习笔记
+项目地址： LDMod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 手动打造JSON Model转换库">
+<meta property="og:url" content="http://Lastdays.cn/2016/03/18/json/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="iOS 手动打造JSON Model转换库
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。
+建议查看
+
+参考资料 ：Runtime学习笔记
+项目地址： LDMod">
+<meta property="og:image" content="http://Lastdays.cn/image/jsonmodel/1.png">
+<meta property="og:image" content="http://Lastdays.cn/image/jsonmodel/2.png">
+<meta property="og:updated_time" content="2016-03-18T10:24:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 手动打造JSON Model转换库">
+<meta name="twitter:description" content="iOS 手动打造JSON Model转换库
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。
+建议查看
+
+参考资料 ：Runtime学习笔记
+项目地址： LDMod">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">欢迎来到一个90后开发者的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/18/json/" title="iOS 手动打造JSON Model转换库" itemprop="url">iOS 手动打造JSON Model转换库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-18T10:24:27.000Z" itemprop="datePublished"> 发表于 2016-03-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93"><span class="toc-number">1.</span> <span class="toc-text">iOS 手动打造JSON Model转换库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u83B7_u53D6Model_u5C5E_u6027"><span class="toc-number">1.1.</span> <span class="toc-text">获取Model属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON_u8F6CModel"><span class="toc-number">1.2.</span> <span class="toc-text">JSON转Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Model_u8F6CJSON"><span class="toc-number">1.3.</span> <span class="toc-text">Model转JSON</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D4B_u8BD5"><span class="toc-number">1.4.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93"><a href="#iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93" class="headerlink" title="iOS 手动打造JSON Model转换库"></a>iOS 手动打造JSON Model转换库</h1><ul>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place" target="_blank" rel="external">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<p>前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。</p>
+<p>建议查看</p>
+<ul>
+<li><strong>参考资料 ：<a href="http://lastdays.cn/2016/02/22/runtime/">Runtime学习笔记</a></strong></li>
+<li><strong>项目地址： <a href="/">LDModelData</a></strong></li>
+</ul>
+<p>观察下面这个JSON数据和Model数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSString *girlFriend = @<span class="string">"白菜"</span>;</span><br><span class="line">id parmenters = @&#123;</span><br><span class="line">                   @<span class="string">"girlFriend"</span>:girlFriend,</span><br><span class="line">                   @<span class="string">"age"</span>:@<span class="number">22.1</span>,</span><br><span class="line">                   @<span class="string">"name"</span>:@<span class="string">"Lastdays"</span>,</span><br><span class="line">                   @<span class="string">"time"</span>:@<span class="string">"2016-03-18 5:55:49 +0000"</span></span><br><span class="line">                 	&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@interface Model : NSObject</span><br><span class="line"></span><br><span class="line">@property NSNumber *age;</span><br><span class="line">@property NSString *name;</span><br><span class="line">@property NSString *girlFriend;</span><br><span class="line">@property NSData *time;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>开始的时候仔细想了一下，如何能够动态的去添加属性值，并且根据对应的属性进行赋值，还要保证类型正确，这是我最开始考虑的问题。但是最核心问题就是<strong>动态实现</strong>。</p>
+<p>我们一步一步来解决问题，首先我们先获取Model属性，取得Model的一些信息</p>
+<h2 id="u83B7_u53D6Model_u5C5E_u6027"><a href="#u83B7_u53D6Model_u5C5E_u6027" class="headerlink" title="获取Model属性"></a>获取Model属性</h2><p>runtime提供了<strong>class_copyPropertyList</strong>来获取属性列表，OK，我们可以来看一下用它获取的数据是什么样的？查看runtime源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/***********************************************************************</span><br><span class="line">* class_copyPropertyList. Returns a heap block containing the </span><br><span class="line">* properties declared <span class="keyword">in</span> the class, or nil <span class="keyword">if</span> the class </span><br><span class="line">* declares no properties. Caller must free the block.</span><br><span class="line">* Does not copy any superclass<span class="string">'s properties.</span><br><span class="line">**********************************************************************/</span><br><span class="line">objc_property_t *class_copyPropertyList(Class cls, unsigned int *outCount)</span><br><span class="line">&#123;</span><br><span class="line">    old_property_list *plist;</span><br><span class="line">    uintptr_t iterator = 0;</span><br><span class="line">    old_property **result = nil;</span><br><span class="line">    unsigned int count = 0;</span><br><span class="line">    unsigned int p, i;</span><br><span class="line"></span><br><span class="line">    if (!cls) &#123;</span><br><span class="line">        if (outCount) *outCount = 0;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mutex_locker_t lock(classLock);</span><br><span class="line"></span><br><span class="line">    iterator = 0;</span><br><span class="line">    while ((plist = nextPropertyList(cls, &amp;iterator))) &#123;</span><br><span class="line">        count += plist-&gt;count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (count &gt; 0) &#123;</span><br><span class="line">        result = (old_property **)malloc((count+1) * sizeof(old_property *));</span><br><span class="line">        </span><br><span class="line">        p = 0;</span><br><span class="line">        iterator = 0;</span><br><span class="line">        while ((plist = nextPropertyList(cls, &amp;iterator))) &#123;</span><br><span class="line">            for (i = 0; i &lt; plist-&gt;count; i++) &#123;</span><br><span class="line">                result[p++] = property_list_nth(plist, i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        result[p] = nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (outCount) *outCount = count;</span><br><span class="line">    return (objc_property_t *)result;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef struct old_property *objc_property_t;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">struct old_property &#123;</span><br><span class="line">    const char *name;</span><br><span class="line">    const char *attributes;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">从上面的三段runtime源码中，课本上就能判断出，其实返回结果就是一些old_property，并且每个old_property中含有对应的name和其他信息。</span><br><span class="line"></span><br><span class="line">总结起来说就是**class_copyPropertyList**获取Model属性列表，属性列表里面的objc_property_t包含着这个属性的类型和名字等一些信息。</span><br><span class="line"></span><br><span class="line">根据刚才的分析设计出以下结构：</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">-(id)modelToJsonObject:(NSObject *)model&#123;</span><br><span class="line">    </span><br><span class="line">    Class cls = self.class;</span><br><span class="line">    unsigned int countProperty = <span class="number">0</span>;</span><br><span class="line">    objc_property_t *propertys = class_copyPropertyList(cls,&amp;countProperty);</span><br><span class="line">    NSMutableDictionary *dic = [NSMutableDictionary new];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (unsigned int i = <span class="number">0</span>; i&lt;countProperty; i++) &#123;</span><br><span class="line">        PropertyInfo *propertyInfo = [[PropertyInfo alloc] initWithProperty:propertys[i]];</span><br><span class="line">        <span class="keyword">if</span> (propertyInfo.propertyName!=nil) &#123;</span><br><span class="line">            dic[propertyInfo.propertyName] = [self LDModelSetJsonObjectWith:model propertyInfo:propertyInfo];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> dic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>PropertyInfo</strong>也就是属性信息，我们将Model的所有属性存放到<strong>NSMutableDictionary</strong>中，key就是属性名，Value就是PropertyInfo。</p>
+<p>接下来开始获取Model的属性信息<strong>PropertyInfo</strong></p>
+<p>我们可以通过property_getName来获取属性名，查看源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const char *property_getName(objc_property_t prop)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> oldproperty(prop)-&gt;name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来就是获取属性的类型和一些其他的信息。获取属性的信息其实和上面的原理差不多，我们使用property_copyAttributeList，查看下它的源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">objc_property_attribute_t *property_copyAttributeList(objc_property_t prop, </span><br><span class="line">                                                      unsigned int *outCount)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!prop) &#123;</span><br><span class="line">        <span class="keyword">if</span> (outCount) *outCount = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">return</span> nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mutex_locker_t lock(classLock);</span><br><span class="line">    <span class="built_in">return</span> copyPropertyAttributeList(oldproperty(prop)-&gt;attributes,outCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看到这里，不往下继续分析源码了，其实可以看到，attributes就是我们想要的信息，其实每个property也是有自己对应的attributes。</p>
+<p>这个attributes是什么样呢？翻看源码，找到了答案</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">    const char *name;      </span><br><span class="line">    const char *value;         </span><br><span class="line">&#125; objc_property_attribute_t;</span><br></pre></td></tr></table></figure>
+<p>加一下断点，看看</p>
+<p><img src="/image/jsonmodel/1.png" alt=""></p>
+<p>可以看到，name是T，Value是NSNumber，我们来获取下NSNumber这个属性类型。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">for</span> (unsigned int i = <span class="number">0</span>; i&lt;attrCount; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (attrs[i].name[<span class="number">0</span>] == <span class="string">'T'</span>) &#123;</span><br><span class="line">        size_t len = strlen(attrs[i].value);</span><br><span class="line">        <span class="keyword">if</span> (len&gt;<span class="number">3</span>) &#123;</span><br><span class="line">            char name[len - <span class="number">2</span>];</span><br><span class="line">            name[len - <span class="number">3</span>] = <span class="string">'\0'</span>;</span><br><span class="line">            memcpy(name, attrs[i].value + <span class="number">2</span>, len - <span class="number">3</span>);</span><br><span class="line">            _<span class="built_in">type</span>Class = objc_getClass(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本上我们想要的信息基本上都已经获取到了，现在接下来就是做动态设定。</p>
+<p>中间做个插曲简单的说下Objc是动态语言，[receiver message]的执行过程当中，[receiver message]是会被动态编译的，Objc是动态语言，因此它会想尽办法将编译连接推迟到运行时来做。runtime这个时实运行系统就是来执行编译后的代码。想详细了解，欢迎阅读<a href="http://lastdays.cn/2016/02/22/runtime/">Runtime学习笔记</a></p>
+<p>在这个消息发送过程中，objc_msgSend充当着很重要的角色，所以我们可以主动触发objc_msgSend，来模拟getter，setter方法获取属性值，或者建立。</p>
+<p>我们通过SEL来定义选择器，选择器是什么？就是方法名的唯一标识符</p>
+<p>根据刚才的想法，编写的代码最后是这个样子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(instancetype)initWithProperty:(objc_property_t)property&#123;</span><br><span class="line">    _property = property;</span><br><span class="line">    </span><br><span class="line">    const char *name = property_getName(property);</span><br><span class="line">    <span class="keyword">if</span> (name) &#123;</span><br><span class="line">        _propertyName = [NSString stringWithUTF8String:name];</span><br><span class="line">    &#125;</span><br><span class="line">    unsigned int attrCount;</span><br><span class="line">    objc_property_attribute_t *attrs = property_copyAttributeList(property, &amp;attrCount);</span><br><span class="line">    <span class="keyword">for</span> (unsigned int i = <span class="number">0</span>; i&lt;attrCount; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (attrs[i].name[<span class="number">0</span>] == <span class="string">'T'</span>) &#123;</span><br><span class="line">            size_t len = strlen(attrs[i].value);</span><br><span class="line">            <span class="keyword">if</span> (len&gt;<span class="number">3</span>) &#123;</span><br><span class="line">                char name[len - <span class="number">2</span>];</span><br><span class="line">                name[len - <span class="number">3</span>] = <span class="string">'\0'</span>;</span><br><span class="line">                memcpy(name, attrs[i].value + <span class="number">2</span>, len - <span class="number">3</span>);</span><br><span class="line">                _<span class="built_in">type</span>Class = objc_getClass(name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    NSString *setter = [NSString stringWithFormat:@<span class="string">"set%@%@:"</span>, [_propertyName substringToIndex:<span class="number">1</span>].uppercaseString, [_propertyName substringFromIndex:<span class="number">1</span>]];</span><br><span class="line">    _setter =  NSSelectorFromString(setter);</span><br><span class="line">    _getter = NSSelectorFromString(_propertyName);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本的准备工作，和一些问题都解决了，接下来可以写功能了。</p>
+<h2 id="JSON_u8F6CModel"><a href="#JSON_u8F6CModel" class="headerlink" title="JSON转Model"></a>JSON转Model</h2><p>根据刚才说的，我们可以主动触发objc_msgSend，来模拟setter方法建立属性值。设计出以下方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(void)LDModelSetPropertyWithModel:(id) model value:(id)value propertyInfo:(PropertyInfo *) propertyInfo&#123;</span><br><span class="line">    ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, propertyInfo.setter, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们将Model的所有属性存放到<strong>NSMutableDictionary</strong>中，key就是属性名，Value就是PropertyInfo。</p>
+<p>现在就可以动态设定了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(BOOL)LDModelSelectProperties:(NSDictionary *)dictonary&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    ClassInfo *cls = [[ClassInfo alloc]initWithClass:object_getClass(self)];</span><br><span class="line">    id key, value;</span><br><span class="line">    NSArray *keys = [dictonary allKeys];</span><br><span class="line">    NSUInteger count = [keys count];</span><br><span class="line">    <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; count; i++)&#123;</span><br><span class="line">        key = [keys objectAtIndex: i];</span><br><span class="line">        value = [dictonary objectForKey: key];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (cls.propertyInfo[key]) &#123;</span><br><span class="line">            [self LDModelSetPropertyWithModel:self value:value propertyInfo:cls.propertyInfo[key]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完成动态设定</p>
+<h2 id="Model_u8F6CJSON"><a href="#Model_u8F6CJSON" class="headerlink" title="Model转JSON"></a>Model转JSON</h2><p>原理跟JSON转Model</p>
+<p>我们可以主动触发objc_msgSend，来模拟getter方法来获取属性值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(id)LDModelSetJsonObjectWith:(id)model propertyInfo:(PropertyInfo *)propertyInfo&#123;</span><br><span class="line">    id value = ((id (*)(id, SEL))(void *) objc_msgSend)((id)model, propertyInfo.getter);</span><br><span class="line">    <span class="built_in">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>建立NSDictionary</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(id)modelToJsonObject:(NSObject *)model&#123;</span><br><span class="line">    </span><br><span class="line">    Class cls = self.class;</span><br><span class="line">    unsigned int countProperty = <span class="number">0</span>;</span><br><span class="line">    objc_property_t *propertys = class_copyPropertyList(cls,&amp;countProperty);</span><br><span class="line">    NSMutableDictionary *dic = [NSMutableDictionary new];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (unsigned int i = <span class="number">0</span>; i&lt;countProperty; i++) &#123;</span><br><span class="line">        PropertyInfo *propertyInfo = [[PropertyInfo alloc] initWithProperty:propertys[i]];</span><br><span class="line">        <span class="keyword">if</span> (propertyInfo.propertyName!=nil) &#123;</span><br><span class="line">            dic[propertyInfo.propertyName] = [self LDModelSetJsonWith:model propertyInfo:propertyInfo];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> dic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完成获取</p>
+<h2 id="u6D4B_u8BD5"><a href="#u6D4B_u8BD5" class="headerlink" title="测试"></a>测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">NSString *girlFriend = @<span class="string">"白菜"</span>;</span><br><span class="line">    id parmenters = @&#123;</span><br><span class="line">                      @<span class="string">"girlFriend"</span>:girlFriend,</span><br><span class="line">                      @<span class="string">"age"</span>:@<span class="number">22.1</span>,</span><br><span class="line">                      @<span class="string">"name"</span>:@<span class="string">"Lastdays"</span>,</span><br><span class="line">                      @<span class="string">"time"</span>:@<span class="string">"2016-03-18 5:55:49 +0000"</span></span><br><span class="line">                      &#125;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    Model *model = [Model LYModelWithJSON:parmenters];</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,model.girlFriend);</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,model.name);</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,model.age);</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,model.time);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"========================================"</span>);</span><br><span class="line">    </span><br><span class="line">    NSDictionary *jsonObject= [model LYModelToJson];</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,jsonObject);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p><img src="/image/jsonmodel/2.png" alt=""></p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>简单的JSON Model转换库，关键点就是在于对runtime的理解。就当自己的一个小练习，后续会继续维护，让它对更多类型进行支持。代码结构上可能不是那么好，后续会将整体的结构重新设计下，增加可读性，也欢迎来提出建议。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Tools/">Tools</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/03/18/json/" data-title="iOS 手动打造JSON Model转换库 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/16/heart/"  title="不忘初心">
+ <strong>下一篇：</strong><br/> 
+ <span>不忘初心
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/18/json/" data-title="iOS 手动打造JSON Model转换库" data-url="http://Lastdays.cn/2016/03/18/json/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93"><span class="toc-number">1.</span> <span class="toc-text">iOS 手动打造JSON Model转换库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u83B7_u53D6Model_u5C5E_u6027"><span class="toc-number">1.1.</span> <span class="toc-text">获取Model属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON_u8F6CModel"><span class="toc-number">1.2.</span> <span class="toc-text">JSON转Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Model_u8F6CJSON"><span class="toc-number">1.3.</span> <span class="toc-text">Model转JSON</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6D4B_u8BD5"><span class="toc-number">1.4.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
