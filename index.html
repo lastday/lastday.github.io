@@ -80,6 +80,78 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/19/json/" title="iOS 手动打造JSON Model转换库" itemprop="url">iOS 手动打造JSON Model转换库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-19T03:40:34.000Z" itemprop="datePublished"> 发表于 2016-03-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93"><a href="#iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93" class="headerlink" title="iOS 手动打造JSON Model转换库"></a>iOS 手动打造JSON Model转换库</h1><ul>
+<li><strong>目前正在找实习：<a href="http://lastdays.cn/2016/03/19/blog/">求博乐，求推荐</a></strong></li>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<p>前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。</p>
+<p>建议查看</p>
+<ul>
+<li><strong>参考资料 ：<a href="http://lastdays.cn/2016/02/22/runtime/">Runtime学习笔记</a></strong></li>
+<li><strong>项目地址： <a href="https://github.com/MrLoong/LYModelData">LYModelData</a></strong></li>
+</ul>
+<p>观察下面这个JSON数据和Model数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSString *girlFriend = @<span class="string">"白菜"</span>;</span><br><span class="line">id parmenters = @&#123;</span><br><span class="line">                   @<span class="string">"girlFriend"</span>:girlFriend,</span><br><span class="line">                   @<span class="string">"age"</span>:@<span class="number">22.1</span>,</span><br><span class="line">                   @<span class="string">"name"</span>:@<span class="string">"Lastdays"</span>,</span><br><span class="line">                   @<span class="string">"time"</span>:@<span class="string">"2016-03-18 5:55:49 +0000"</span></span><br><span class="line">                 	&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@interface Model : NSObject</span><br><span class="line"></span><br><span class="line">@property NSNumber *age;</span><br><span class="line">@property NSString *name;</span><br><span class="line">@property NSString *girlFriend;</span><br><span class="line">@property NSData *time;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/19/json/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Tools/">Tools</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/19/json/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/19/json/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/19/blog/" title="求博乐，求知遇" itemprop="url">求博乐，求知遇</a>
   </h1>
   <p class="article-author">By
@@ -134,77 +206,6 @@
 	
 	  	<span></span>
 		<a href="/2016/03/19/blog/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/19/blog/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/18/json/" title="iOS 手动打造JSON Model转换库" itemprop="url">iOS 手动打造JSON Model转换库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-18T10:29:43.000Z" itemprop="datePublished"> 发表于 2016-03-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93"><a href="#iOS__u624B_u52A8_u6253_u9020JSON_Model_u8F6C_u6362_u5E93" class="headerlink" title="iOS 手动打造JSON Model转换库"></a>iOS 手动打造JSON Model转换库</h1><ul>
-<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
-<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place">微博</a>我在这里分享我的生活，欢迎交流</li>
-</ul>
-<p>前一段时间学习了Runtime，对类和对象的结构，和一些消息转发有一些自己的理解，现在希望简单的应用下，就决定自己写一个简单的JSON与Model的相互转化，现在总结下。</p>
-<p>建议查看</p>
-<ul>
-<li><strong>参考资料 ：<a href="http://lastdays.cn/2016/02/22/runtime/">Runtime学习笔记</a></strong></li>
-<li><strong>项目地址： <a href="https://github.com/MrLoong/LYModelData">LYModelData</a></strong></li>
-</ul>
-<p>观察下面这个JSON数据和Model数据</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSString *girlFriend = @<span class="string">"白菜"</span>;</span><br><span class="line">id parmenters = @&#123;</span><br><span class="line">                   @<span class="string">"girlFriend"</span>:girlFriend,</span><br><span class="line">                   @<span class="string">"age"</span>:@<span class="number">22.1</span>,</span><br><span class="line">                   @<span class="string">"name"</span>:@<span class="string">"Lastdays"</span>,</span><br><span class="line">                   @<span class="string">"time"</span>:@<span class="string">"2016-03-18 5:55:49 +0000"</span></span><br><span class="line">                 	&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@interface Model : NSObject</span><br><span class="line"></span><br><span class="line">@property NSNumber *age;</span><br><span class="line">@property NSString *name;</span><br><span class="line">@property NSString *girlFriend;</span><br><span class="line">@property NSData *time;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/18/json/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Tools/">Tools</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/18/json/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/18/json/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
