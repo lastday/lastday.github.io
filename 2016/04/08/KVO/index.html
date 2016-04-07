@@ -1,0 +1,660 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iOS 手动打造JSON Model转换库 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="#KVO 探索KVO（使用-&amp;gt;设计）
+
+目前正在找实习：求博乐，求推荐
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+网上KVO的文章基本上到处都是，这里自己就总结了下，KVO很强大，基本上KVO就是Objective-C对观察者模式的实现，可以观察某个属性的变化，针对变化通知响应的观察者做出反应。
+###总结从：基本使用-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 手动打造JSON Model转换库">
+<meta property="og:url" content="http://Lastdays.cn/2016/04/08/KVO/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="#KVO 探索KVO（使用-&amp;gt;设计）
+
+目前正在找实习：求博乐，求推荐
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+网上KVO的文章基本上到处都是，这里自己就总结了下，KVO很强大，基本上KVO就是Objective-C对观察者模式的实现，可以观察某个属性的变化，针对变化通知响应的观察者做出反应。
+###总结从：基本使用-">
+<meta property="og:image" content="http://Lastdays.cn/image/kvo/1.gif">
+<meta property="og:image" content="http://Lastdays.cn/image/kvo/2.gif">
+<meta property="og:updated_time" content="2016-04-07T17:10:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 手动打造JSON Model转换库">
+<meta name="twitter:description" content="#KVO 探索KVO（使用-&amp;gt;设计）
+
+目前正在找实习：求博乐，求推荐
+大家好，我叫LastDays，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+
+网上KVO的文章基本上到处都是，这里自己就总结了下，KVO很强大，基本上KVO就是Objective-C对观察者模式的实现，可以观察某个属性的变化，针对变化通知响应的观察者做出反应。
+###总结从：基本使用-">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">欢迎来到一个90后开发者的世界</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/08/KVO/" title="iOS 手动打造JSON Model转换库" itemprop="url">iOS 手动打造JSON Model转换库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-07T17:10:19.000Z" itemprop="datePublished"> 发表于 2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u5355_u4F7F_u7528"><span class="toc-number">1.</span> <span class="toc-text">简单使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u89C2_u5BDF_u8005_u6A21_u5F0F"><span class="toc-number"></span> <span class="toc-text">观察者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5206_u6790"><span class="toc-number">1.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4F18_u70B9_u5206_u6790"><span class="toc-number">2.</span> <span class="toc-text">优点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u786E_u5B9A"><span class="toc-number">3.</span> <span class="toc-text">确定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO_u7684_u5B9E_u73B0_u539F_u7406"><span class="toc-number"></span> <span class="toc-text">KVO的实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u4ECB"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u5355_u7684_u5B9E_u73B0"><span class="toc-number">2.</span> <span class="toc-text">简单的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3-1"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+		
+		</div>
+		
+		<p>#KVO 探索KVO（使用-&gt;设计）</p>
+<ul>
+<li><strong>目前正在找实习：<a href="http://lastdays.cn/2016/03/19/blog/">求博乐，求推荐</a></strong></li>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place" target="_blank" rel="external">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<p>网上KVO的文章基本上到处都是，这里自己就总结了下，KVO很强大，基本上KVO就是Objective-C对观察者模式的实现，可以观察某个属性的变化，针对变化通知响应的观察者做出反应。</p>
+<p>###<strong>总结从：基本使用-&gt;实现是一个时钟-&gt;了解观察者模式-&gt;了解KVO实现原理-&gt;利用runtime自己设计KVO替换掉官方API更加深入的了解它。</strong></p>
+<a id="more"></a>
+<p>##基本使用</p>
+<h3 id="u7B80_u5355_u4F7F_u7528"><a href="#u7B80_u5355_u4F7F_u7528" class="headerlink" title="简单使用"></a>简单使用</h3><p>设计一个Model：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  LastDays.h</span><br><span class="line">//  KVO</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">4</span>/<span class="number">4</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"></span><br><span class="line">@interface LastDays : NSObject</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong) NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>设计Observer(观察者)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "LastdaysObserver.h"</span></span><br><span class="line"></span><br><span class="line">@implementation LastdaysObserver</span><br><span class="line"></span><br><span class="line">-(void)observeValueForKeyPath:(NSString *)keyPath</span><br><span class="line">                     ofObject:(id)object</span><br><span class="line">                     change:(NSDictionary&lt;NSString *,id&gt; *)change</span><br><span class="line">                      context:(void *)context&#123;</span><br><span class="line">    NSLog(@<span class="string">"old = %@"</span>,[change objectForKey:NSKeyValueChangeOldKey]);</span><br><span class="line">    NSLog(@<span class="string">"old = %@"</span>,[change objectForKey:NSKeyValueChangeNewKey]);</span><br><span class="line">    NSLog(@<span class="string">"context:%@"</span>,context);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>就是重写</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;-(void)observeValueForKeyPath:(NSString *)keyPath&#10;                     ofObject:(id)object&#10;                     change:(NSDictionary&#60;NSString *,id&#62; *)change&#10;                      context:(void *)context</span><br></pre></td></tr></table></figure>
+<p>进入测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  ViewController.m</span><br><span class="line">//  KVO</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">4</span>/<span class="number">4</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"><span class="comment">#import "LastDays.h"</span></span><br><span class="line"><span class="comment">#import "LastdaysObserver.h"</span></span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    </span><br><span class="line">    [self <span class="built_in">test</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)<span class="built_in">test</span>&#123;</span><br><span class="line">    LastdaysObserver *lastdaysObserver = [[LastdaysObserver alloc] init];</span><br><span class="line">    LastDays *lastdays = [[LastDays alloc] init];</span><br><span class="line">    </span><br><span class="line">    lastdays.name = @<span class="string">"ok"</span>;</span><br><span class="line">    [lastdays addObserver:lastdaysObserver</span><br><span class="line">               <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span></span><br><span class="line">                  options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld</span><br><span class="line">                  context:(void*)self];</span><br><span class="line">    </span><br><span class="line">    lastdays.name = @<span class="string">"name"</span>;</span><br><span class="line">    [lastdays removeObserver:lastdaysObserver <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>在这里我们使用一下方法添加观察者</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[lastdays addObserver:lastdaysObserver</span><br><span class="line">           <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span></span><br><span class="line">              options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld</span><br><span class="line">              context:(void*)self];</span><br></pre></td></tr></table></figure>
+<p>查看打印结果:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">04.231</span> KVO[<span class="number">4046</span>:<span class="number">379396</span>] old = ok</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">04.232</span> KVO[<span class="number">4046</span>:<span class="number">379396</span>] old = name</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">04.232</span> KVO[<span class="number">4046</span>:<span class="number">379396</span>] context:&lt;ViewController: <span class="number">0</span>x7faa0ae34da0&gt;</span><br></pre></td></tr></table></figure>
+<p>##KVV(键值验证)</p>
+<p>可以用来校验数据：</p>
+<p>通过一下方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)validateValue:(inout id *)ioValue <span class="keyword">for</span>Key:(NSString *)<span class="keyword">in</span>Key error:(out NSError **)outError;</span><br></pre></td></tr></table></figure>
+<p>测试:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-(void)<span class="built_in">test</span>&#123;</span><br><span class="line">    LastdaysObserver *lastdaysObserver = [[LastdaysObserver alloc] init];</span><br><span class="line">    LastDays *lastdays = [[LastDays alloc] init];</span><br><span class="line">    </span><br><span class="line">    NSString *name =@<span class="string">"lastdays"</span>;</span><br><span class="line">    lastdays.name = name;</span><br><span class="line">    </span><br><span class="line">    //添加观察者</span><br><span class="line">    [lastdays addObserver:lastdaysObserver</span><br><span class="line">               <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span></span><br><span class="line">                  options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld</span><br><span class="line">                  context:(void*)self];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([lastdays validateValue:&amp;name <span class="keyword">for</span>Key:@<span class="string">"name"</span> error:nil]) &#123;</span><br><span class="line">        NSLog(@<span class="string">"数据不为空"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        NSLog(@<span class="string">"数据为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    lastdays.name = @<span class="string">"Lastdays"</span>;</span><br><span class="line">    </span><br><span class="line">    //移除观察者观察的对应属性</span><br><span class="line">    [lastdays removeObserver:lastdaysObserver <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">00</span>:<span class="number">05.157</span> KVO[<span class="number">4099</span>:<span class="number">398267</span>] 数据不为空</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">00</span>:<span class="number">05.159</span> KVO[<span class="number">4099</span>:<span class="number">398267</span>] old = lastdays</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">00</span>:<span class="number">05.159</span> KVO[<span class="number">4099</span>:<span class="number">398267</span>] old = Lastdays</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">00</span>:<span class="number">05.159</span> KVO[<span class="number">4099</span>:<span class="number">398267</span>] context:&lt;ViewController: <span class="number">0</span>x7fafa3fa4a60&gt;</span><br></pre></td></tr></table></figure>
+<p>###简历属性依赖关系:</p>
+<p>现在我们只有一个属性，如果添加一个chineseName，将name与chineseName建立关系，chineseName发生变化的时候，同事也能被通知。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> //</span><br><span class="line">//  LastDays.m</span><br><span class="line">//  KVO</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">4</span>/<span class="number">4</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "LastDays.h"</span></span><br><span class="line"></span><br><span class="line">@implementation LastDays</span><br><span class="line"></span><br><span class="line">+(NSSet *)keyPathsForValuesAffectingName&#123;</span><br><span class="line">    </span><br><span class="line">    NSSet *<span class="built_in">set</span> = [NSSet <span class="built_in">set</span>WithObjects:@<span class="string">"chineseName"</span>, nil];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> <span class="built_in">set</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>测试:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(void)<span class="built_in">test</span>&#123;</span><br><span class="line">    LastdaysObserver *lastdaysObserver = [[LastdaysObserver alloc] init];</span><br><span class="line">    LastDays *lastdays = [[LastDays alloc] init];</span><br><span class="line">    </span><br><span class="line">    NSString *name =@<span class="string">"lastdays"</span>;</span><br><span class="line">    lastdays.name = name;</span><br><span class="line">    </span><br><span class="line">    //添加观察者</span><br><span class="line">    [lastdays addObserver:lastdaysObserver</span><br><span class="line">               <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span></span><br><span class="line">                  options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld</span><br><span class="line">                  context:(void*)self];</span><br><span class="line">    </span><br><span class="line">    lastdays.name = @<span class="string">"test"</span>;</span><br><span class="line">    </span><br><span class="line">    //更改chineseName属性</span><br><span class="line">    lastdays.chineseName = @<span class="string">"小猪"</span>;</span><br><span class="line">    </span><br><span class="line">    //移除观察者观察的对应属性</span><br><span class="line">    [lastdays removeObserver:lastdaysObserver <span class="keyword">for</span>KeyPath:@<span class="string">"name"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">23</span>:<span class="number">14.649</span> KVO[<span class="number">4143</span>:<span class="number">408366</span>] old = lastdays</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">23</span>:<span class="number">14.650</span> KVO[<span class="number">4143</span>:<span class="number">408366</span>] new = <span class="built_in">test</span></span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">23</span>:<span class="number">14.650</span> KVO[<span class="number">4143</span>:<span class="number">408366</span>] context:&lt;ViewController: <span class="number">0</span>x7fefa9524030&gt;</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">23</span>:<span class="number">14.650</span> KVO[<span class="number">4143</span>:<span class="number">408366</span>] old = <span class="built_in">test</span></span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">23</span>:<span class="number">14.650</span> KVO[<span class="number">4143</span>:<span class="number">408366</span>] new = <span class="built_in">test</span></span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">12</span>:<span class="number">23</span>:<span class="number">14.650</span> KVO[<span class="number">4143</span>:<span class="number">408366</span>] context:&lt;ViewController: <span class="number">0</span>x7fefa9524030&gt;</span><br></pre></td></tr></table></figure>
+<p>到此我们的基本使用就总结完成了。</p>
+<p>##实现是一个时钟</p>
+<p>建立定时器执行我们的时间更新：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;//&#10;//  RNTimer.m&#10;//  ClockKVO&#10;//&#10;//  Created by LastDays on 16/4/4.&#10;//  Copyright &#169; 2016&#24180; LastDays. All rights reserved.&#10;//&#10;&#10;#import &#34;RNTimer.h&#34;&#10;&#10;&#10;@interface RNTimer ()&#10;@property (nonatomic, readwrite, copy) void (^block)();&#10;@property (nonatomic, readwrite, strong) dispatch_source_t source;&#10;@end&#10;&#10;&#10;@implementation RNTimer&#10;&#10;@synthesize block = _block;&#10;@synthesize source = _source;&#10;&#10;+ (RNTimer *)repeatingTimerWithTimeInterval:(NSTimeInterval)seconds block:(void (^)(void))block&#10;&#123;&#10;    NSParameterAssert(seconds);&#10;    NSParameterAssert(block);&#10;    &#10;    RNTimer *timer = [[self alloc] init];&#10;    timer.block = block;&#10;    timer.source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,&#10;                                          dispatch_get_main_queue());&#10;    uint64_t nsec = (uint64_t)(seconds * NSEC_PER_SEC);&#10;    dispatch_source_set_timer(timer.source, dispatch_time(DISPATCH_TIME_NOW, nsec),&#10;                              nsec, 0);&#10;    dispatch_source_set_event_handler(timer.source, block);&#10;    dispatch_resume(timer.source);&#10;    return timer;&#10;&#125;&#10;&#10;- (void)invalidate&#10;&#123;&#10;    if (self.source) &#123;&#10;        dispatch_source_cancel(self.source);&#10;        self.source = nil;&#10;    &#125;&#10;    self.block = nil;&#10;&#125;&#10;&#10;- (void)dealloc&#10;&#123;&#10;    [self invalidate];&#10;&#125;&#10;&#10;- (void)fire&#10;&#123;&#10;    self.block();&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>这里就不解释了，感兴趣可以看看GCD相关知识.</p>
+<p>首先建立一个简易的时钟。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"></span><br><span class="line">@interface TimeDate : NSObject</span><br><span class="line"></span><br><span class="line">@property(nonatomic,copy) NSDate *now;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//</span><br><span class="line">//  ViewController.m</span><br><span class="line">//  ClockKVO</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">4</span>/<span class="number">4</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"><span class="comment">#import "TimeDate.h"</span></span><br><span class="line"><span class="comment">#import "RNTimer.h"</span></span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (weak, nonatomic) IBOutlet UILabel *showTime;</span><br><span class="line">@property (nonatomic,strong) TimeDate *time;</span><br><span class="line">@property (readwrite, strong) RNTimer *timer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (self.time == nil) &#123;</span><br><span class="line">        self.time = [[TimeDate alloc] init];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    id weakSelf = self;</span><br><span class="line">    self.timer = [RNTimer repeatingTimerWithTimeInterval:<span class="number">1</span></span><br><span class="line">                                      block:^&#123;</span><br><span class="line">                                          [weakSelf updateTime];</span><br><span class="line">                                      &#125;];</span><br><span class="line">    </span><br><span class="line">    [self.time addObserver:self <span class="keyword">for</span>KeyPath:@<span class="string">"now"</span> options:<span class="number">0</span> context:(void *)self];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSString *,id&gt; *)change context:(void *)context&#123;</span><br><span class="line">    self.showTime.text = [self.time.now description];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)updateTime&#123;</span><br><span class="line">    self.time.now = [NSDate new];</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,self.time.now);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)dealloc&#123;</span><br><span class="line">    [self.time removeObserver:self <span class="keyword">for</span>KeyPath:@<span class="string">"now"</span> context:(void *)self];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>效果如下:</p>
+<p><img src="/image/kvo/1.gif" alt=""></p>
+<p>接下来进行一下简单封装处理，添加Observer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#10;//  Observer.h&#10;//  ClockKVO&#10;//&#10;//  Created by LastDays on 16/4/4.&#10;//  Copyright &#169; 2016&#24180; LastDays. All rights reserved.&#10;//&#10;&#10;#import &#60;Foundation/Foundation.h&#62;&#10;&#10;@interface Observer : NSObject&#10;&#10;@property (nonatomic, weak) id observedObject;&#10;@property (nonatomic, copy) NSString* keyPath;&#10;@property (nonatomic, weak) id target;&#10;@property (nonatomic) SEL selector;&#10;&#10;&#10;&#10;&#10;/// Create a key-value-observer with the given KVO options&#10;+ (NSObject *)observeObject:(id)object keyPath:(NSString*)keyPath target:(id)target selector:(SEL)selector options:(NSKeyValueObservingOptions)options __attribute__((warn_unused_result));&#10;&#10;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  Observer.m</span><br><span class="line">//  ClockKVO</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">4</span>/<span class="number">4</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "Observer.h"</span></span><br><span class="line"></span><br><span class="line">@implementation Observer</span><br><span class="line"></span><br><span class="line">- (id)initWithObject:(id)object keyPath:(NSString*)keyPath target:(id)target selector:(SEL)selector options:(NSKeyValueObservingOptions)options;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (object == nil) &#123;</span><br><span class="line">        <span class="built_in">return</span> nil;</span><br><span class="line">    &#125;</span><br><span class="line">    NSParameterAssert(target != nil);</span><br><span class="line">    NSParameterAssert([target respondsToSelector:selector]);</span><br><span class="line">    self = [super init];</span><br><span class="line">    <span class="keyword">if</span> (self) &#123;</span><br><span class="line">        self.target = target;</span><br><span class="line">        self.selector = selector;</span><br><span class="line">        self.observedObject = object;</span><br><span class="line">        self.keyPath = keyPath;</span><br><span class="line">        [object addObserver:self <span class="keyword">for</span>KeyPath:keyPath options:options context:(__bridge void *)(self)];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+(NSObject *)observeObject:(id)object keyPath:(NSString *)keyPath target:(id)target selector:(SEL)selector options:(NSKeyValueObservingOptions)options&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> [[self alloc] initWithObject:object keyPath:keyPath target:target selector:selector options:options];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSString *,id&gt; *)change context:(void *)context&#123;</span><br><span class="line">    <span class="keyword">if</span> (context == (__bridge void *)self) &#123;</span><br><span class="line">        [self didChange:change];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didChange:(NSDictionary *)change;</span><br><span class="line">&#123;</span><br><span class="line">    id strongTarget = self.target;</span><br><span class="line"><span class="comment">#pragma clang diagnostic push</span></span><br><span class="line"><span class="comment">#pragma clang diagnostic ignored "-Warc-performSelector-leaks"</span></span><br><span class="line">    [strongTarget performSelector:self.selector withObject:change];</span><br><span class="line"><span class="comment">#pragma clang diagnostic pop</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc;</span><br><span class="line">&#123;</span><br><span class="line">    [self.observedObject removeObserver:self <span class="keyword">for</span>KeyPath:self.keyPath];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>然后重写下time属性的set方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#10;//  ViewController.m&#10;//  ClockKVO&#10;//&#10;//  Created by LastDays on 16/4/4.&#10;//  Copyright &#169; 2016&#24180; LastDays. All rights reserved.&#10;//&#10;&#10;#import &#34;ViewController.h&#34;&#10;#import &#34;TimeDate.h&#34;&#10;#import &#34;RNTimer.h&#34;&#10;#import &#34;Observer.h&#34;&#10;&#10;@interface ViewController ()&#10;@property (weak, nonatomic) IBOutlet UILabel *showTime;&#10;@property (nonatomic,strong) TimeDate *time;&#10;@property (readwrite, strong) RNTimer *timer;&#10;@property (nonatomic, strong) id observeToken;&#10;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    &#10;    if (self.time == nil) &#123;&#10;        self.time = [[TimeDate alloc] init];&#10;    &#125;&#10;    &#10;    id weakSelf = self;&#10;    self.timer = [RNTimer repeatingTimerWithTimeInterval:1&#10;                                      block:^&#123;&#10;                                          [weakSelf updateTime];&#10;                                      &#125;];&#10;    // Do any additional setup after loading the view, typically from a nib.&#10;&#125;&#10;&#10;-(void)setTime:(TimeDate *)time&#123;&#10;    &#10;    _time = time;&#10;    self.observeToken = [Observer observeObject:self.time keyPath:@&#34;now&#34; target:self selector:@selector(timeDidChange) options:NSKeyValueObservingOptionInitial];&#10;&#125;&#10;- (void)didReceiveMemoryWarning &#123;&#10;    [super didReceiveMemoryWarning];&#10;    // Dispose of any resources that can be recreated.&#10;&#125;&#10;&#10;-(void)updateTime&#123;&#10;    self.time.now = [NSDate new];&#10;    NSLog(@&#34;%@&#34;,self.time.now);&#10;&#125;&#10;&#10;-(void)timeDidChange&#123;&#10;    self.showTime.text = [self.time.now description];&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>基本上我们的KVO基本上就实现了，现在来开始设计UI，UI的话这里就不做分享了，毕竟KVO才是关键，只是说一下重点的地方。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">//初始化视图</span><br><span class="line">-(instancetype)initWithTheme:(DDClockTheme)theme frame:(CGRect)frame&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (self.time == nil) &#123;</span><br><span class="line">        self.time = [[TimeDate alloc] init];</span><br><span class="line">        self.time.now = [NSDate new];</span><br><span class="line">    &#125;</span><br><span class="line">    id weakSelf = self;</span><br><span class="line">    self.timer = [RNTimer repeatingTimerWithTimeInterval:<span class="number">1</span></span><br><span class="line">                                                   block:^&#123;</span><br><span class="line">                                                       [weakSelf updateTime];</span><br><span class="line">                                                   &#125;];</span><br><span class="line">    </span><br><span class="line">    //防止用户在构建的时候传入的height和widt不一样 因为时钟是圆的所以强制把他们变成一样</span><br><span class="line">    size = frame.size.height&gt;frame.size.width?frame.size.height:frame.size.width;</span><br><span class="line">    CGRect realRect = CGRectMake(frame.origin.x, frame.origin.y, size, size);</span><br><span class="line">    self = [self initWithFrame:realRect];</span><br><span class="line">    <span class="keyword">if</span> (self) &#123;</span><br><span class="line">        _theme = theme;</span><br><span class="line">        _scale = realRect.size.height / DDClockSize;</span><br><span class="line">        _centerPoint = CGPointMake(size/<span class="number">2</span>, size/<span class="number">2</span>);</span><br><span class="line">        </span><br><span class="line">        /**</span><br><span class="line">         *  这里可以自定义主题</span><br><span class="line">         */</span><br><span class="line">        switch (theme) &#123;</span><br><span class="line">            <span class="keyword">case</span> DDClockThemeDark:</span><br><span class="line">                rimColor = [UIColor colorWithRed: <span class="number">66.0</span>/<span class="number">255</span> green: <span class="number">66.0</span>/<span class="number">255</span> blue: <span class="number">66.0</span>/<span class="number">255</span> alpha: <span class="number">1</span>];</span><br><span class="line">                faceColor = [UIColor colorWithRed: <span class="number">66.0</span>/<span class="number">255</span> green: <span class="number">66.0</span>/<span class="number">255</span> blue: <span class="number">66.0</span>/<span class="number">255</span> alpha: <span class="number">1</span>];</span><br><span class="line">                markColor = [UIColor colorWithRed:  <span class="number">1</span> green: <span class="number">1</span> blue: <span class="number">1</span> alpha: <span class="number">1</span>];</span><br><span class="line">                secondHandColor = [UIColor colorWithRed: <span class="number">32.0</span>/<span class="number">255.0</span> green: <span class="number">250.0</span>/<span class="number">255.0</span> blue: <span class="number">200.0</span>/<span class="number">255.0</span> alpha: <span class="number">1</span>];</span><br><span class="line">                fontColor = [UIColor colorWithRed: <span class="number">1</span> green: <span class="number">1</span> blue: <span class="number">1</span> alpha: <span class="number">1</span>];</span><br><span class="line">                hourAndMinuteHandColor = [UIColor colorWithRed: <span class="number">1</span> green: <span class="number">1</span> blue: <span class="number">1</span> alpha: <span class="number">1</span>];</span><br><span class="line">                <span class="built_in">break</span>;</span><br><span class="line">                </span><br><span class="line">            default:</span><br><span class="line">                <span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    self.backgroundColor = [UIColor clearColor];</span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/** </span><br><span class="line"> *  更新数据</span><br><span class="line"> */</span><br><span class="line">-(void)updateTime&#123;</span><br><span class="line">    self.time.now = [NSDate new];</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,self.time.now);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化视图，建立定时器，不停的更新当前时间。基本上跟上面讲述的一样</p>
+<p>然后重写setter方法，初始化time属性的时候，添加观察者，让View观察time.now的属性变化，变化就对象做出反应，更新视图，然后重写-(void)drawRect:(CGRect)rect方法。这样View就会通过KVO机制与Model数据保持一致性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  重写time setter方法</span><br><span class="line"> *</span><br><span class="line"> *  @param time time</span><br><span class="line"> */</span><br><span class="line">-(void)<span class="built_in">set</span>Time:(TimeDate *)time&#123;</span><br><span class="line">    </span><br><span class="line">    _time = time;</span><br><span class="line">    self.observeToken = [Observer observeObject:self.time keyPath:@<span class="string">"now"</span> target:self selector:@selector(updateView) options:NSKeyValueObservingOptionInitial];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  刷新视图</span><br><span class="line"> */</span><br><span class="line">-(void)updateView&#123;</span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        [self <span class="built_in">set</span>NeedsDisplay];//这个方法调用后就会刷新这个View</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实实现方案基本上是一样的。 </p>
+<p>看一下效果：</p>
+<p><img src="/image/kvo/2.gif" alt=""></p>
+<h2 id="u89C2_u5BDF_u8005_u6A21_u5F0F"><a href="#u89C2_u5BDF_u8005_u6A21_u5F0F" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>上面总结了KVO的使用，并且做了一个小东西，上面介绍过，KVO 是 Objective-C 对观察者模式（Observer Pattern）的实现。也是 Cocoa Binding 的基础。当被观察对象的某个属性发生更改时，观察者对象会获得通知。那么什么是观察者模式呢？简单的来了解下吧</p>
+<p>###定义</p>
+<p>观察者模式(Observer Pattern)：定义对象间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式又叫做发布-订阅（Publish/Subscribe）模式、模型-视图（Model/View）模式、源-监听器（Source/Listener）模式或从属者（Dependents）模式。</p>
+<h3 id="u5206_u6790"><a href="#u5206_u6790" class="headerlink" title="分析"></a>分析</h3><p>观察者模式就是让各个对象之间建立一个依赖关系，当有一个发生变化的时候，其他对象做出响应，就是说每个观察者都将即时更新自己的状态，以与目标状态同步，这种交互也称为发布-订阅(publishsubscribe)，发布就相当于我们的通知中心，订阅也就相当于我们的观察者，简单的说名就是，我们去一个订阅中心订阅了一个书刊，然后告诉订阅中心，然后告诉订阅中心我订阅的这个书刊要是有更新的时候，告诉我一声。我们的KVO也就是这个原理。</p>
+<h3 id="u4F18_u70B9_u5206_u6790"><a href="#u4F18_u70B9_u5206_u6790" class="headerlink" title="优点分析"></a>优点分析</h3><ul>
+<li>分离表示层与数据逻辑层，定义一种稳定的消息更新传递机制，可以实现让我们的程序中不同角色的对象都可以作为一个观察者。</li>
+<li>观察者模式还具备广播能力（在钟表的项目中，我们的lable和自定义的View都接收到通知中心的通知，并且都会做出相应的反应）</li>
+<li>观察者模式在观察目标和观察者之间建立一个抽象的耦合关系</li>
+</ul>
+<h3 id="u786E_u5B9A"><a href="#u786E_u5B9A" class="headerlink" title="确定"></a>确定</h3><ul>
+<li>如果一个观察目标对象有很多直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。(在钟表项目中，观察Time的对象仅仅有两个，如果由上百个，很浪费时间)</li>
+<li>还有一种情况我们需要注意，就是循环观察，这样可能会进入一种苏循环中，很可能造成程序的崩溃，这种也很难找到原因。</li>
+<li>观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。（但是KVO应该在这方面做了支持）</li>
+</ul>
+<h3 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h3><p>观察者模式定义对象间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式又叫做发布-订阅模式、模型-视图模式、源-监听器模式或从属者模式。观察者模式是一种对象行为型模式。</p>
+<p>观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个目标对象，当这个目标对象的状态发生变化时，会通知所有观察者对象，使它们能够自动更新。</p>
+<p>在我们的工程中，也有一个简单的观察者模式的示例。</p>
+<h2 id="KVO_u7684_u5B9E_u73B0_u539F_u7406"><a href="#KVO_u7684_u5B9E_u73B0_u539F_u7406" class="headerlink" title="KVO的实现原理"></a>KVO的实现原理</h2><h3 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h3><p>KVO确实有点黑魔法，我原来在使用的时候就考虑过它是怎么实现的？但是那个时候对runtime的理解并不太多，实际上KVO的实现就是基于runtime这种实时运行系统。</p>
+<p>苹果官方对KVO的实现确实做过简单的解释</p>
+<blockquote>
+<p>Automatic key-value observing is implemented using a technique called isa-swizzling… When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class …</p>
+</blockquote>
+<p>这么强大的黑魔法，就说了这么点，但是其中有一个很关键的一句话就是，被观察的对象的isa指针会指向一个中间类，而不是原来的类。</p>
+<p>在这里看出来差不多就是应用了runtime。自己google了一下，发现了很多资料简单的先来阐述一下KVO的实现，同样看到这里的时候，多少应该对runtime有个了解才行，否则很难明白这些东西。</p>
+<p>感兴趣可以看一下我之前总结的一篇文章<a href="http://lastdays.cn/2016/02/22/runtime/">Runtime学习笔记</a></p>
+<p>还是根据我们上面的项目进行分析，当我们观察<strong>time.now</strong>属性的时候，系统使用runtime动态创建一个新的类，这个类会继承TimeDate类。并且重写now属性的setter方法。这里被重写的方法其实就是用来通知观察者的。这个时候，我们的isa（isa 指针告诉 runtime 系统这个对象的类是什么 ）指针会指向我们新创建的子类，因此，我们的实例对象就变成了一个新的类的实例。其实这个中间类，也就是我们动态创建出来的。</p>
+<p>基本的实现原理就是这样，这里很多人可能也会发觉，其实KVO并不是没有缺点，在我们上面时钟的的练习中，我们就发现了，我们想自定义selector但是没办法，后来是也在接口里加上了target，selector参数，才实现了一些功能，而且我们常用的block也是不支持的。这也是很多人的吐槽点。</p>
+<h3 id="u7B80_u5355_u7684_u5B9E_u73B0"><a href="#u7B80_u5355_u7684_u5B9E_u73B0" class="headerlink" title="简单的实现"></a>简单的实现</h3><p>根据上面说的，我们需要动态创建一个中间类，继承自被观察实例的类,重写setter方法，将isa指针指向新的类，这里就是使用runtime来帮我们实现。具体的实现说明我在代码中标注了，简单的思路就是获取当前类，super_class指向我们的当前类，然后使用objc_allocateClassPair时候一些基本信息就会被添加到子类中。</p>
+<p>动态创建新的类。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  NSObject+KVO.m</span><br><span class="line">//  MakeKVO</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">4</span>/<span class="number">5</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "NSObject+KVO.h"</span></span><br><span class="line"><span class="comment">#import &lt;objc/runtime.h&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NSString *const LYKVOPrefix = @<span class="string">"LYNewClass_"</span>;</span><br><span class="line"></span><br><span class="line">@implementation NSObject(LYKVO)</span><br><span class="line"></span><br><span class="line">-(void)LY_addObserver:(NSObject *)observer <span class="keyword">for</span>Key:(NSString *)key&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    Class class = object_getClass(self);</span><br><span class="line">    NSString *className = NSStringFromClass(class);</span><br><span class="line">    </span><br><span class="line">    //定义中间类类</span><br><span class="line">    Class childrenClass =  [self makeChildrenClassWithName:className];</span><br><span class="line">    </span><br><span class="line">    //改变isa指针，指向中间类</span><br><span class="line">    object_<span class="built_in">set</span>Class(self, childrenClass);</span><br><span class="line">&#125;</span><br><span class="line">-(void)LY_removeObserver:(NSObject *)observer <span class="keyword">for</span>Key:(NSString *)key&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(Class)makeChildrenClassWithName:(NSString *)superName&#123;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  建立新的类名：我们以LYNewClass_+superName</span><br><span class="line">     */</span><br><span class="line">    NSString *childrenName = [LYKVOPrefix stringByAppendingString:superName];</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  获取父类</span><br><span class="line">     *</span><br><span class="line">     *  @param self 当前类</span><br><span class="line">     *</span><br><span class="line">     *  @<span class="built_in">return</span> 返回当前类（也就是中间类的父类）</span><br><span class="line">     */</span><br><span class="line">    Class superClass = object_getClass(self);</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  动态创建中间类</span><br><span class="line">     *</span><br><span class="line">     *  @param superClass              父类（self）,如果建立根类，可以选择填写nil</span><br><span class="line">     *  @param childrenName.UTF8String 类名</span><br><span class="line">     *  @param <span class="number">0</span>                       该参数是分配给类和元类对象尾部的索引ivars的字节数。</span><br><span class="line">     *</span><br><span class="line">     *  @<span class="built_in">return</span> 中间类</span><br><span class="line">     */</span><br><span class="line">    Class childrenClass = objc_allocateClassPair(superClass, childrenName.UTF8String, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  获取父类类方法（这里说的父类就是当前类）</span><br><span class="line">     *</span><br><span class="line">     *  @param superClass self</span><br><span class="line">     *  @param class      class</span><br><span class="line">     *</span><br><span class="line">     *  @<span class="built_in">return</span>  superMethod</span><br><span class="line">     */</span><br><span class="line">    Method superMethod = class_getClassMethod(superClass, @selector(class));</span><br><span class="line">    </span><br><span class="line">    //参数types是一个描述传递给方法的参数类型的字符数组，这就涉及到类型编码</span><br><span class="line">    const char *types = method_getTypeEncoding(superMethod);</span><br><span class="line">    </span><br><span class="line">    //获取函数具体地址</span><br><span class="line">    IMP imp = class_getMethodImplementation(superClass, @selector(class));</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  向childrenClass添加方法</span><br><span class="line">     *</span><br><span class="line">     *  @param childrenClass 中间类</span><br><span class="line">     *  @param class         class</span><br><span class="line">     *</span><br><span class="line">     *  @<span class="built_in">return</span> BOOL</span><br><span class="line">     */</span><br><span class="line">    class_addMethod(childrenClass, @selector(class), imp, types);</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     *  注册，之后这个新类就可以在程序中使用了</span><br><span class="line">     */</span><br><span class="line">    objc_registerClassPair(childrenClass);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> childrenClass;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>看一下</p>
+<p>然后就是重写setter，我们上面提到过的方案就是重写setter方法，在setter中实现我们的通知，数据一旦变化就可以通知观察者。重写setter我们使用<strong>class_addMethod</strong>，它的实现会覆盖父类的方法实现，但不会取代本类中已存在的实现，如果本类中包含一个同名的实现，则函数会返回NO。</p>
+<p>这里我们的<strong>lykvo_setter</strong>就是我们重写的方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//获取父类的setter</span><br><span class="line">NSString *superSetterName = [NSString stringWithFormat:@<span class="string">"set%@%@:"</span>, [key substringToIndex:<span class="number">1</span>].uppercaseString,[key substringFromIndex:<span class="number">1</span>]];</span><br><span class="line">SEL setterSelector = NSSelectorFromString(superSetterName);</span><br><span class="line">Method superSetterMethod = class_getInstanceMethod(superClass, setterSelector);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (![self isExistence:setterSelector]) &#123;</span><br><span class="line">    //重写setter,改变IMP</span><br><span class="line">    const char *types = method_getTypeEncoding(superSetterMethod);</span><br><span class="line">    class_addMethod(childrenClass, setterSelector,(IMP)lykvo_setter, types);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>lykvo_setter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - Overridden Methods&#10;void lykvo_setter(id self,SEL _cmd,id value)&#123;&#10;    &#10;    &#10;    NSString *setterName = NSStringFromSelector(_cmd);&#10;    NSString *getterName = [self getGetterForKeyWithSetterName:setterName];&#10;    &#10;    SEL getter = NSSelectorFromString(getterName);&#10;    &#10;    &#10;    NSLog(@&#34;getterName = %@&#34;,getterName);&#10;    id oldValue = ((id (*)(id, SEL))(void *) objc_msgSend)((id)self,getter);&#10;    &#10;    NSLog(@&#34;oldValue = %@&#34;,oldValue);&#10;    /**&#10;     *  &#21521;&#29238;&#31867;&#21457;&#36865;&#28040;&#24687;&#65292;&#20294;&#26159;&#25509;&#25910;&#28040;&#24687;&#30340;&#20173;&#28982;&#26159;&#25105;&#20204;&#30340;self&#10;     */&#10;    &#10;    //((void (*)(id, SEL, id))(void *) objc_msgSend)((id)self, _cmd, value);&#10;    struct objc_super superClass = &#123;&#10;            .receiver = self,&#10;            .super_class = class_getSuperclass(object_getClass(self))&#10;        &#125;;&#10;    ((void (*)(id, SEL, id))(void *) objc_msgSendSuper)((__bridge id)(&#38;superClass), _cmd, value);&#10;    &#10;    &#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们就详解下，一个Objective-C方法是一个简单的C函数，它至少包含两个参数—self和_cmd。所以，我们的实现函数(IMP参数指向的函数)至少需要两个参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void myMethodIMP(id self, SEL _cmd)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    // implementation ....</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里用到的另一种就是，我们通过<strong>objc_msgSend</strong>，来模拟getter方法来获取oldValue，那么Value该怎么处理？这个新的值我们又该怎么传递进去呢?我们也是使用模拟setter的方案，但是现在来想一下，我们现在已经重写了setter方法，那样肯定就照成循环引用，就是不停的卡死在我们的lykvo_setter，这个时候我就想到了superClass，这个方法里面的setter是是没有变化的，而且通过查询资料也发现，首先我们需要知道的是super与self不同。self是类的一个隐藏参数，每个方法的实现的第一个参数即为self。而super并不是隐藏参数，它实际上只是一个”编译器标示符”，它负责告诉编译器，当调用setter方法时，去调用父类的方法，而不是本类中的方法。而它实际上与self指向的是相同的消息接收者。</p>
+<p>可以来看一下测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">//    Model *model = [[Model alloc] init];</span><br><span class="line">//    [model LY_addObserver:nil <span class="keyword">for</span>Key:@<span class="string">"name"</span>];</span><br><span class="line">//    model.name = @<span class="string">"ok"</span>;</span><br><span class="line">//    </span><br><span class="line">//    [model <span class="built_in">test</span>];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"super = %@"</span>,super.class);</span><br><span class="line">    NSLog(@<span class="string">"super = %@"</span>,self.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看一下结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">07</span> <span class="number">18</span>:<span class="number">25</span>:<span class="number">25.989</span> MakeKVO[<span class="number">21992</span>:<span class="number">1461041</span>] super = ViewController</span><br><span class="line"><span class="number">2016</span>-<span class="number">04</span>-<span class="number">07</span> <span class="number">18</span>:<span class="number">25</span>:<span class="number">25.990</span> MakeKVO[<span class="number">21992</span>:<span class="number">1461041</span>] super = ViewController</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们的接收者都是self。</p>
+<p>这样我们就可以提出一个解决方案，让新的<strong>setter</strong>去调用<strong>superClass</strong>的<strong>setter</strong>进行赋值，在做接下来的处理。这里需要强调的是想<strong>superClass</strong>发送消息需要使用<strong>objc_msgSendSuper</strong>。</p>
+<p>写到这里，基本上我们的项目已经到了最后一步了，就是添加观察者。我们就在接口中传入一个block吧。相关的，我们在这里先来介绍下<strong>Associated Objects</strong>，在一个常见的应用场景中就是为 KVO 创建一个关联的观察者。</p>
+<p>与 Associated Objects 相关的函数主要有三个，我们可以在 runtime 源码的 runtime.h 文件中找到它们的声明：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void objc_<span class="built_in">set</span>AssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy);</span><br><span class="line">id objc_getAssociatedObject(id object, const void *key);</span><br><span class="line">void objc_removeAssociatedObjects(id object);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>objc_setAssociatedObject 用于给对象添加关联对象，传入 nil 则可以移除已有的关联对象；</li>
+<li>objc_getAssociatedObject 用于获取关联对象；</li>
+<li>objc_removeAssociatedObjects 用于移除一个对象的所有关联对象。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//添加关联，添加观察者</span><br><span class="line">ObserverInfo *info = [[ObserverInfo alloc] initWithObserver:observer Key:key lyBlock:lyblock];</span><br><span class="line">NSMutableArray *observers = objc_getAssociatedObject(self, (__bridge const void *)LYObserverInfo);</span><br><span class="line"><span class="keyword">if</span> (!observers) &#123;</span><br><span class="line">    observers = [[NSMutableArray alloc] init];</span><br><span class="line">    objc_<span class="built_in">set</span>AssociatedObject(self, (__bridge const void *)LYObserverInfo, observers, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[observers addObject:info];</span><br></pre></td></tr></table></figure>
+<p>通知</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  这里就是进行通知了。</span><br><span class="line"> */</span><br><span class="line">NSMutableArray *observers = objc_getAssociatedObject(self, (__bridge const void *)LYObserverInfo);</span><br><span class="line"><span class="keyword">for</span> (ObserverInfo *observer <span class="keyword">in</span> observers) &#123;</span><br><span class="line">    <span class="keyword">if</span> ([observer.key isEqual:getterName]) &#123;</span><br><span class="line">        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">            observer.lyBlock(self, getterName, oldValue, value);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3-1"><a href="#u603B_u7ED3-1" class="headerlink" title="总结"></a>总结</h2><p>我们的总结</p>
+<blockquote>
+<p>当一个object有观察者时，动态创建这个object的类的子类<br>对于每个被观察的property，重写其set方法<br>在重写的set方法中调用,通知观察者<br>当一个property没有观察者时，删除重写的方法<br>当没有observer观察任何一个property时，删除动态创建的子类</p>
+</blockquote>
+<p><strong>基本使用-&gt;实现是一个时钟-&gt;了解观察者模式-&gt;了解KVO实现原理-&gt;利用runtime自己设计KVO替换掉官方API更加深入的了解它</strong></p>
+<p>基本上就是对runtime有了一个更深的认识，还有就是一些基本的使用，动态创建类，改变isa指针，重写方法都有了一些认知</p>
+<p>在这里就基本完成了，现在对KVO有了一个更深的了解，在这里提供一个些我学习过程中用到的资料</p>
+<ul>
+<li><a href="http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/" target="_blank" rel="external">Objective-C Runtime 运行时之一：类与对象</a></li>
+<li><a href="http://southpeak.github.io/blog/2014/11/09/objective-c-runtime-yun-xing-shi-zhi-liu-:shi-yi/" target="_blank" rel="external">Objective-C Runtime 运行时之六：拾遗</a></li>
+<li><a href="http://nshipster.cn/associated-objects/" target="_blank" rel="external">Associated Objects</a></li>
+<li><a href="http://blog.sunnyxx.com/2014/03/09/objc_kvo_secret/" target="_blank" rel="external">objc kvo简单探索</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/04/08/KVO/" data-title="iOS 手动打造JSON Model转换库 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/23/lifes/"  title="曾将与现在">
+ <strong>下一篇：</strong><br/> 
+ <span>曾将与现在
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/04/08/KVO/" data-title="iOS 手动打造JSON Model转换库" data-url="http://Lastdays.cn/2016/04/08/KVO/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u5355_u4F7F_u7528"><span class="toc-number">1.</span> <span class="toc-text">简单使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u89C2_u5BDF_u8005_u6A21_u5F0F"><span class="toc-number"></span> <span class="toc-text">观察者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5206_u6790"><span class="toc-number">1.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4F18_u70B9_u5206_u6790"><span class="toc-number">2.</span> <span class="toc-text">优点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u786E_u5B9A"><span class="toc-number">3.</span> <span class="toc-text">确定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVO_u7684_u5B9E_u73B0_u539F_u7406"><span class="toc-number"></span> <span class="toc-text">KVO的实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u4ECB"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B80_u5355_u7684_u5B9E_u73B0"><span class="toc-number">2.</span> <span class="toc-text">简单的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3-1"><span class="toc-number"></span> <span class="toc-text">总结</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			这是我的博客，我在这里分享我的一切.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
