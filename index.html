@@ -87,7 +87,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-09T13:28:27.000Z" itemprop="datePublished"> 发表于 2016-04-09</time>
+    <time datetime="2016-04-09T13:30:05.000Z" itemprop="datePublished"> 发表于 2016-04-09</time>
     
   </p>
 </header>
@@ -105,80 +105,11 @@
 <li>下面的代码会？Compile Error / Runtime Crash / NSLog…?</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">@interface NSObject (Sark)</span><br><span class="line">+ (void)foo;</span><br><span class="line">@end</span><br><span class="line">@implementation NSObject (Sark)</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">    NSLog(@<span class="string">"IMP: -[NSObject (Sark) foo]"</span>);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line">// 测试代码</span><br><span class="line">[NSObject foo];</span><br><span class="line">[[NSObject new] foo];</span><br></pre></td></tr></table></figure>
-<p>runtime对注册的类，会进行布局，对于weak对象会放入一个hash表中，用weak指向的对象内存地址作为key，当此对象的引用计数为0的时候会dealloc，加入weak指向的对象内存地址是a，那么就以a为键，在这个weak表中搜索，找到所有以a为键的weak对象，从而设置为nil。</p>
-<h2 id="u4EC0_u4E48_u662Fruntime__u4E3A_u4EC0_u4E48_u8981_u6709runtime_uFF1F"><a href="#u4EC0_u4E48_u662Fruntime__u4E3A_u4EC0_u4E48_u8981_u6709runtime_uFF1F" class="headerlink" title="什么是runtime 为什么要有runtime？"></a>什么是runtime 为什么要有runtime？</h2><p>最开始的时候，我在看很多博客，发现大V分对这个都有过分享，我觉得这个应该是很重要的概念，所以开始认真的学习。</p>
-<p>就像我们刚刚抛出的问题？我们需要了解下什么是runtime    为什么要有runtime这个东西呢?</p>
-<p>Objective-C是面向对象的，这是Objective-C最基本的的概念。关于面向对象，把一定的算法（函数）和数据（变量）以某种内在的联系绑定在一起，形成最基本的程序结构单元，这些结构单元即是经常谈及的对象.</p>
-<p>对象和对象之间不是完全独立的，通过巧妙的方式，它们之间能建立紧密的联系，比如继承、派生，对事物的抽象以及对代码的复用有着微妙而重大的价值</p>
-<p>消息派发是Objective-C函数（Objective-C实际称方法）调用的模式，前文亦有提及，概念继承于Smalltalk。Objective-C的对象相互调用函数，被看做是向目标对象传递消息，消息的发送者称作sender，消息的接收者称作receiver，消息中间传递的字符串称作selector（选择子）</p>
-<p>[receiver message];</p>
-<p>一句”派发消息”的语法是无法确定实际执行的“目标函数”。只有在程序运行期间，实际执行的“目标函数”才能得到确定。这种机制Objective-C称为动态绑定，</p>
-<p>因为Objc是一门动态语言，所以它总是想办法把一些决定工作从编译连接推迟到运行时。也就是说只有编译器是不够的，还需要一个运行时系统 (runtime system) 来执行编译后的代码。这就是 Objective-C Runtime 系统存在的意义，它是整个Objc运行框架的一块基石。</p>
-<p>C++调用对象的函数，函数与对象之间的关系，在编译期间就必须严格确定，如果car里面没有定义函数名为fly的函数，编译器不会通过，而是会报错。Objective-C如果向car发送字符串为”fly”的selector，即使car没有实现fly方法，编译器依然能够通过，但是运行期间则会因为获取不到实际执行的方法而抛出异常。这个是需要依赖于消息派发和动态绑定的实现机制——Runtime，但是Runtime并不仅仅为消息派发和动态绑定而work，它也是Objective-C面向对象、内存模型等特性的实现者。</p>
-<p>我们先继续介绍Objective-C的另外一个重要概念，Objective-C内存管理模型，程序运行时，创建一个对象总是要占用内存的，而内存总大小总归有限，所以当一个对象不再被需要时，应当及时回收它所占用的内存资源用于新的对象，Objective-C的内存管理原理，简单说就是“引用计数”机制。如果有模块需要引用一个对象，引用时会让对象统计用的引用计数值加1，并记录在对象的结构信息当中，当模块不再需要该对象的时候则减1，而当该对象的引用计数值为0时，就可以认为该对象不再被需要，及时销毁释放内存（回收资源）。</p>
-<p>Objective-C对象的内存空间仅分配在“堆空间”（heap space）中，肯定是不会分配在“栈”（stack）上。我们知道，“栈”的占用和回收是有严格的数据操作规则，简称“先入后出”。函数执行时，传入的变量（当然包括对象变量）会按照确定的序列规则自动压入“栈”（占有内存资源），函数执行结束时，这些变量又会按照相反的序列规则自动弹出（释放内存资源）。因此，我们可以看出，“栈”其实是无法实施“引用计数”机制的，Objective-C否定使用“栈”存储对象的设想。在语法上，Objective-C也无法像C++那样直接声明并创建一个对象变量，更无法直接操作该对象，Objective-C都是需要以类似C语言申请堆内存块的语法(alloc)那样创建一个对象变量，并且必须通过对象指针作为访问句柄，这跟C语言申请堆内存块非常类似。Objective-C这一“任性”的设计，也使得对象嵌套（一个对象作为另一个对象的成员变量）时，对象基于引用计数机制，其成员变量也必须递归地遵循引用计数机制。因为成员变量实际都是一枚枚对象指针，很可能是与其它对象共享同一个对象（指针都指向同一块内存），引用计数机制正是适合用于支持这种“共享”内存的管理。需要特别说明，如果可以像C++那样创建一个对象变量做成员变量，那么该成员变量会被存储在该对象所在的一块连续内存块，该对象销毁时能够自动把成员变量的占有的内存块全部释放收回，这与引用计数的机制并不太符合，所以，在Objective-C中对象变量不被支持也进一步得到理解。</p>
-<p>Objective-C对象的内存空间仅分配在“堆空间”（heap space）中，为什么不是栈？都知道，oc的内存管理机制是『引用计数』，栈的特性是有严格的先入后出，，程序结束后，会按照相反的序列弹出。因此，我们可以看出，“栈”其实是无法实施“引用计数”机制的，oc使用了类似c的方式采用alloc语法创建对象变量，并且必须通过对象指针作为访问。也使得对象嵌套（一个对象作为另一个对象的成员变量）时，对象基于引用计数机制，其成员变量也必须递归地遵循引用计数机制。因为成员变量实际都是一枚枚对象指针，很可能是与其它对象共享同一个对象（指针都指向同一块内存），引用计数机制正是适合用于支持这种“共享”内存的管理。</p>
-<p>对比果可以像C++那样创建一个对象变量做成员变量，那么该成员变量会被存储在该对象所在的一块连续内存块，该对象销毁时能够自动把成员变量的占有的内存块全部释放收回，这与引用计数的机制并不太符合，所以，在Objective-C中对象变量不被支持也进一步得到理解。</p>
-<p>正是Runtime实现了Objective-C重要的特性，Objective-C面向对象、消息派发、动态绑定和内存管理都与Runtime的息息相关。那么，在Objective-C当中，对象、类、函数（方法）都是如何被构造并发挥作用的？前文提及，面向对象中的类，被看作抽象了的对象，Runtime也是秉持这一理念。Runtime是纯C写成，用struct（结构体）来描述对象（实体对象）和类（抽象对象）。</p>
-<h2 id="u7C7B_u548C_u5BF9_u8C61"><a href="#u7C7B_u548C_u5BF9_u8C61" class="headerlink" title="类和对象"></a>类和对象</h2><p>OC用struct（结构体）来描述对象（实体对象）和类（抽象对象）。</p>
-<p>在runtime的objc.h中</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br><span class="line">typedef struct objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125; *id;</span><br></pre></td></tr></table></figure>
-<p>其实，Objective-C中的对象就是一个结构体，并且所有的对象都有一个相同的结构体。其实，Class就是类，id就是对象。而且我们可以看到每一个对象都有一个isa指针，这是这个isa就是指向该类。</p>
-<p>也就是说首个struct成员isa是Class类型的指针变量，正是该变量确定了对象所属的类</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br></pre></td></tr></table></figure>
-<p>Class类型也是struct，是结构体objc_class的指针别名，用于描述类构成的struct，首个成员isa也是Class类型的指针变量（由两个结构体的首个成员均为Class类型的指针变量的设计使得我们能进一步体会到Runtime中，类的确有着和对象相同的看待）。</p>
-<p>objc_class</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">struct objc_class &#123;&#10;    Class isa;&#10;&#10;#if !__OBJC2__&#10;    Class super_class                                        OBJC2_UNAVAILABLE;&#10;    const char *name                                         OBJC2_UNAVAILABLE;&#10;    long version                                             OBJC2_UNAVAILABLE;&#10;    long info                                                OBJC2_UNAVAILABLE;&#10;    long instance_size                                       OBJC2_UNAVAILABLE;&#10;    struct objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;&#10;    struct objc_method_list **methodLists                    OBJC2_UNAVAILABLE;&#10;    struct objc_cache *cache                                 OBJC2_UNAVAILABLE;&#10;    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;&#10;#endif&#10;&#10;&#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>super_class 父类<br>name 类名<br>version 类版本信息（默认为0）<br>info 类信息<br>instance_size 实例变量大小<br>ivars 成员变量<br>methodLists 方法<br>cache 方法缓存<br>protocols 协议</p>
-</blockquote>
-<ul>
-<li>isa：需要注意的是在Objective-C中，所有的类自身也是一个对象，这个对象的Class里面也有一个isa指针，它指向metaClass(元类)，我们会在后面介绍它。</li>
-<li>super_class：指向该类的父类，如果该类已经是最顶层的根类(如NSObject或NSProxy)，则super_class为NULL。</li>
-<li>cache：用于缓存最近使用的方法。一个接收者对象接收到一个消息时，它会根据isa指针去查找能够响应这个消息的对象。在实际使用中，这个对象只有一部分方法是常用的，很多方法其实很少用或者根本用不上。这种情况下，如果每次消息来时，我们都是methodLists中遍历一遍，性能势必很差。这时，cache就派上用场了。在我们每次调用过一个方法后，这个方法就会被缓存到cache列表中，下次调用的时候runtime就会优先去cache中查找，如果cache没有，才去methodLists中查找方法。这样，对于那些经常用到的方法的调用，但提高了调用的效率。</li>
-<li>version：我们可以使用这个字段来提供类的版本信息。这对于对象的序列化非常有用，它可是让我们识别出不同类定义版本中实例变量布局的改变。</li>
-</ul>
-<p>在这里我们同样看到一个isa的Class类型的指针变量，这又是干什么的呢？在上面说过，其实一个类在runtime中，其实也是被视作一个对象的，既然是对象。需要有地方去存储它的方法列表，类名等信息。那么元类就是Class的isa指针。metaclass进一步抽象了类的特性，既然是对象，我们同样可以向他发送消息。</p>
-<p>举个例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface LastDays : NSObject</span><br><span class="line"></span><br><span class="line">@property NSString *name;</span><br><span class="line"></span><br><span class="line">-(void)showName1;</span><br><span class="line"></span><br><span class="line">+(void)showName2;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@implementation LastDays</span><br><span class="line"></span><br><span class="line">-(void)showName1&#123;</span><br><span class="line">    NSLog(@<span class="string">"类"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(void)showName2&#123;</span><br><span class="line">    NSLog(@<span class="string">"元类"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LastDays *ly = [[LastDays] alloc] init]; //初始化ly</span><br><span class="line">[ly showName1];</span><br><span class="line">[LastDays showName2];</span><br></pre></td></tr></table></figure>
-<p>//发送showName1消息时，ly变量中的isa会遍历LastDays中的类方法列表找到showName1</p>
-<p>//发送showName2时，LastDays的isa指针会遍历LastDays的元类类方法</p>
-<p>当我们向一个对象发送消息时，runtime会在这个对象所属的这个类的方法列表中查找方法；而向一个类发送消息时，会在这个类的meta-class的方法列表中查找。</p>
-<p><img src="http://lastdays.cn/2.jpg" alt=""></p>
-<p>有LastDays的实例化对象的isa都指向LastDays(类)，LastDays中记录着父类类名,类版本信息（默认为0）,类信息,实例变量大小,成员变量,方法,方法缓存,协议等信息，那么LastDays中的isa指向了元类，元类中只记录着类名，类方法列表等，所有的元类指向一个根元类，根元类的isa指向自己，这样就实现了一个封闭的内循环.</p>
-<p>Class类型的struct正好是一种递归嵌套的设计，它正体现了面向对象无限抽象的理念，最终实现上指向自己则是实际工程处理的需要。</p>
-<p>类的继承关系</p>
-<p>关于类的继承，其实我们可以根据类的实现可以推断出来。<br>在objc_class结构中我们可以发现有一个super_class指针，其实这个指针是指向我们的父类。<br>我们设计这么一种继承结构： LastDays：Last：NSObject<br>如图所示就是继承实现的原理：</p>
-<p><img src="http://lastdays.cn/picture.jpg" alt=""></p>
-<p>通过以上图形，根据蓝线我们可以看出，每个对象的isa都不为空，这样只要是有一个id类型的对象，通过runtime机制都可以获取该对象。<br>根据黑线我们可以看出，最终继承自NSObject，并且NSObject的superclass为nil。</p>
-<p>属性：属性的话，基本上就是跟类其实是一样的，每一个属性也是有自己的结构，并且里面也是有自己对应的类型。</p>
-<p>这里忘记了一个东西：</p>
-<p>成员变量(ivars)及属性</p>
-<p>Objective-C不支持往已存在的类中添加实例变量，因此不管是系统库提供的提供的类，还是我们自定义的类，都无法动态添加成员变量。但如果我们通过运行时来创建一个类的话，又应该如何给它添加成员变量呢？这时我们就可以使用class_addIvar函数了。不过需要注意的是，这个方法只能在objc_allocateClassPair函数与objc_registerClassPair之间调用。另外，这个类也不能是元类</p>
-<p>在objc_class中，所有的成员变量、属性的信息是放在链表ivars中的。ivars是一个数组，数组中每个元素是指向Ivar(变量信息)的指针。runtime提供了丰富的函数来操作这一字段。大体上可以分为以下几类：</p>
-<p>这里有一个很重要的概念，就是关联对象(Associated Object)</p>
-<p>那么感兴趣的可以看一下这个文章<a href="http://southpeak.github.io/blog/2014/10/30/objective-c-runtime-yun-xing-shi-zhi-er-:cheng-yuan-bian-liang-yu-shu-xing/" target="_blank" rel="external"></a></p>
-<h2 id="u6D88_u606F_u6D3E_u53D1"><a href="#u6D88_u606F_u6D3E_u53D1" class="headerlink" title="消息派发"></a>消息派发</h2><p><a href="http://lastdays.cn/2016/02/20/runtime2/">Runtime 学习笔记(二)</a></p>
-<p>项目地址：<a href="https://github.com/bestswifter/MySampleCode/tree/master/runtime" target="_blank" rel="external">demo</a></p>
-<p>ObjC 的特性是允许对一个 nil 对象执行任何一个方法不会 Crash，因为会被忽略掉。</p>
-<h3 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h3><p>SEL又叫选择器，是表示一个方法的selector的指针，其定义如下：</p>
-<p>不同的类可以拥有相同的selector，这个没有问题。不同类的实例对象执行相同的selector时，会在各自的方法列表中去根据selector去寻找自己对应的IMP。</p>
-<p>工程中的所有的SEL组成一个Set集合，Set的特点就是唯一，因此SEL是唯一的。因此，如果我们想到这个方法集合中查找某个方法时，只需要去找到这个方法对应的SEL就行了，SEL实际上就是根据方法名hash化了的一个字符串，而对于字符串的比较仅仅需要比较他们的地址就可以了，可以说速度上无语伦比！！但是，有一个问题，就是数量增多会增大hash冲突而导致的性能下降（或是没有冲突，因为也可能用的是perfect hash）。但是不管使用什么样的方法加速，如果能够将总量减少（多个方法可能对应同一个SEL），那将是最犀利的方法。那么，我们就不难理解，为什么SEL仅仅是函数名了。</p>
-<p>我们可以在运行时添加新的selector，也可以在运行时获取已存在的selector，我们可以通过下面三种方法来获取SEL:</p>
-<h3 id="IMP"><a href="#IMP" class="headerlink" title="IMP"></a>IMP</h3><p>id (*IMP)(id, SEL, …)</p>
-<p>第一个参数是指向self的指针(如果是实例方法，则是类实例的内存地址；如果是类方法，则是指向元类的指针)，第二个参数是方法选择器(selector)，接下来是方法的实际参数列表。</p>
-<p>前面介绍过的SEL就是为了查找方法的最终实现IMP的。由于每个方法对应唯一的SEL，因此我们可以通过SEL方便快速准确地获得它所对应的IMP，查找过程将在下面讨论。取得IMP后，我们就获得了执行这个方法代码的入口点，此时，我们就可以像调用普通的C语言函数一样来使用这个函数指针了。</p>
-<p>通过取得IMP，我们可以跳过Runtime的消息传递机制，直接执行IMP指向的函数实现，这样省去了Runtime消息传递过程中所做的一系列查找操作，会比直接向对象发送消息高效一些</p>
-<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_method *Method;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">struct objc_method &#123;</span><br><span class="line"></span><br><span class="line">    SEL method_name                 OBJC2_UNAVAILABLE;  // 方法名</span><br><span class="line"></span><br><span class="line">    char *method_types                  OBJC2_UNAVAILABLE;</span><br><span class="line"></span><br><span class="line">    IMP method_imp                      OBJC2_UNAVAILABLE;  // 方法实现</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以看到该结构体中包含一个SEL和IMP，实际上相当于在SEL和IMP之间作了一个映射。有了SEL，我们便可以找到对应的IMP，从而调用方法的实现代码。具体操作流程我们将在下面讨论。</p>
-<p>并且也讨论了这些概念在Rumtime上的实现，这当中还不包括属性、分类、类族、协议、ARC、语法糖等</p>
-<p><a href="http://lastdays.cn/2016/04/08/KVO/">KVO</a></p>
-<p><a href="http://lastdays.cn/2016/03/19/json/">iOS 手动打造JSON Model转换库</a></p>
-
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/04/09/Runtime 分享/#more">阅读全文</a>
           
        </p>
     </div>

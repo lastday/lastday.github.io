@@ -37,7 +37,7 @@ KVO的实现原理
 下面的代码会？Co">
 <meta property="og:image" content="http://lastdays.cn/2.jpg">
 <meta property="og:image" content="http://lastdays.cn/picture.jpg">
-<meta property="og:updated_time" content="2016-04-09T13:28:26.000Z">
+<meta property="og:updated_time" content="2016-04-09T13:30:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 手动打造JSON Model转换库">
 <meta name="twitter:description" content="Runtime 分享
@@ -115,7 +115,7 @@ KVO的实现原理
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-09T13:28:27.000Z" itemprop="datePublished"> 发表于 2016-04-09</time>
+    <time datetime="2016-04-09T13:30:05.000Z" itemprop="datePublished"> 发表于 2016-04-09</time>
     
   </p>
 </header>
@@ -140,6 +140,7 @@ KVO的实现原理
 <li>下面的代码会？Compile Error / Runtime Crash / NSLog…?</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">@interface NSObject (Sark)</span><br><span class="line">+ (void)foo;</span><br><span class="line">@end</span><br><span class="line">@implementation NSObject (Sark)</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">    NSLog(@<span class="string">"IMP: -[NSObject (Sark) foo]"</span>);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line">// 测试代码</span><br><span class="line">[NSObject foo];</span><br><span class="line">[[NSObject new] foo];</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>runtime对注册的类，会进行布局，对于weak对象会放入一个hash表中，用weak指向的对象内存地址作为key，当此对象的引用计数为0的时候会dealloc，加入weak指向的对象内存地址是a，那么就以a为键，在这个weak表中搜索，找到所有以a为键的weak对象，从而设置为nil。</p>
 <h2 id="u4EC0_u4E48_u662Fruntime__u4E3A_u4EC0_u4E48_u8981_u6709runtime_uFF1F"><a href="#u4EC0_u4E48_u662Fruntime__u4E3A_u4EC0_u4E48_u8981_u6709runtime_uFF1F" class="headerlink" title="什么是runtime 为什么要有runtime？"></a>什么是runtime 为什么要有runtime？</h2><p>最开始的时候，我在看很多博客，发现大V分对这个都有过分享，我觉得这个应该是很重要的概念，所以开始认真的学习。</p>
 <p>就像我们刚刚抛出的问题？我们需要了解下什么是runtime    为什么要有runtime这个东西呢?</p>
