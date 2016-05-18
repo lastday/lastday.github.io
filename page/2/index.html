@@ -80,6 +80,69 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/02/24/Blocks2/" title="iOS内存管理之Blocks的实现（二）" itemprop="url">iOS内存管理之Blocks的实现（二）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-24T15:31:49.000Z" itemprop="datePublished"> 发表于 2016-02-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Blocks_u7684_u5B9E_u73B0"><a href="#Blocks_u7684_u5B9E_u73B0" class="headerlink" title="Blocks的实现"></a>Blocks的实现</h1><p>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的一切。</p>
+<p>在<a href="http://lastdays.cn/2016/02/23/blocks1/">iOS内存管理之Blocks的实现（一）</a>中我们称Block为”带有自动变量的匿名函数”。同样我们介绍了5种使用方法，但是看起来其实并没有什么。其实Block语法也是被LLVM进行了转化，转化为一般的C语言来做处理。</p>
+<p>block的数据结构是开源的，感兴趣的可以在这里<a href="http://www.opensource.apple.com/tarballs/libclosure/">下载并查看</a></p>
+<h2 id="u7F16_u8BD1_u8F6C_u5316"><a href="#u7F16_u8BD1_u8F6C_u5316" class="headerlink" title="编译转化"></a>编译转化</h2><p>先来看这么一段代码:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"lastdays\n"</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">        blk();</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/24/Blocks2/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Blocks/">Blocks</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/24/Blocks2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/24/Blocks2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/02/23/blocks1/" title="iOS内存管理之Blocks的实现（一）" itemprop="url">iOS内存管理之Blocks的实现（一）</a>
   </h1>
   <p class="article-author">By
@@ -645,71 +708,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/Core Date/" title="iOS9 Core Data教学" itemprop="url">iOS9 Core Data教学</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-03T16:53:33.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="u770B_u4E86_u4E00_u7BC7_u56FD_u5916_u7684_u6587_u7AE0_uFF0C_u5173_u4E8EiOS9_u7684Core_Data_u6559_u5B66_uFF0C_u5728_u8FD9_u91CC_u505A_u4E86_u4E00_u4E0B_u603B_u7ED3"><a href="#u770B_u4E86_u4E00_u7BC7_u56FD_u5916_u7684_u6587_u7AE0_uFF0C_u5173_u4E8EiOS9_u7684Core_Data_u6559_u5B66_uFF0C_u5728_u8FD9_u91CC_u505A_u4E86_u4E00_u4E0B_u603B_u7ED3" class="headerlink" title="看了一篇国外的文章，关于iOS9的Core Data教学，在这里做了一下总结"></a>看了一篇国外的文章，关于iOS9的Core Data教学，在这里做了一下总结</h1><h1 id="Core_Data__u6559_u5B66"><a href="#Core_Data__u6559_u5B66" class="headerlink" title="Core Data 教学"></a>Core Data 教学</h1><p>示例开源地址：<a href="https://github.com/MrLoong/LastDayCoreData">LastDayCoreData</a></p>
-<p>在这篇文章中我们将学习Core Data的系列教程，你将使用Swift2.0写你的Core Data。你将发现在Xcode中它是很容易上手的，从启动代码导师数据模型编辑器。在教程结束后，你会了解到：</p>
-<ul>
-<li>使用Xcode的model editor将你想存储在Core Data。</li>
-<li>添加新的记录到 Core Data</li>
-<li>从Core Data中读取一组数据</li>
-<li>在表视图中显示所获取的结果</li>
-</ul>
-<p>你也将会了解Core Data背后的数据是什么，以及如何进行交互。OK，现在让我们来构建我的app吧。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/Core Date/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/Core Date/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/Core Date/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
   </nav>
 
 </div>
@@ -746,6 +747,10 @@
 		
 		  
 			<li><a href="/categories/生活/" title="生活">生活<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
 		  
 		
 		  
