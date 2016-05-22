@@ -34,8 +34,8 @@
 一直都想写一个关于图片缓存方案的，但是积累不够，一直扔在这，最近开始尝试。就先从我写下载开始分享。
 下载下载的话，我查阅了很多人写的，像SDWebImage，">
 <meta property="og:image" content="http://Lastdays.cn/image/cache/3.gif">
-<meta property="og:image" content="http://Lastdays.cn/image/3.gif">
-<meta property="og:updated_time" content="2016-05-22T15:39:56.000Z">
+<meta property="og:image" content="http://Lastdays.cn/image/2.gif">
+<meta property="og:updated_time" content="2016-05-22T15:44:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS图片动态缓存方案">
 <meta name="twitter:description" content="大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的Blog，我在这里分享我的学习，
@@ -112,7 +112,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-22T15:40:12.000Z" itemprop="datePublished"> 发表于 2016-05-22</time>
+    <time datetime="2016-05-22T15:44:12.000Z" itemprop="datePublished"> 发表于 2016-05-22</time>
     
   </p>
 </header>
@@ -215,7 +215,7 @@
 <p>调用LDSCacheManage，进行图片的读取，至于读取缓存内容还是去下载啊，那就交给LDSCacheManage去处理好了，我们就不管了。调用[wself setNeedsLayout]去更新视图就可以了。</p>
 <h2 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)<span class="built_in">read</span>:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">    [[LDSImageCache shareLDImageCache] clearDiskOnCompletion:^&#123;</span><br><span class="line">        NSLog(@<span class="string">"完成清空"</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">- (IBAction)<span class="built_in">test</span>:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">    [self.image lds_<span class="built_in">set</span>ImageWithURL:@<span class="string">"https://sinacloud.net/keke-han/1.jpg"</span> progressBlock:^(NSInteger alreadyReceiveSize,NSInteger expectedContentLength)&#123;</span><br><span class="line">        self.progressView.progress = alreadyReceiveSize/(double)expectedContentLength;</span><br><span class="line">        </span><br><span class="line">    &#125; completed:^(NSData *data,UIImage *image,NSError *error,BOOL finished)&#123;</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            self.status.text = @<span class="string">"成功"</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>看下效果：</p>
-<p><img src="/image/3.gif" alt=""></p>
+<p><img src="/image/2.gif" alt=""></p>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>缓存主要注意清空策略</li>
 <li>下载主要还是对操作的管理</li>
