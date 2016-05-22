@@ -80,6 +80,77 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/22/LDSImageCache/" title="iOS图片动态缓存方案" itemprop="url">iOS图片动态缓存方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-22T15:40:12.000Z" itemprop="datePublished"> 发表于 2016-05-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ul>
+<li>大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place">微博</a>我在这里分享我的生活，欢迎交流</li>
+<li><p>并且欢迎加入qq群554602551，这里我们一起交流分享</p>
+</li>
+<li><p>项目地址:<a href="https://github.com/MrLoong/LDSImageCache">LDSImageCache</a></p>
+</li>
+</ul>
+<p>一直都想写一个关于图片缓存方案的，但是积累不够，一直扔在这，最近开始尝试。就先从我写下载开始分享。</p>
+<h2 id="u4E0B_u8F7D"><a href="#u4E0B_u8F7D" class="headerlink" title="下载"></a>下载</h2><p>下载的话，我查阅了很多人写的，像SDWebImage，使用的是NSURLConnection，但是我这里准备使用NSURLsession，使用NSURLSessionDataDelegate的代理方法实现下载数据.</p>
+<p>说点题外话：我为什么选择NSURLsession二部选择NSURLConnection。因为iOS９之前在做网络连接的时候,我们使用的时NSURLConnection,但是iOS9之后NSURLConnection宣布被弃用了,在2013年的WWDC大会上，苹果就已经设计出NSURLConnection的继任者NSURLSession，他使用起来比NSURLConnection更加简单，更加强大。</p>
+<p>在这个过程当中，还会用到GCD与NSOperation来管理下载线程，为什么混合使用呢？我们使用子类化NSOperation来高复抽象我们的下载线程进行抽象化，这样使我们的下载模块更加清晰，在整个不算太复杂的下载过程中，让接口变得简单。GDC我们在下载中局部会使用到，GCD的优点我们都知道，简单，易用，节省代码，使用block让代码变得更加简洁。</p>
+<p>基本上使用的东西上面都总结完了，开始进入下载的设计。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/05/22/LDSImageCache/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Tools/">Tools</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/22/LDSImageCache/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/22/LDSImageCache/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/18/recursion/" title="递归" itemprop="url">递归</a>
   </h1>
   <p class="article-author">By
@@ -87,7 +158,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-18T06:07:29.000Z" itemprop="datePublished"> 发表于 2016-05-18</time>
+    <time datetime="2016-05-18T06:08:33.000Z" itemprop="datePublished"> 发表于 2016-05-18</time>
     
   </p>
 </header>
@@ -656,72 +727,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/26/block3/" title="iOS内存管理之Blocks的实现（三）" itemprop="url">iOS内存管理之Blocks的实现（三）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-26T13:03:32.000Z" itemprop="datePublished"> 发表于 2016-02-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="block_u7684_u5B9E_u73B0"><a href="#block_u7684_u5B9E_u73B0" class="headerlink" title="__block的实现"></a>__block的实现</h1><ul>
-<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
-<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place">微博</a>我在这里分享我的生活，欢迎交流</li>
-</ul>
-<h2 id="u4F7F_u7528__block"><a href="#u4F7F_u7528__block" class="headerlink" title="使用__block"></a>使用__block</h2><p>看一下这段代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果为：1</p>
-<p>疑惑的问题可能是为什么没有输出2？</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/26/block3/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Blocks/">Blocks</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/26/block3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/26/block3/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -748,7 +753,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Tools/" title="Tools">Tools<sup>1</sup></a></li>
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>2</sup></a></li>
 		  
 		
 		  

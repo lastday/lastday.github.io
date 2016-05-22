@@ -80,6 +80,72 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/02/26/block3/" title="iOS内存管理之Blocks的实现（三）" itemprop="url">iOS内存管理之Blocks的实现（三）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-26T13:03:32.000Z" itemprop="datePublished"> 发表于 2016-02-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="block_u7684_u5B9E_u73B0"><a href="#block_u7684_u5B9E_u73B0" class="headerlink" title="__block的实现"></a>__block的实现</h1><ul>
+<li>大家好，我叫LastDays，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place">微博</a>我在这里分享我的生活，欢迎交流</li>
+</ul>
+<h2 id="u4F7F_u7528__block"><a href="#u4F7F_u7528__block" class="headerlink" title="使用__block"></a>使用__block</h2><p>看一下这段代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        int x = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        // insert code here..</span><br><span class="line">        void (^blk)(void) = ^&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,x);</span><br><span class="line">        &#125;;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        blk();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果为：1</p>
+<p>疑惑的问题可能是为什么没有输出2？</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/26/block3/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Blocks/">Blocks</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/26/block3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/26/block3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/02/24/Blocks2/" title="iOS内存管理之Blocks的实现（二）" itemprop="url">iOS内存管理之Blocks的实现（二）</a>
   </h1>
   <p class="article-author">By
@@ -649,65 +715,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/04/IP/" title="IP协议总结" itemprop="url">IP协议总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-03T16:53:50.000Z" itemprop="datePublished"> 发表于 2016-02-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002"><a href="#IP_u534F_u8BAE_u662FTCP_u534F_u8BAE_u6808_u4E2D_u7684_u6838_u5FC3_u534F_u8BAE_uFF0C_u4E5F_u662F_u7F51_u7EDC_u7F16_u7A0B_u7684_u57FA_u7840_u4E4B_u4E00_u3002" class="headerlink" title="IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。"></a>IP协议是TCP协议栈中的核心协议，也是网络编程的基础之一。</h1><h2 id="u7F51_u7EDC_u5C42_u6982_u8FF0"><a href="#u7F51_u7EDC_u5C42_u6982_u8FF0" class="headerlink" title="网络层概述"></a>网络层概述</h2><h3 id="IP_u670D_u52A1_u7279_u70B9_3A"><a href="#IP_u670D_u52A1_u7279_u70B9_3A" class="headerlink" title="IP服务特点:"></a>IP服务特点:</h3><p>IP协议为上层协议提供无状态，无连接，不可靠的服务。</p>
-<ul>
-<li>无状态：IP通信双方不同步状态传输信息，因此所有IP数据报的发送和接收都是相互独立的，这样也就造成了它无法处理乱序，重复的IP数据报。相对于面向连接而设定的，例如TCP协议，它能够自己处理乱序，重复的报文段。他递交给上层的内容绝对是有序的正确的。但是IP协议的状态也是有优点的，它简单高效，因为我们无需为保证它的状态而分配一些内核数据结构。</li>
-<li>无连接：通信双方都不长久的维持对方的任何信息，那么就需要上层协议去指定传输的IP地址。</li>
-<li>不可靠服务：不可靠指的是IP协议不能保证IP数据报完整并且准确的到达接收端。因此使用IP的上层协议需要自己做数据确认，超时重传等可靠传输机制。</li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/02/04/IP/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/02/04/IP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/04/IP/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -734,7 +741,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Tools/" title="Tools">Tools<sup>1</sup></a></li>
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>2</sup></a></li>
 		  
 		
 		  
