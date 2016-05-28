@@ -1,0 +1,690 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iOS 开发者如何提高效率 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="iOS 开发者如何提高效率
+文章出自好朋友bestswifter，如果觉得本文对你有帮助，欢迎转载，只要标明原文出自bestswifter即可。
+
+关于 Mac 工作效率的文章一直层出不穷，然而并非所有内容都适合程序员，比如某些 Unix 命令，其实使用频率非常低。作为一名初级 iOS 程序员，我尝试着和大家分享一些能够切实提高我们开发效率的小技巧。
+我是无鼠标主义者，任何需要鼠标的操作在我看来都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 开发者如何提高效率">
+<meta property="og:url" content="http://Lastdays.cn/2016/05/28/bestswifter/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="iOS 开发者如何提高效率
+文章出自好朋友bestswifter，如果觉得本文对你有帮助，欢迎转载，只要标明原文出自bestswifter即可。
+
+关于 Mac 工作效率的文章一直层出不穷，然而并非所有内容都适合程序员，比如某些 Unix 命令，其实使用频率非常低。作为一名初级 iOS 程序员，我尝试着和大家分享一些能够切实提高我们开发效率的小技巧。
+我是无鼠标主义者，任何需要鼠标的操作在我看来都">
+<meta property="og:image" content="http://images.bestswifter.com/shortcut/1@2x.png">
+<meta property="og:image" content="http://images.bestswifter.com/shortcut/2.png">
+<meta property="og:image" content="http://images.bestswifter.com/shortcut/3.png">
+<meta property="og:updated_time" content="2016-05-28T15:26:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 开发者如何提高效率">
+<meta name="twitter:description" content="iOS 开发者如何提高效率
+文章出自好朋友bestswifter，如果觉得本文对你有帮助，欢迎转载，只要标明原文出自bestswifter即可。
+
+关于 Mac 工作效率的文章一直层出不穷，然而并非所有内容都适合程序员，比如某些 Unix 命令，其实使用频率非常低。作为一名初级 iOS 程序员，我尝试着和大家分享一些能够切实提高我们开发效率的小技巧。
+我是无鼠标主义者，任何需要鼠标的操作在我看来都">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">我叫LastDays，我有一个心爱的白菜。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/28/bestswifter/" title="iOS 开发者如何提高效率" itemprop="url">iOS 开发者如何提高效率</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-28T15:26:40.000Z" itemprop="datePublished"> 发表于 2016-05-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u5F00_u53D1_u8005_u5982_u4F55_u63D0_u9AD8_u6548_u7387"><span class="toc-number">1.</span> <span class="toc-text">iOS 开发者如何提高效率</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7EFC_u8FF0"><span class="toc-number">1.1.</span> <span class="toc-text">综述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5165_u95E8"><span class="toc-number">1.2.</span> <span class="toc-text">入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Snap"><span class="toc-number">1.3.</span> <span class="toc-text">Snap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xcode__u5FEB_u6377_u952E"><span class="toc-number">1.4.</span> <span class="toc-text">Xcode 快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6587_u4EF6_u7F16_u8F91"><span class="toc-number">1.4.1.</span> <span class="toc-text">文件编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6587_u4EF6_u8DF3_u8F6C"><span class="toc-number">1.4.2.</span> <span class="toc-text">文件跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u641C_u7D22"><span class="toc-number">1.4.3.</span> <span class="toc-text">搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tab"><span class="toc-number">1.4.4.</span> <span class="toc-text">tab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scheme"><span class="toc-number">1.4.5.</span> <span class="toc-text">Scheme</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8C03_u8BD5"><span class="toc-number">1.4.6.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5176_u4ED6"><span class="toc-number">1.4.7.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vim__u5E38_u7528_u5FEB_u6377_u952E"><span class="toc-number">1.5.</span> <span class="toc-text">Vim 常用快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u8FDB_u5165_u8F93_u5165_u6A21_u5F0F"><span class="toc-number">1.5.1.</span> <span class="toc-text">进入输入模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6587_u672C_u64CD_u4F5C"><span class="toc-number">1.5.2.</span> <span class="toc-text">文本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5149_u6807_u79FB_u52A8"><span class="toc-number">1.5.3.</span> <span class="toc-text">光标移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E3E_u4E00_u53CD_u4E09"><span class="toc-number">1.5.4.</span> <span class="toc-text">举一反三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5B9E_u6218"><span class="toc-number">1.5.5.</span> <span class="toc-text">实战</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chrome"><span class="toc-number">1.6.</span> <span class="toc-text">Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iTerm2"><span class="toc-number">1.7.</span> <span class="toc-text">iTerm2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git"><span class="toc-number">1.8.</span> <span class="toc-text">Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oh_my_zsh"><span class="toc-number">1.9.</span> <span class="toc-text">Oh my zsh</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="iOS__u5F00_u53D1_u8005_u5982_u4F55_u63D0_u9AD8_u6548_u7387"><a href="#iOS__u5F00_u53D1_u8005_u5982_u4F55_u63D0_u9AD8_u6548_u7387" class="headerlink" title="iOS 开发者如何提高效率"></a>iOS 开发者如何提高效率</h1><blockquote>
+<p>文章出自好朋友<a href="/bestswifter.com">bestswifter</a>，如果觉得本文对你有帮助，欢迎转载，只要标明原文出自<a href="/bestswifter.com">bestswifter</a>即可。</p>
+</blockquote>
+<p>关于 Mac 工作效率的文章一直层出不穷，然而并非所有内容都适合程序员，比如某些 Unix 命令，其实使用频率非常低。作为一名初级 iOS 程序员，我尝试着和大家分享一些能够切实提高我们开发效率的小技巧。</p>
+<p>我是无鼠标主义者，任何需要鼠标的操作在我看来都是极为低效的。Mac 的触摸板非常好用，但是我依然在尝试避免使用触摸板。因为双手保持在键盘区域更适合编程。虽然触摸板不可能被避免（比如浏览网页），但我希望至少在 Xcode 中不使用它。</p>
+<a id="more"></a>
+<h2 id="u7EFC_u8FF0"><a href="#u7EFC_u8FF0" class="headerlink" title="综述"></a>综述</h2><p><strong>快捷键是提高效率的手段，但它不会提高代码质量。既要坚持学习，也要适可而止，万万不可主次颠倒。</strong></p>
+<p>关键不在于你学会了多少快捷键，而是你有多少工作是可以通过快捷键来完成的，目的在于提高效率，仅此而已。</p>
+<p>一种很强大，通用的的方法是 设置-&gt;键盘-&gt;快捷键-&gt;应用快捷键 然后精确匹配应用中的快捷键名，这个通常需要配合 CheetSheet 来实现。当你觉得某个快捷键不好用的时候，也可以通过这种方式去修改。</p>
+<p><img src="http://images.bestswifter.com/shortcut/1@2x.png" alt="应用内快捷键替换"></p>
+<p>在设置快捷键时，需要避免全局快捷键和应用快捷键冲突，同时也要注意一些常用操作在多个应用内保持统一。</p>
+<p>我建议将 Caps Lock 与 Ctrl 键对调，因为大小写切换键的使用频率非常低，而 Ctrl 的使用频率显然高于他，因此有必要将大小写切换键放到最不容易触碰到的地方。</p>
+<p>下面我会介绍一些我常用的快捷键，它们大部分是系统自带的，也有少部分是我自己定义的。</p>
+<h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><ol>
+<li>绝大多数应用的 preference 页面都是通过 <code>Command + ,</code> 打开的。</li>
+<li>剪切，复制，粘贴，撤销，重做，光标移动到行首和行尾，这些基础操作必须掌握。</li>
+</ol>
+<h2 id="Snap"><a href="#Snap" class="headerlink" title="Snap"></a>Snap</h2><p>相信很多人都有这样的烦恼：如果应用不全屏，那么桌面上显示的窗口太多，每个窗口的显示内容不够多。如果应用全屏，那么切换应用是很麻烦的。要么用 <code>Command + Tab</code>，要么手势滑动，但无论哪一种，时间复杂度都是 O(n)。有没有 O(1) 的方法呢？答案是使用神器：<strong>snap</strong></p>
+<p>我主要是以应用首字母或者关键字母作为标识，配合 <code>Command + Shift</code> 前缀：</p>
+<ol>
+<li><strong>Xcode：<code>J</code></strong></li>
+<li><strong>Chrome：<code>K</code></strong></li>
+<li><strong>iTerm：<code>L</code></strong></li>
+<li>Markdown 相关：<code>M</code></li>
+<li>QQ：<code>Y</code></li>
+<li>微信：<code>U</code></li>
+<li>SoureceTree：<code>S</code></li>
+<li>MacVim：<code>V</code></li>
+<li>Evernote：<code>E</code></li>
+<li><strong>Dock：<code>1/2/3/4</code>：因工作需要，我常用的是备忘录，邮件，日历，设置</strong></li>
+<li><code>;</code> 这个键我没有启用，但它实际上是一个非常方便的快捷键。</li>
+</ol>
+<p>Dock 栏应用的选择需要一定的权衡。显然最快的方式是只按 <code>Command</code>，但是这种全局快捷键会导致大量冲突。而 <code>Controll</code> 和 <code>Option</code> 键又非常难以触摸，所以我选择了 <code>Command + Shift</code> 作为所有应用的快捷键前缀。</p>
+<p><strong>注意避免字母 <code>o</code> 和 <code>f</code>，它们在 Xcode 中有特殊的用处。</strong></p>
+<p><img src="http://images.bestswifter.com/shortcut/2.png" alt="Snap"></p>
+<h2 id="Xcode__u5FEB_u6377_u952E"><a href="#Xcode__u5FEB_u6377_u952E" class="headerlink" title="Xcode 快捷键"></a>Xcode 快捷键</h2><p>编译、运行，Instruments，单元测试，暂停这些基本操作就不解释了。我把一些自认为比较有用的命令加粗表示：</p>
+<h3 id="u6587_u4EF6_u7F16_u8F91"><a href="#u6587_u4EF6_u7F16_u8F91" class="headerlink" title="文件编辑"></a>文件编辑</h3><ol>
+<li><code>Command + [</code> 和 <code>Command + ]</code> 左右缩进</li>
+<li><strong><code>Command + Option + [</code> 和 <code>Command + Option + ]</code> 当前行上下移动</strong></li>
+<li><code>Command + Option + Left/Right</code> 折叠、展开当前代码段</li>
+</ol>
+<h3 id="u6587_u4EF6_u8DF3_u8F6C"><a href="#u6587_u4EF6_u8DF3_u8F6C" class="headerlink" title="文件跳转"></a>文件跳转</h3><ol>
+<li><strong><code>Command + Control + Up/Down</code> .h 和 .m 文件切换</strong></li>
+<li><strong><code>Command + Control + Left/Right</code> 浏览历史切换</strong></li>
+<li><code>Command + Control + j</code> 跳转到定义处</li>
+<li><code>Command + Option + j</code> 跳转到目录搜索</li>
+<li><code>Command + 1/2/3/4/5</code> 跳转到左侧不同的栏目</li>
+<li><strong><code>Comannd + Shift + o</code> 文件搜索</strong></li>
+</ol>
+<h3 id="u641C_u7D22"><a href="#u641C_u7D22" class="headerlink" title="搜索"></a>搜索</h3><ol>
+<li><code>Comannd + Shift + f</code> 全局搜索</li>
+<li><code>Command + e</code> 搜索当前选中单词</li>
+<li><code>Command + g</code> 搜索下一个</li>
+</ol>
+<h3 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h3><ol>
+<li><code>Command + t</code> 新建一个 tab</li>
+<li><code>Command + w</code> 关闭当前 tab</li>
+<li><strong><code>Command + Shift + [</code> 和 <code>Command + Shift + ]</code> 左右切换 tab</strong></li>
+</ol>
+<h3 id="Scheme"><a href="#Scheme" class="headerlink" title="Scheme"></a>Scheme</h3><ol>
+<li><code>Command + shift + ,</code> 编辑 scheme，选择 debug 或 release</li>
+</ol>
+<h3 id="u8C03_u8BD5"><a href="#u8C03_u8BD5" class="headerlink" title="调试"></a>调试</h3><p><code>F6</code>：跳到下一条指令<br><code>F7</code>：跳进下一条指令（它会跳进内部函数，具体效果自测）<br><code>Control + Command + y</code> 继续运行</p>
+<h3 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h3><ol>
+<li><code>Command + k</code> 删除 Console 中的内容</li>
+<li><code>Command + d</code> 打开/关闭 控制台（修改系统快捷键：Show/Hide Debug Area）</li>
+</ol>
+<p>获得更全面的快捷键介绍，请参考：<a href="http://stackoverflow.com/questions/10296138/xcode-debug-shortcuts" target="_blank" rel="external">这篇文章</a></p>
+<h2 id="Vim__u5E38_u7528_u5FEB_u6377_u952E"><a href="#Vim__u5E38_u7528_u5FEB_u6377_u952E" class="headerlink" title="Vim 常用快捷键"></a>Vim 常用快捷键</h2><p>入门指南：<a href="http://coolshell.cn/articles/5426.html" target="_blank" rel="external">简明 Vim 练级攻略</a><br>在我的 git 上有一份 Vim 的配置，先<a href="https://github.com/bestswifter/.vim" target="_blank" rel="external">下载</a>到 <code>~/</code> 目录下，然后建立软连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm .vimrc</span><br><span class="line">ln <span class="operator">-s</span> .vim/.vimrc .vimrc</span><br></pre></td></tr></table></figure>
+<p>推荐一个 Mac 上的 Vim 软件：MacVim，它比在终端中看 Vim 更好一些。打开 MacVim 后，输入以下命令安装插件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:BundleInstall</span><br></pre></td></tr></table></figure>
+<h3 id="u8FDB_u5165_u8F93_u5165_u6A21_u5F0F"><a href="#u8FDB_u5165_u8F93_u5165_u6A21_u5F0F" class="headerlink" title="进入输入模式"></a>进入输入模式</h3><ol>
+<li><code>i</code> 在光标前面进入输入模式，<code>a</code> 在光标后面进入输入模式</li>
+<li><code>I</code> 在行首进入输入模式，<code>A</code> 在行尾进入输入模式</li>
+<li><code>o</code> 在下一行行首进入输入模式，<code>O</code> 在上一行行首进入输入模式</li>
+</ol>
+<h3 id="u6587_u672C_u64CD_u4F5C"><a href="#u6587_u672C_u64CD_u4F5C" class="headerlink" title="文本操作"></a>文本操作</h3><ol>
+<li><code>yy</code> 复制当前行，<code>dd</code> 剪切当前行，<code>p</code> 复制。注意这里用的都是 Vim 自带的剪贴板。</li>
+<li><code>U</code> 撤销，**<code>Ctrl + r</code> 重做</li>
+<li><code>x</code> 删除光标所在的字母</li>
+<li><code>cae</code> 或 <code>bce</code> 删除当前光标所在的单词，并进入编辑模式</li>
+<li><code>数字+命令</code> 重复命令 n 次，比如 <code>3dd</code></li>
+</ol>
+<h3 id="u5149_u6807_u79FB_u52A8"><a href="#u5149_u6807_u79FB_u52A8" class="headerlink" title="光标移动"></a>光标移动</h3><ol>
+<li><code>^</code> 到本行开头，<code>$</code> 到本行末尾</li>
+<li><code>/111</code> 或 <code>111G</code> 跳转到 111 行，<code>gg</code> 第一行，<code>G</code> 最后一行。</li>
+<li><code>e</code> 移动到本单词的结尾， <code>w</code> 移动到下一个单词的开头。</li>
+<li><code>%</code> 匹配当前光标所在的括号（小括号，中括号，大括号）</li>
+<li><code>*</code> 查找与光标所在单词相同的下一个单词</li>
+<li><code>f + 字母</code> 跳转到字母第一次出现的位置，<code>2fb</code> 跳转到字母 b 第二次出现的位置</li>
+<li><code>t + 字母</code> 跳转到字母第一次出现的前一个位置，<code>3ta</code> 跳转到字母 a 第三次出现的前一个位置</li>
+<li>f 和 t 换成大写，表示反方向移动查找。<code>dt + 字母</code> 表示删除字母前的所有内容。</li>
+</ol>
+<h3 id="u4E3E_u4E00_u53CD_u4E09"><a href="#u4E3E_u4E00_u53CD_u4E09" class="headerlink" title="举一反三"></a>举一反三</h3><ol>
+<li><code>&lt;start position&gt;&lt;command&gt;&lt;end position&gt;</code> 比如 <code>0y$</code>，从行首复制到行尾，<code>ye</code> 表示<br>从当前位置复制到本单词结尾。</li>
+<li><p><code>&lt;action&gt;a&lt;object&gt;</code> 或 <code>&lt;action&gt;i&lt;object&gt;</code> </p>
+<p> <code>action</code> 可以是任何的命令，比如 <code>d</code>，<code>y</code>，<code>v</code> 等<br> <code>object</code> 可以是 <code>w</code> 单词，<code>p</code> 段落，或者是一个具体的字母<br> <code>a</code> 和 <code>i</code> 的区别在于 <code>i</code> 表示 inner，只作用于内部，不含两端。</p>
+<p> 思考一下，有多少种方法可以删除光标当前所在单词？</p>
+<p> 答案：<code>diw</code>，<code>daw</code>，<code>caw</code>，<code>ciw</code>，<code>bce</code>，<code>bde</code>。</p>
+<p> 思考一下他们的原理，后两者不太推荐（有可能跳到前一个单词）。</p>
+<p> 如果是选中当前单词呢？</p>
+</li>
+</ol>
+<h3 id="u5B9E_u6218"><a href="#u5B9E_u6218" class="headerlink" title="实战"></a>实战</h3><ol>
+<li><p>给多行添加注释：</p>
+<ol>
+<li><code>v</code>：进入可视状态</li>
+<li><code>nj</code>: 向下选择n行， 或者输入 <code>Shift ]</code> 跳到段尾</li>
+<li><code>Command + /</code> 添加注释</li>
+</ol>
+</li>
+<li><p>在 MacVim 中，<code>git blame</code> 无比清晰：</p>
+</li>
+</ol>
+<p><img src="http://images.bestswifter.com/shortcut/3.png" alt="Snap"></p>
+<h2 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h2><ol>
+<li><strong><code>Command + l</code> 焦点移动到地址栏</strong></li>
+<li><strong><code>Shift + Option + Delete/Left</code></strong> 向左删除/选中一个单词（可以自定义为 <code>Ctrl-w</code>）</li>
+<li><code>Command + y</code> 搜索历史</li>
+<li><strong><code>Command + 数字</code> 快速切换 tab</strong></li>
+<li><code>Command + shift + []</code> 左右切换 tab</li>
+<li><code>Command + t/w</code> 新建/关闭 tab</li>
+<li><code>Command + e/g</code> 搜索选中，前往下一个，或者用 <code>Command + f</code> 和回车。</li>
+</ol>
+<p>可以看到，Chrome 中涉及到 tab 的操作应该与 Xcode 尽量保持一致。</p>
+<h2 id="iTerm2"><a href="#iTerm2" class="headerlink" title="iTerm2"></a>iTerm2</h2><ol>
+<li><strong><code>Ctrl w</code> 删除前一个单词</strong></li>
+<li><code>Command + r</code> 清除屏幕上的内容</li>
+<li><code>Command + t/w</code> 打开/关闭 tab</li>
+<li><strong><code>Command + 数字</code> 切换到第 n 个 tab</strong></li>
+<li><code>双击</code> 选中一个单词，自动复制</li>
+</ol>
+<p>iTerm 可以通过 <code>Command + shift + []</code> 来左右切换 tab，也可以通过 <code>Command + Left/Right</code> 切换，后者其实是多余的，而且不符合习惯。</p>
+<p>所以参考 <a href="http://www.michael-noll.com/blog/2007/01/04/word-movement-shortcuts-for-iterm-on-mac-os-x/" target="_blank" rel="external">这篇文章</a> 或者自行查阅 Google，在 Preference-&gt;Keys-&gt;Global Shortcut Keys 中，设置好 <code>Command</code> 加上左右键，和删除键的对应操作。</p>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p><a href="http://gitbook.liuhui998.com/index.html" target="_blank" rel="external">git</a> 的本质是对指针的操作。</p>
+<p>掌握git的 <code>add</code>、<code>commit</code>、<code>stash</code>、<code>pull</code>、<code>fetch</code> 这些基本操作</p>
+<p>理解什么是本地仓库，什么是远程仓库，理解多人开发时的 <code>merge</code> 和 <code>conflict</code> 的概念</p>
+<p>掌握分支的使用，掌握 <code>checkout</code> 命令的使用</p>
+<p>熟练掌握 <a href="http://gitbook.liuhui998.com/4_2.html" target="_blank" rel="external"><code>git rebase</code></a> 操作，包括 <a href="http://gitbook.liuhui998.com/4_3.html" target="_blank" rel="external"><code>git rebase -i</code></a> 和 <code>git rebase --onto</code>，掌握一种 git 工作流</p>
+<h2 id="Oh_my_zsh"><a href="#Oh_my_zsh" class="headerlink" title="Oh my zsh"></a>Oh my zsh</h2><p>首先<a href="https://github.com/bestswifter/.sys.config" target="_blank" rel="external">下载 oh-my-zsh 的配置</a>到 <code>~/</code> 目录下，然后在命令行中执行以下操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm .zshrc</span><br><span class="line">ln <span class="operator">-s</span> .sys.config/.zshrc .zshrc</span><br></pre></td></tr></table></figure>
+<p>然后重启 iTerm。你可以根据自己的喜好，前往 <code>~/.sys.config/setting/git.zh</code> 配置 git 命令的别名，比如；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> gcm=<span class="string">'git commit -m'</span></span><br><span class="line"><span class="built_in">alias</span> gignore=<span class="string">'git update-index --assume-unchanged'</span></span><br><span class="line"><span class="built_in">alias</span> gpush=<span class="string">'git push origin HEAD:dev;'</span></span><br><span class="line"><span class="built_in">alias</span> go=<span class="string">'git checkout'</span></span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/05/28/bestswifter/" data-title="iOS 开发者如何提高效率 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/05/22/LDSImageCache/"  title="iOS图片动态缓存方案">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS图片动态缓存方案
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/28/bestswifter/" data-title="iOS 开发者如何提高效率" data-url="http://Lastdays.cn/2016/05/28/bestswifter/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS__u5F00_u53D1_u8005_u5982_u4F55_u63D0_u9AD8_u6548_u7387"><span class="toc-number">1.</span> <span class="toc-text">iOS 开发者如何提高效率</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u7EFC_u8FF0"><span class="toc-number">1.1.</span> <span class="toc-text">综述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5165_u95E8"><span class="toc-number">1.2.</span> <span class="toc-text">入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Snap"><span class="toc-number">1.3.</span> <span class="toc-text">Snap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xcode__u5FEB_u6377_u952E"><span class="toc-number">1.4.</span> <span class="toc-text">Xcode 快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6587_u4EF6_u7F16_u8F91"><span class="toc-number">1.4.1.</span> <span class="toc-text">文件编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6587_u4EF6_u8DF3_u8F6C"><span class="toc-number">1.4.2.</span> <span class="toc-text">文件跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u641C_u7D22"><span class="toc-number">1.4.3.</span> <span class="toc-text">搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tab"><span class="toc-number">1.4.4.</span> <span class="toc-text">tab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scheme"><span class="toc-number">1.4.5.</span> <span class="toc-text">Scheme</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u8C03_u8BD5"><span class="toc-number">1.4.6.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5176_u4ED6"><span class="toc-number">1.4.7.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vim__u5E38_u7528_u5FEB_u6377_u952E"><span class="toc-number">1.5.</span> <span class="toc-text">Vim 常用快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u8FDB_u5165_u8F93_u5165_u6A21_u5F0F"><span class="toc-number">1.5.1.</span> <span class="toc-text">进入输入模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6587_u672C_u64CD_u4F5C"><span class="toc-number">1.5.2.</span> <span class="toc-text">文本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5149_u6807_u79FB_u52A8"><span class="toc-number">1.5.3.</span> <span class="toc-text">光标移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E3E_u4E00_u53CD_u4E09"><span class="toc-number">1.5.4.</span> <span class="toc-text">举一反三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5B9E_u6218"><span class="toc-number">1.5.5.</span> <span class="toc-text">实战</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chrome"><span class="toc-number">1.6.</span> <span class="toc-text">Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iTerm2"><span class="toc-number">1.7.</span> <span class="toc-text">iTerm2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git"><span class="toc-number">1.8.</span> <span class="toc-text">Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oh_my_zsh"><span class="toc-number">1.9.</span> <span class="toc-text">Oh my zsh</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试经验/" title="面试经验">面试经验<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/40e4dced948f/latest_articles" target="_blank" title="大V的博客">kuailejim</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/9c51a213b02e/latest_articles" target="_blank" title="好友">Martin_wjl</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://bestswifter.com" target="_blank" title="好友">bestswifter</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			感谢我有一个师傅</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
