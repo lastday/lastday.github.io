@@ -1,0 +1,589 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>从实践谈iOS生命周期 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="从实践谈iOS生命周期大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。
+个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。
+应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从实践谈iOS生命周期">
+<meta property="og:url" content="http://Lastdays.cn/2016/05/29/lifecycle/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="从实践谈iOS生命周期大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。
+个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。
+应">
+<meta property="og:image" content="http://Lastdays.cn/image/life/1.jpg">
+<meta property="og:image" content="http://Lastdays.cn/image/life/2.gif">
+<meta property="og:updated_time" content="2016-05-29T02:44:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从实践谈iOS生命周期">
+<meta name="twitter:description" content="从实践谈iOS生命周期大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。
+个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。
+应">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">我叫LastDays，我有一个心爱的白菜。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/29/lifecycle/" title="从实践谈iOS生命周期" itemprop="url">从实践谈iOS生命周期</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-29T02:44:04.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F"><span class="toc-number">1.</span> <span class="toc-text">从实践谈iOS生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001"><span class="toc-number">1.1.</span> <span class="toc-text">应用程序的状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#APP_u542F_u52A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">APP启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App_u4ECE_u540E_u53F0_u5207_u56DE"><span class="toc-number">1.1.2.</span> <span class="toc-text">App从后台切回</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7EC8_u6B62_u5E94_u7528_u7A0B_u5E8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">终止应用程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ViewController_u7684_u751F_u547D_u5468_u671F"><span class="toc-number">1.2.</span> <span class="toc-text">ViewController的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7ED3_u675F"><span class="toc-number">1.3.</span> <span class="toc-text">结束</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F"><a href="#u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F" class="headerlink" title="从实践谈iOS生命周期"></a>从实践谈iOS生命周期</h1><p>大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。</p>
+<p>个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。</p>
+<h2 id="u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001"><a href="#u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001" class="headerlink" title="应用程序的状态"></a>应用程序的状态</h2><p>看下这个图:</p>
+<p><img src="/image/life/1.jpg" alt=""></p>
+<ul>
+<li>Foreground ：前台</li>
+<li>Background ：后台</li>
+<li>Not running：应用程序并没有启动</li>
+<li>Inactive   ：应用程序运行在前台但是没有接收到事件响应</li>
+<li>Active     ：应用程序运行在前台接受到事件响应</li>
+<li>Background ：运行在后台并且执行代码</li>
+<li>Suspended  ：运行在后台但是没有运行代码</li>
+</ul>
+<h3 id="APP_u542F_u52A8"><a href="#APP_u542F_u52A8" class="headerlink" title="APP启动"></a>APP启动</h3><p>基本上每一次的状态改变都会调用一些delegate对象来响应当前的状态。就来介绍下这些delegate对象并且说明一些实际当中的使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions&#123;</span><br><span class="line">    NSLog(@<span class="string">"willFinishLaunchingWithOptions"</span>);</span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>willFinishLaunchingWithOptions</strong>就是应用程序在启动的时候的一个状态，就是页面将要显示的时候的一个状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    // Override point <span class="keyword">for</span> customization after application launch.</span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"didFinishLaunchingWithOptions"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>didFinishLaunchingWithOptions</strong>就是在应用程序在显示前最后一次的操作机会</p>
+<p>可以看下验证：</p>
+<p><img src="/image/life/2.gif" alt=""></p>
+<p>既然是在app在显示app给用户之前执行的操作，理所当然我们可以在这里做一些基本的初始化的操作，但是应该是一些轻量级的初始话操作，否则会影响用户体验。举一些例子：</p>
+<ul>
+<li>我用代码写UI，没有使用StoryBoard，就会在这里配置下window</li>
+<li>还有就是例如你有一些Fabric之类的插件做数据分析的，AdMob广告之类的初始化其实都可以放在这里的。</li>
+<li>甚至是AFNetworking的startMonitor这些初始化操作都能放在这里</li>
+</ul>
+<p>但是分析下，<strong>willFinishLaunchingWithOptions</strong>和<strong>didFinishLaunchingWithOptions</strong>描述上差不多，但是又有什么本质的区别呢？</p>
+<p>个人感觉在使用上其实并没有太大的区别，但是本质的区别我觉得跟<strong>Android</strong>的<strong>onStart</strong>和<strong>onResume</strong>有一些类似，在<strong>Android</strong>中他们的区别是根据<strong>Activity</strong>是否可见这个角度说明的，其实就是一个准备前跟准备完成后的区别，<strong>willFinishLaunchingWithOptions</strong>是声明当前的进程已经启动但是还没有进入状态保存，那么<strong>didFinishLaunchingWithOptions</strong>就是声明所有基本的准备工作已经完成，可以开始启动了，因此刚才谈到的一些实际场景的应用基本上都是在<strong>didFinishLaunchingWithOptions</strong>做的。</p>
+<p>再启动这里还有另一个状态，看下代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationDidBecomeActive:(UIApplication *)application &#123;</span><br><span class="line">    NSLog(@<span class="string">"applicationDidBecomeActive"</span>);</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">整个的启动过程其实是这样的，app启动之后，状态由not running变换为inactive，接着调用上面提到的两个方法，接着就是由inactive切换到active状态，这个时候会调用applicationDidBecomeActive，这里就不演示了，感兴趣可以自己看看，因此，在锁屏，来回切换App都会调用applicationDidBecomeActive方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### App发生中断</span></span><br><span class="line"></span><br><span class="line">中断情况典型的可能就是有人打电话进来，这个时候就会进入inactive状态，准备进入后台，这里会调用</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">- (void)applicationWillResignActive:(UIApplication *)application &#123;</span><br><span class="line">	NSLog(@<span class="string">"applicationWillResignActive"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际应用中就是一些暂停操作:</p>
+<ul>
+<li>例如对视频的暂停操作</li>
+<li>对音乐的暂停操作</li>
+<li>游戏的话可能有的也需要暂停</li>
+<li>将一些不重要的任务都挂起，你要是还有下载任务的话，可以考虑结束它或者是暂停它，当然要是NSURLSession的话，如果我们下载的东西不大的话，可以考虑不管它</li>
+</ul>
+<h3 id="App_u4ECE_u540E_u53F0_u5207_u56DE"><a href="#App_u4ECE_u540E_u53F0_u5207_u56DE" class="headerlink" title="App从后台切回"></a>App从后台切回</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationWillEnterForeground:(UIApplication *)application &#123;</span><br><span class="line">    NSLog(@<span class="string">"applicationWillEnterForeground"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>App将要从后台切回来，此时调用这个方法，在这里我们需要做的就是考虑你的应用需不需要更新啊，是否需要从server去拉数据呀。</p>
+<p>基本上就可以考虑在这里做一些经常需要更新的操作，很多应用我觉得也是在这里上传时间戳文件跟远程server做数据对比，如果时间戳不一样，则拉去数据。</p>
+<h3 id="u7EC8_u6B62_u5E94_u7528_u7A0B_u5E8F"><a href="#u7EC8_u6B62_u5E94_u7528_u7A0B_u5E8F" class="headerlink" title="终止应用程序"></a>终止应用程序</h3><p>iOS系统本身就存在系统内存回收的机制，就是当其他App启动的内存不足的时候去终止一些应用程序，也有可能是在后台上时间未响应被终止的。因此，系统在终止之前会调用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationWillTerminate:(UIApplication *)application &#123;</span><br><span class="line">    [self saveContext];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目的就是为了保留一些重要的数据，方便下次启动后的恢复，达到一种让用户感觉我的应用永远运行在后台从来没被终止过的感觉。</p>
+<h2 id="ViewController_u7684_u751F_u547D_u5468_u671F"><a href="#ViewController_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="ViewController的生命周期"></a>ViewController的生命周期</h2><p>这里就简单的概述下.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-(void)viewDidAppear:(BOOL)animated&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)viewWillAppear:(BOOL)animated&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上两个方法就是用来注册和移除通知，observer之类的，因为每次这个View出现，消息都会调用这两个方法，可以达防止内存泄露。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就是当前的vc初始化的时候，在这里可以配置自己的navi bar之类的。</p>
+<h2 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a>结束</h2><p>基本上就是这些吧，在这里简单的总结下，系统利用main run loop来管理事件循环，决定将事件交给系统哪些对象处理和如何处理。如果想要更深入的去了解这块，可以看看这个<a href="http://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>，生命周期在我们的实践应用中使用的地方会很多，这里没有很深入的总结，因为自身的能力有限，如果大家有什么更好的，或者觉得这篇文章中有哪些地方需要更改或者添加，给我留言，欢迎指出缺点和错误。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/05/29/lifecycle/" data-title="从实践谈iOS生命周期 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/05/28/bestswifter/"  title="iOS 开发者如何提高效率">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS 开发者如何提高效率
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/29/lifecycle/" data-title="从实践谈iOS生命周期" data-url="http://Lastdays.cn/2016/05/29/lifecycle/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F"><span class="toc-number">1.</span> <span class="toc-text">从实践谈iOS生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001"><span class="toc-number">1.1.</span> <span class="toc-text">应用程序的状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#APP_u542F_u52A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">APP启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App_u4ECE_u540E_u53F0_u5207_u56DE"><span class="toc-number">1.1.2.</span> <span class="toc-text">App从后台切回</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7EC8_u6B62_u5E94_u7528_u7A0B_u5E8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">终止应用程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ViewController_u7684_u751F_u547D_u5468_u671F"><span class="toc-number">1.2.</span> <span class="toc-text">ViewController的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u7ED3_u675F"><span class="toc-number">1.3.</span> <span class="toc-text">结束</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试经验/" title="面试经验">面试经验<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/40e4dced948f/latest_articles" target="_blank" title="大V的博客">kuailejim</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/9c51a213b02e/latest_articles" target="_blank" title="好友">Martin_wjl</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://bestswifter.com" target="_blank" title="好友">bestswifter</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			感谢我有一个师傅</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
