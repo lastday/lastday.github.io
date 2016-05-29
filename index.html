@@ -87,7 +87,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-29T02:44:04.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
+    <time datetime="2016-05-29T02:59:53.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
     
   </p>
 </header>
@@ -96,56 +96,12 @@
         <h1 id="u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F"><a href="#u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F" class="headerlink" title="从实践谈iOS生命周期"></a>从实践谈iOS生命周期</h1><p>大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。</p>
 <p>个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。</p>
 <h2 id="u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001"><a href="#u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001" class="headerlink" title="应用程序的状态"></a>应用程序的状态</h2><p>看下这个图:</p>
-<p><img src="/image/life/1.jpg" alt=""></p>
-<ul>
-<li>Foreground ：前台</li>
-<li>Background ：后台</li>
-<li>Not running：应用程序并没有启动</li>
-<li>Inactive   ：应用程序运行在前台但是没有接收到事件响应</li>
-<li>Active     ：应用程序运行在前台接受到事件响应</li>
-<li>Background ：运行在后台并且执行代码</li>
-<li>Suspended  ：运行在后台但是没有运行代码</li>
-</ul>
-<h3 id="APP_u542F_u52A8"><a href="#APP_u542F_u52A8" class="headerlink" title="APP启动"></a>APP启动</h3><p>基本上每一次的状态改变都会调用一些delegate对象来响应当前的状态。就来介绍下这些delegate对象并且说明一些实际当中的使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions&#123;</span><br><span class="line">    NSLog(@<span class="string">"willFinishLaunchingWithOptions"</span>);</span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>willFinishLaunchingWithOptions</strong>就是应用程序在启动的时候的一个状态，就是页面将要显示的时候的一个状态。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    // Override point <span class="keyword">for</span> customization after application launch.</span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"didFinishLaunchingWithOptions"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>didFinishLaunchingWithOptions</strong>就是在应用程序在显示前最后一次的操作机会</p>
-<p>可以看下验证：</p>
-<p><img src="/image/life/2.gif" alt=""></p>
-<p>既然是在app在显示app给用户之前执行的操作，理所当然我们可以在这里做一些基本的初始化的操作，但是应该是一些轻量级的初始话操作，否则会影响用户体验。举一些例子：</p>
-<ul>
-<li>我用代码写UI，没有使用StoryBoard，就会在这里配置下window</li>
-<li>还有就是例如你有一些Fabric之类的插件做数据分析的，AdMob广告之类的初始化其实都可以放在这里的。</li>
-<li>甚至是AFNetworking的startMonitor这些初始化操作都能放在这里</li>
-</ul>
-<p>但是分析下，<strong>willFinishLaunchingWithOptions</strong>和<strong>didFinishLaunchingWithOptions</strong>描述上差不多，但是又有什么本质的区别呢？</p>
-<p>个人感觉在使用上其实并没有太大的区别，但是本质的区别我觉得跟<strong>Android</strong>的<strong>onStart</strong>和<strong>onResume</strong>有一些类似，在<strong>Android</strong>中他们的区别是根据<strong>Activity</strong>是否可见这个角度说明的，其实就是一个准备前跟准备完成后的区别，<strong>willFinishLaunchingWithOptions</strong>是声明当前的进程已经启动但是还没有进入状态保存，那么<strong>didFinishLaunchingWithOptions</strong>就是声明所有基本的准备工作已经完成，可以开始启动了，因此刚才谈到的一些实际场景的应用基本上都是在<strong>didFinishLaunchingWithOptions</strong>做的。</p>
-<p>再启动这里还有另一个状态，看下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationDidBecomeActive:(UIApplication *)application &#123;</span><br><span class="line">    NSLog(@<span class="string">"applicationDidBecomeActive"</span>);</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">整个的启动过程其实是这样的，app启动之后，状态由not running变换为inactive，接着调用上面提到的两个方法，接着就是由inactive切换到active状态，这个时候会调用applicationDidBecomeActive，这里就不演示了，感兴趣可以自己看看，因此，在锁屏，来回切换App都会调用applicationDidBecomeActive方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### App发生中断</span></span><br><span class="line"></span><br><span class="line">中断情况典型的可能就是有人打电话进来，这个时候就会进入inactive状态，准备进入后台，这里会调用</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">- (void)applicationWillResignActive:(UIApplication *)application &#123;</span><br><span class="line">	NSLog(@<span class="string">"applicationWillResignActive"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实际应用中就是一些暂停操作:</p>
-<ul>
-<li>例如对视频的暂停操作</li>
-<li>对音乐的暂停操作</li>
-<li>游戏的话可能有的也需要暂停</li>
-<li>将一些不重要的任务都挂起，你要是还有下载任务的话，可以考虑结束它或者是暂停它，当然要是NSURLSession的话，如果我们下载的东西不大的话，可以考虑不管它</li>
-</ul>
-<h3 id="App_u4ECE_u540E_u53F0_u5207_u56DE"><a href="#App_u4ECE_u540E_u53F0_u5207_u56DE" class="headerlink" title="App从后台切回"></a>App从后台切回</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationWillEnterForeground:(UIApplication *)application &#123;</span><br><span class="line">    NSLog(@<span class="string">"applicationWillEnterForeground"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>App将要从后台切回来，此时调用这个方法，在这里我们需要做的就是考虑你的应用需不需要更新啊，是否需要从server去拉数据呀。</p>
-<p>基本上就可以考虑在这里做一些经常需要更新的操作，很多应用我觉得也是在这里上传时间戳文件跟远程server做数据对比，如果时间戳不一样，则拉去数据。</p>
-<h3 id="u7EC8_u6B62_u5E94_u7528_u7A0B_u5E8F"><a href="#u7EC8_u6B62_u5E94_u7528_u7A0B_u5E8F" class="headerlink" title="终止应用程序"></a>终止应用程序</h3><p>iOS系统本身就存在系统内存回收的机制，就是当其他App启动的内存不足的时候去终止一些应用程序，也有可能是在后台上时间未响应被终止的。因此，系统在终止之前会调用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationWillTerminate:(UIApplication *)application &#123;</span><br><span class="line">    [self saveContext];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>目的就是为了保留一些重要的数据，方便下次启动后的恢复，达到一种让用户感觉我的应用永远运行在后台从来没被终止过的感觉。</p>
-<h2 id="ViewController_u7684_u751F_u547D_u5468_u671F"><a href="#ViewController_u7684_u751F_u547D_u5468_u671F" class="headerlink" title="ViewController的生命周期"></a>ViewController的生命周期</h2><p>这里就简单的概述下.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-(void)viewDidAppear:(BOOL)animated&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)viewWillAppear:(BOOL)animated&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上两个方法就是用来注册和移除通知，observer之类的，因为每次这个View出现，消息都会调用这两个方法，可以达防止内存泄露。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>就是当前的vc初始化的时候，在这里可以配置自己的navi bar之类的。</p>
-<h2 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a>结束</h2><p>基本上就是这些吧，在这里简单的总结下，系统利用main run loop来管理事件循环，决定将事件交给系统哪些对象处理和如何处理。如果想要更深入的去了解这块，可以看看这个<a href="http://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>，生命周期在我们的实践应用中使用的地方会很多，这里没有很深入的总结，因为自身的能力有限，如果大家有什么更好的，或者觉得这篇文章中有哪些地方需要更改或者添加，给我留言，欢迎指出缺点和错误。</p>
-
+<p><img src="/image/lifecycle/1.jpg" alt=""></p>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/05/29/lifecycle/#more">阅读全文</a>
           
        </p>
     </div>

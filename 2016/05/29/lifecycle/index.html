@@ -21,9 +21,9 @@
 <meta property="og:description" content="从实践谈iOS生命周期大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。
 个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。
 应">
-<meta property="og:image" content="http://Lastdays.cn/image/life/1.jpg">
-<meta property="og:image" content="http://Lastdays.cn/image/life/2.gif">
-<meta property="og:updated_time" content="2016-05-29T02:44:04.000Z">
+<meta property="og:image" content="http://Lastdays.cn/image/lifecycle/1.jpg">
+<meta property="og:image" content="http://Lastdays.cn/image/lifecycle/2.gif">
+<meta property="og:updated_time" content="2016-05-29T02:59:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从实践谈iOS生命周期">
 <meta name="twitter:description" content="从实践谈iOS生命周期大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。
@@ -94,7 +94,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-29T02:44:04.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
+    <time datetime="2016-05-29T02:59:53.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
     
   </p>
 </header>
@@ -110,7 +110,8 @@
 		<h1 id="u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F"><a href="#u4ECE_u5B9E_u8DF5_u8C08iOS_u751F_u547D_u5468_u671F" class="headerlink" title="从实践谈iOS生命周期"></a>从实践谈iOS生命周期</h1><p>大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。</p>
 <p>个人感觉生命周期无论在Android，还是iOS都是很重要的概念，因为在每个声明周期的状态下我们可以做很多预加载或者处理的操作。因此在这里主要总结下ViewController和AppDelegate中的一些状态。</p>
 <h2 id="u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001"><a href="#u5E94_u7528_u7A0B_u5E8F_u7684_u72B6_u6001" class="headerlink" title="应用程序的状态"></a>应用程序的状态</h2><p>看下这个图:</p>
-<p><img src="/image/life/1.jpg" alt=""></p>
+<p><img src="/image/lifecycle/1.jpg" alt=""></p>
+<a id="more"></a>
 <ul>
 <li>Foreground ：前台</li>
 <li>Background ：后台</li>
@@ -126,7 +127,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    // Override point <span class="keyword">for</span> customization after application launch.</span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"didFinishLaunchingWithOptions"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>didFinishLaunchingWithOptions</strong>就是在应用程序在显示前最后一次的操作机会</p>
 <p>可以看下验证：</p>
-<p><img src="/image/life/2.gif" alt=""></p>
+<p><img src="/image/lifecycle/2.gif" alt=""></p>
 <p>既然是在app在显示app给用户之前执行的操作，理所当然我们可以在这里做一些基本的初始化的操作，但是应该是一些轻量级的初始话操作，否则会影响用户体验。举一些例子：</p>
 <ul>
 <li>我用代码写UI，没有使用StoryBoard，就会在这里配置下window</li>
