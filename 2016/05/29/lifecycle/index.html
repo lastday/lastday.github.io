@@ -23,7 +23,7 @@
 应">
 <meta property="og:image" content="http://Lastdays.cn/image/lifecycle/1.jpg">
 <meta property="og:image" content="http://Lastdays.cn/image/lifecycle/2.gif">
-<meta property="og:updated_time" content="2016-05-29T02:59:53.000Z">
+<meta property="og:updated_time" content="2016-05-29T03:04:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从实践谈iOS生命周期">
 <meta name="twitter:description" content="从实践谈iOS生命周期大三学生党一枚，最近在重新了解下声明周期的概念，看了很多概念性的文章，基本了解了各个状态下会调用哪些地方，但是很想深入了解下在各个状态下，我们可以做那些操作。
@@ -94,7 +94,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-29T02:59:53.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
+    <time datetime="2016-05-29T03:04:51.000Z" itemprop="datePublished"> 发表于 2016-05-29</time>
     
   </p>
 </header>
@@ -137,7 +137,7 @@
 <p>但是分析下，<strong>willFinishLaunchingWithOptions</strong>和<strong>didFinishLaunchingWithOptions</strong>描述上差不多，但是又有什么本质的区别呢？</p>
 <p>个人感觉在使用上其实并没有太大的区别，但是本质的区别我觉得跟<strong>Android</strong>的<strong>onStart</strong>和<strong>onResume</strong>有一些类似，在<strong>Android</strong>中他们的区别是根据<strong>Activity</strong>是否可见这个角度说明的，其实就是一个准备前跟准备完成后的区别，<strong>willFinishLaunchingWithOptions</strong>是声明当前的进程已经启动但是还没有进入状态保存，那么<strong>didFinishLaunchingWithOptions</strong>就是声明所有基本的准备工作已经完成，可以开始启动了，因此刚才谈到的一些实际场景的应用基本上都是在<strong>didFinishLaunchingWithOptions</strong>做的。</p>
 <p>再启动这里还有另一个状态，看下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationDidBecomeActive:(UIApplication *)application &#123;</span><br><span class="line">    NSLog(@<span class="string">"applicationDidBecomeActive"</span>);</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">整个的启动过程其实是这样的，app启动之后，状态由not running变换为inactive，接着调用上面提到的两个方法，接着就是由inactive切换到active状态，这个时候会调用applicationDidBecomeActive，这里就不演示了，感兴趣可以自己看看，因此，在锁屏，来回切换App都会调用applicationDidBecomeActive方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### App发生中断</span></span><br><span class="line"></span><br><span class="line">中断情况典型的可能就是有人打电话进来，这个时候就会进入inactive状态，准备进入后台，这里会调用</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">- (void)applicationWillResignActive:(UIApplication *)application &#123;</span><br><span class="line">	NSLog(@<span class="string">"applicationWillResignActive"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)applicationDidBecomeActive:(UIApplication *)application &#123;</span><br><span class="line">    NSLog(@<span class="string">"applicationDidBecomeActive"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">整个的启动过程其实是这样的，app启动之后，状态由not running变换为inactive，接着调用上面提到的两个方法，接着就是由inactive切换到active状态，这个时候会调用applicationDidBecomeActive，这里就不演示了，感兴趣可以自己看看，因此，在锁屏，来回切换App都会调用applicationDidBecomeActive方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### App发生中断</span></span><br><span class="line"></span><br><span class="line">中断情况典型的可能就是有人打电话进来，这个时候就会进入inactive状态，准备进入后台，这里会调用</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">- (void)applicationWillResignActive:(UIApplication *)application &#123;</span><br><span class="line">	NSLog(@<span class="string">"applicationWillResignActive"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实际应用中就是一些暂停操作:</p>
 <ul>
 <li>例如对视频的暂停操作</li>
