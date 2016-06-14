@@ -34,10 +34,10 @@
 
 利用Lua实现App动态化方案因为动态化的东西我第一次看实现方案的源码，而且目前还是大三的学生，缺少很多实践经验说错的地方还请">
 <meta property="og:image" content="http://Lastdays.cn/image/LuaView/1.jpg">
-<meta property="og:image" content="http://Lastdays.cn/image/Luaview/2.gif">
-<meta property="og:image" content="http://Lastdays.cn/image/Luaview/3.jpg">
-<meta property="og:image" content="http://Lastdays.cn/image/luaView/4.gif">
-<meta property="og:updated_time" content="2016-06-14T08:53:42.000Z">
+<meta property="og:image" content="http://Lastdays.cn/image/LuaView/2.gif">
+<meta property="og:image" content="http://Lastdays.cn/image/LuaView/3.jpg">
+<meta property="og:image" content="http://Lastdays.cn/image/LuaView/4.gif">
+<meta property="og:updated_time" content="2016-06-14T08:59:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Lua实现App动态化方案">
 <meta name="twitter:description" content="大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的Blog，我在这里分享我的学习，
@@ -114,7 +114,7 @@
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-06-14T08:53:42.000Z" itemprop="datePublished"> 发表于 2016-06-14</time>
+    <time datetime="2016-06-14T08:59:31.000Z" itemprop="datePublished"> 发表于 2016-06-14</time>
     
   </p>
 </header>
@@ -176,7 +176,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">button3 = Button();</span><br><span class="line">button3.frame(<span class="number">150</span>,<span class="number">250</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">button3.image(<span class="string">"button0.png"</span>,<span class="string">"button1.png"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">button3.callback(</span><br><span class="line">    <span class="keyword">function</span>()</span><br><span class="line">        Alert(<span class="string">"测试"</span>);</span><br><span class="line">    end</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  ViewController.m</span><br><span class="line">//  luaTest</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">6</span>/<span class="number">7</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"><span class="comment">#import &lt;LView.h&gt;</span></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong) LView *lview;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    CGRect cg = self.view.bounds;</span><br><span class="line">    cg.origin = CGPointZero;</span><br><span class="line">    self.lview = [[LView alloc] initWithFrame:cg];</span><br><span class="line">    self.lview.viewController = self;</span><br><span class="line">    [self.view addSubview:self.lview];</span><br><span class="line">    [self.lview runFile:@<span class="string">"lastdays.lua"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 <p>效果图：</p>
-<p><img src="/image/Luaview/2.gif" alt=""></p>
+<p><img src="/image/LuaView/2.gif" alt=""></p>
 <p>可以看到调用的原生UI。</p>
 <p>先来分析 </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.lview = [[LView alloc] initWithFrame:cg];</span><br></pre></td></tr></table></figure>
@@ -230,7 +230,7 @@
 <h3 id="u6E90_u7801_u5206_u6790_u603B_u7ED3"><a href="#u6E90_u7801_u5206_u6790_u603B_u7ED3" class="headerlink" title="源码分析总结"></a>源码分析总结</h3><p>LuaViewSDK 可以通过 Lua 脚本桥接所有 Native 的功能，所以具有与 Native 一样丰富的性能。以上这些就是我自己总结的LuaView调用原生UI的过程，我们如何扩展Lua，并且我们又是如何加载Lua脚本，并且调用Native UI。</p>
 <p>当然，LuaViewSDK当中还包含着包的管理和下载，还有更新的一些方案，我还没有仔细看，看了以后还会总结分享。</p>
 <p>这里看在聚划算团队分享的LuaView SDK整体架构</p>
-<p><img src="/image/Luaview/3.jpg" alt=""></p>
+<p><img src="/image/LuaView/3.jpg" alt=""></p>
 <p>如图，以下为聚划算团队说明LuaView SDK的整体架构可以表示为五层。</p>
 <p>自下而上第一、二层依次是OS层和Framework层，分别表示了Android、iOS以及对应的框架层。</p>
 <p>紧接着是Lua虚拟机，在Android、iOS平台分别是LuaJ和LuaC，两个虚拟机都是目前两个语言中用的最广泛，最稳定的虚拟机。</p>
@@ -271,7 +271,7 @@
 <p>看一下我们的调用</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    [self LDSView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)LDSView&#123;</span><br><span class="line">    CGRect cg = self.view.bounds;</span><br><span class="line">    cg.origin = CGPointZero;</span><br><span class="line">    self.ldsView = [[LDSView alloc] initWithFrame:cg];</span><br><span class="line">    [self.view addSubview:self.ldsView];</span><br><span class="line">    [self.ldsView runScriptWithScriptName:@<span class="string">"lastdays.lua"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>来看下效果：</p>
-<p><img src="/image/luaView/4.gif" alt=""></p>
+<p><img src="/image/LuaView/4.gif" alt=""></p>
 <p>我没有编写其他控制属性的函数，直接就在init全部搞定了，就是简单的实现下证明下上面的思路，结果看来还是正确。如果你也感兴趣欢迎去文章的上面查看两个代码的源码。</p>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>我个人感觉LuaView在聚划算中得到大量的使用，并且这么长时间，运行状态也很稳定说明LuaView还是有很多我值得学习的地方，上面的分析感觉也就是LuaView的一些皮毛，还有很多关键的点，和设计模式没有分析出来，并且Lua和C的交互扩展主要是依靠那个虚拟的”栈”，这里的原理我还没有看的太明白，后面还会大量的学习。并且还希望多交流，因为现在才大三，缺少很多实践经验，有很多地方理解的可能是错误的，希望能被指出，勿喷勿喷。</p>
 <p>我叫LastDays，一个90后iOS开发者。</p>
