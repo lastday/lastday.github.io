@@ -1,0 +1,708 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>利用Lua实现App动态化方案 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+并且欢迎加入qq群554602551，这里我们一起交流分享
+
+聚划算项目地址:LuaViewSDK
+
+我的简单实现： luaTest
+
+利用Lua实现App动态化方案因为动态化的东西我第一次看实现方案的源码，而且目前还是大三的学生，缺少很多实践经验说错的地方还请">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Lua实现App动态化方案">
+<meta property="og:url" content="http://Lastdays.cn/2016/06/14/Lua/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+并且欢迎加入qq群554602551，这里我们一起交流分享
+
+聚划算项目地址:LuaViewSDK
+
+我的简单实现： luaTest
+
+利用Lua实现App动态化方案因为动态化的东西我第一次看实现方案的源码，而且目前还是大三的学生，缺少很多实践经验说错的地方还请">
+<meta property="og:image" content="http://Lastdays.cn/image/LuaView/1.jpg">
+<meta property="og:image" content="http://Lastdays.cn/image/Luaview/2.gif">
+<meta property="og:image" content="http://Lastdays.cn/image/Luaview/3.jpg">
+<meta property="og:image" content="http://Lastdays.cn/image/luaView/4.gif">
+<meta property="og:updated_time" content="2016-06-14T08:53:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Lua实现App动态化方案">
+<meta name="twitter:description" content="大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的Blog，我在这里分享我的学习，
+我的微博我在这里分享我的生活，欢迎交流
+并且欢迎加入qq群554602551，这里我们一起交流分享
+
+聚划算项目地址:LuaViewSDK
+
+我的简单实现： luaTest
+
+利用Lua实现App动态化方案因为动态化的东西我第一次看实现方案的源码，而且目前还是大三的学生，缺少很多实践经验说错的地方还请">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">我叫LastDays，我有一个心爱的白菜。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/14/Lua/" title="利用Lua实现App动态化方案" itemprop="url">利用Lua实现App动态化方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-14T08:53:42.000Z" itemprop="datePublished"> 发表于 2016-06-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u5229_u7528Lua_u5B9E_u73B0App_u52A8_u6001_u5316_u65B9_u6848"><span class="toc-number">1.</span> <span class="toc-text">利用Lua实现App动态化方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#App_u7684_u8BBE_u8BA1_u65B9_u6848"><span class="toc-number">1.1.</span> <span class="toc-text">App的设计方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u5BF9_u6BD4"><span class="toc-number">1.2.</span> <span class="toc-text">动态对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u53D1_u73B0LuaView"><span class="toc-number">1.3.</span> <span class="toc-text">发现LuaView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5B66_u4E60Lua_u7684_u4F53_u4F1A"><span class="toc-number">1.4.</span> <span class="toc-text">学习Lua的体会</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5206_u6790LuaView"><span class="toc-number">1.5.</span> <span class="toc-text">分析LuaView</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6E90_u7801_u5206_u6790"><span class="toc-number">1.5.1.</span> <span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6E90_u7801_u5206_u6790_u603B_u7ED3"><span class="toc-number">1.5.2.</span> <span class="toc-text">源码分析总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528Lua_u5B9E_u73B0_u52A8_u6001_u5316"><span class="toc-number">1.6.</span> <span class="toc-text">使用Lua实现动态化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<ul>
+<li>大家好，我叫LastDays，大三学生，目前在腾讯实习，这是我的<a href="/lastdays.cn">Blog</a>，我在这里分享我的学习，</li>
+<li>我的<a href="http://weibo.com/p/1005055848341536/home?from=page_100505&amp;mod=TAB&amp;is_all=1#place" target="_blank" rel="external">微博</a>我在这里分享我的生活，欢迎交流</li>
+<li><p>并且欢迎加入qq群554602551，这里我们一起交流分享</p>
+</li>
+<li><p>聚划算项目地址:<a href="https://github.com/alibaba/LuaViewSDK" target="_blank" rel="external">LuaViewSDK</a></p>
+</li>
+<li>我的简单实现： <a href="https://github.com/MrLoong/luaTest" target="_blank" rel="external">luaTest</a></li>
+</ul>
+<h1 id="u5229_u7528Lua_u5B9E_u73B0App_u52A8_u6001_u5316_u65B9_u6848"><a href="#u5229_u7528Lua_u5B9E_u73B0App_u52A8_u6001_u5316_u65B9_u6848" class="headerlink" title="利用Lua实现App动态化方案"></a>利用Lua实现App动态化方案</h1><p>因为动态化的东西我第一次看实现方案的源码，而且目前还是大三的学生，缺少很多实践经验说错的地方还请原谅，也希望能指出，被告知。想了很久还是决定写出来，求大神勿喷。</p>
+<p>最近看到很多场对动态化提出了很多技术方案，原因就是客户端的业务需求越来越复杂，尤其是一些业务快速发展的互联网产品，肯定会造成版本的更新迭代跟不上业务的变化，尤其是App Store不确定性的审核，这个时候动态化的想法就自然的产生了。我不知道其他人是如何理解动态化的，但是我觉得，动态化指的就是我们不发布新的版本就可以实现大量的应用内容更新，这里的内容不应该仅仅是一些基本信息，应该涉及到应用的主题框架，甚至是布局，排版等。</p>
+<p>因为我自己主要专注iOS，所以本次的源码分析和实现主要围绕iOS进行。</p>
+<a id="more"></a>
+<h2 id="App_u7684_u8BBE_u8BA1_u65B9_u6848"><a href="#App_u7684_u8BBE_u8BA1_u65B9_u6848" class="headerlink" title="App的设计方案"></a>App的设计方案</h2><p>现在移动端有三种主流的设计方案，分别是Web App、Hybrid App、 Native App。简单的叙述下，这三种</p>
+<ul>
+<li>Web App：指的就是利用H5打造的应用，不需要下载，存活于浏览器中，类似轻应用。图像渲染由HTML，CSS完成,性能比较慢，个人感觉体验不是很好，模仿原生界面，大部分依赖于网络。</li>
+<li>Native App：指的就是原生程序，存活在操作系统中（iOS，Android）一个完整的App，但是需要客户下载安装使用。图像的渲染由本地API完成，采用原生组件，支持离线网络。</li>
+<li>Hybrid App：部分H5和部分Native的混合架构，这种方案以H5的动态性为基础，通过定义Native的扩展（Bridge）来实现动态化，大部分依赖于网络；</li>
+<li>Native View方案：使用Native进行渲染的Native View方案，通过修改预定结构中的数据，实现动态化</li>
+<li>ReactNative：通过JavaScript脚本引擎支持页面DOM转换和逻辑控制来实现动态化</li>
+</ul>
+<h2 id="u52A8_u6001_u5BF9_u6BD4"><a href="#u52A8_u6001_u5BF9_u6BD4" class="headerlink" title="动态对比"></a>动态对比</h2><p>Hybrid App具备一定的动态能力，但是Hybrid的H5部分体验较差。Web App的体验跟网络有很大的关系，网络环境不好，体验会很差，而且H5的渲染能力比较差。Native View方案不支持逻辑代码的替换。ReactNative的JS引擎不够轻量，不适合大数量的ListView处理。甚至还有更多的动态划方案，尽管ReactNative很火，就像我一个朋友提到过的，到目前位置并没有一种方案统一了动态化方案。</p>
+<h2 id="u53D1_u73B0LuaView"><a href="#u53D1_u73B0LuaView" class="headerlink" title="发现LuaView"></a>发现LuaView</h2><p>同样为了更加深入的了解动态化的实现，我尝试去分析一种方案的源码更加深入的去了解。这里我选择了阿里聚划算开源的LuaView，这里我并不了解聚划算的动态化方案是如何构建的，但是原因肯定是因为聚划算的业务不断的扩展，由于聚划算的业务变化需求，因此LuaView的实践性肯定是经过考验的，从实践的角度出发，我选择尝试分析它。</p>
+<h2 id="u5B66_u4E60Lua_u7684_u4F53_u4F1A"><a href="#u5B66_u4E60Lua_u7684_u4F53_u4F1A" class="headerlink" title="学习Lua的体会"></a>学习Lua的体会</h2><p>我玩过愤怒的小鸟，用过Photoshop，但是我现在才知道Lua在它们两个中就有应用，接触后，发现Lua是一种轻量级的语言，它的官方版本只包括一个精简的核心和最基本的库，这就让它非常非常的小，编译后也仅仅就是百于k而已，这根Lua的设计目标有关系，它的目标就是成为一个很容易嵌入其它语言中使用的语言，而且Lua可以用于嵌入式硬件，不仅可以嵌入其他编程语言，而且可以嵌入微处理器中。</p>
+<p>很多人会发现Lua很轻量，并不具备网络请求，图形UI等能力，但是很多应用使用Lua作为自己的嵌入式语言，因为他本身的接口易于扩展使得它可以通过宿主语言完成能力扩展</p>
+<p>以上的Lua的这些特性就让我们发现，使用Lua构建动态化方案的核心就在于将Android，iOS原生的UI、网络、存储、硬件控制等能力桥接到Lua层。如果做到，这种方案就可以支持UI动态搭建、脚本、资源、逻辑动态下发。借助Lua语言的可扩展性，我们可以很方便地在Native跟Lua之间搭建起桥梁，将Native的各种能力迁移到Lua层。</p>
+<h2 id="u5206_u6790LuaView"><a href="#u5206_u6790LuaView" class="headerlink" title="分析LuaView"></a>分析LuaView</h2><p>通过上面繁琐无聊的介绍，我们就可以来分析一波LuaView是如何将Android，iOS原生的UI、网络、存储、硬件控制等能力桥接到Lua层的。</p>
+<p>LuaView的意图就是利用Lua去构建Native UI。LuaView没有去自己构建一个UI库，而是借用Android，iOS原生UI，Android支持的Lua引擎为LuaJ，iOS支持的Lua引擎为LuaC。</p>
+<p><strong>根据聚划算团队的说明，<br>LuaView的一条重要设计原则就是同一份逻辑只写一份代码，这需要在设计SDK的时候尽可能得考虑到两个端的共性跟特性，将API构建在两个端的共性领域中，对于两端的特性领域则交由各自的Native部分来实现。</strong></p>
+<p>为了实现这种能力，肯定需要构建一个桥接平台，并且设计好统一的API。</p>
+<h3 id="u6E90_u7801_u5206_u6790"><a href="#u6E90_u7801_u5206_u6790" class="headerlink" title="源码分析"></a>源码分析</h3><p>源码看了很久，然后总算能总结出一些东西，因为还是学生，可能有些地方的实践跟我想的有差异，还希望大家提出。</p>
+<p>在分析源码前不得不具体说说Lua，上面也提到过，这个Lua很轻量，很小。因此lua是一个嵌入式语言，就是说它不是一个单独的程序，而是一套可以在其它语言中使用的库，lua可以作为c语言的扩展，反过来也可以用c语言编写模块来扩展lua，这两种情况都使用同样的api进行交互。lua与c主要是通过一个虚拟的“栈”来交换数据。</p>
+<p>这个虚拟“栈”是很关键的一个点，Lua利用一个虚拟的堆栈来给C传递值或从C获取值。每当Lua调用C函数，都会获得一个新的堆栈，该堆栈初始包含所有的调用C函数所需要的参数值（Lua传给C函数的调用实参），并且C函数执行完毕后，会把返回值压入这个栈（Lua从中拿到C函数调用结果）。</p>
+<p>我自己就是理解Lua引擎在App中其实起到一个内置系统的能力，我们把Lua脚本注入应用程序，Lua引擎自己解析，运行，然后去调用原生UI，这就需要为我们的操作系统进行扩展，利用的就是lua可以作为c语言的扩展，反过来也可以用c语言编写模块来扩展lua</p>
+<p>这些理论可能说起来很繁琐，也可能是我自己总结的不够清晰，我们现在来引入实践代码进行分析，最后我们在尝试自己去手动实现一些简单的动态化能力，这样会有更清晰的认知。</p>
+<p>看一下LuaView的结构</p>
+<p><img src="/image/LuaView/1.jpg" alt=""></p>
+<p>lv514可以理解为Lua的源码，为什么说可以理解为？因为作者对Lua的源码进行了部分的更改，例如类名，还有一个函数名，举个典型的例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">struct lv_State &#123;</span><br><span class="line">  CommonHeader;</span><br><span class="line">  lu_byte status;</span><br><span class="line">  StkId top;  /* first free slot <span class="keyword">in</span> the stack */</span><br><span class="line">  StkId base;  /* base of current <span class="keyword">function</span> */</span><br><span class="line">  global_State *l_G;</span><br><span class="line">  CallInfo *ci;  /* call info <span class="keyword">for</span> current <span class="keyword">function</span> */</span><br><span class="line">  const Instruction *savedpc;  /* `savedpc<span class="string">' of current function */</span><br><span class="line">  StkId stack_last;  /* last free slot in the stack */</span><br><span class="line">  StkId stack;  /* stack base */</span><br><span class="line">  CallInfo *end_ci;  /* points after end of ci array*/</span><br><span class="line">  CallInfo *base_ci;  /* array of CallInfo'</span>s */</span><br><span class="line">  int stacksize;</span><br><span class="line">  int size_ci;  /* size of array `base_ci<span class="string">' */</span><br><span class="line">  unsigned short nCcalls;  /* number of nested C calls */</span><br><span class="line">  unsigned short baseCcalls;  /* nested C calls when resuming coroutine */</span><br><span class="line">  lu_byte hookmask;</span><br><span class="line">  lu_byte allowhook;</span><br><span class="line">  int basehookcount;</span><br><span class="line">  int hookcount;</span><br><span class="line">  lv_Hook hook;</span><br><span class="line">  TValue l_gt;  /* table of globals */</span><br><span class="line">  TValue env;  /* temporary place for environments */</span><br><span class="line">  GCObject *openupval;  /* list of open upvalues in this stack */</span><br><span class="line">  GCObject *gclist;</span><br><span class="line">  struct lv_longjmp *errorJmp;  /* current error recover point */</span><br><span class="line">  ptrdiff_t errfunc;  /* current error handling function (stack index) */</span><br><span class="line">    </span><br><span class="line">    //</span><br><span class="line">    void* lView;</span><br><span class="line">&#125;;</span></span><br></pre></td></tr></table></figure>
+<p>这个状态机被进行了更改，并且加入的新元素</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void* lView;</span><br></pre></td></tr></table></figure>
+<p>对比下原来的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">struct lua_State &#123;</span><br><span class="line">  CommonHeader;</span><br><span class="line">  lu_byte status;</span><br><span class="line">  StkId top;  /* first free slot <span class="keyword">in</span> the stack */</span><br><span class="line">  StkId base;  /* base of current <span class="keyword">function</span> */</span><br><span class="line">  global_State *l_G;</span><br><span class="line">  CallInfo *ci;  /* call info <span class="keyword">for</span> current <span class="keyword">function</span> */</span><br><span class="line">  const Instruction *savedpc;  /* `savedpc<span class="string">' of current function */</span><br><span class="line">  StkId stack_last;  /* last free slot in the stack */</span><br><span class="line">  StkId stack;  /* stack base */</span><br><span class="line">  CallInfo *end_ci;  /* points after end of ci array*/</span><br><span class="line">  CallInfo *base_ci;  /* array of CallInfo'</span>s */</span><br><span class="line">  int stacksize;</span><br><span class="line">  int size_ci;  /* size of array `base_ci<span class="string">' */</span><br><span class="line">  unsigned short nCcalls;  /* number of nested C calls */</span><br><span class="line">  unsigned short baseCcalls;  /* nested C calls when resuming coroutine */</span><br><span class="line">  lu_byte hookmask;</span><br><span class="line">  lu_byte allowhook;</span><br><span class="line">  int basehookcount;</span><br><span class="line">  int hookcount;</span><br><span class="line">  lua_Hook hook;</span><br><span class="line">  TValue l_gt;  /* table of globals */</span><br><span class="line">  TValue env;  /* temporary place for environments */</span><br><span class="line">  GCObject *openupval;  /* list of open upvalues in this stack */</span><br><span class="line">  GCObject *gclist;</span><br><span class="line">  struct lua_longjmp *errorJmp;  /* current error recover point */</span><br><span class="line">  ptrdiff_t errfunc;  /* current error handling function (stack index) */</span><br><span class="line">&#125;;</span></span><br></pre></td></tr></table></figure>
+<p><strong>lvsdk</strong>中存在就是很多扩展后的控件，通过编写Lua脚本可以直接调用的原生UI</p>
+<p>具体为什么要更改我也不知道，如果你知道了，希望能私信告诉我，如果你想查看源码：看这里<a href="http://www.lua.org/ftp/" target="_blank" rel="external">Lua源码下载</a></p>
+<p>我刚刚编写了一个简单Lua脚本，并且进行下测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">button3 = Button();</span><br><span class="line">button3.frame(<span class="number">150</span>,<span class="number">250</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">button3.image(<span class="string">"button0.png"</span>,<span class="string">"button1.png"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">button3.callback(</span><br><span class="line">    <span class="keyword">function</span>()</span><br><span class="line">        Alert(<span class="string">"测试"</span>);</span><br><span class="line">    end</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  ViewController.m</span><br><span class="line">//  luaTest</span><br><span class="line">//</span><br><span class="line">//  Created by LastDays on <span class="number">16</span>/<span class="number">6</span>/<span class="number">7</span>.</span><br><span class="line">//  Copyright © <span class="number">2016</span>年 LastDays. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"><span class="comment">#import &lt;LView.h&gt;</span></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong) LView *lview;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    CGRect cg = self.view.bounds;</span><br><span class="line">    cg.origin = CGPointZero;</span><br><span class="line">    self.lview = [[LView alloc] initWithFrame:cg];</span><br><span class="line">    self.lview.viewController = self;</span><br><span class="line">    [self.view addSubview:self.lview];</span><br><span class="line">    [self.lview runFile:@<span class="string">"lastdays.lua"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="/image/Luaview/2.gif" alt=""></p>
+<p>可以看到调用的原生UI。</p>
+<p>先来分析 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.lview = [[LView alloc] initWithFrame:cg];</span><br></pre></td></tr></table></figure>
+<p>在初始化中主要是执行两个方法，我主要挑这其中的主要代码说，就不全贴上来了，如果感兴趣可以下载源码看，其中一个是初始化用于加密解密的rsa以及对脚本资源文件进行管理的bundle</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(void) myInit&#123;</span><br><span class="line">    self.rsa = [[LVRSA alloc] init];</span><br><span class="line">    self.bundle = [[LVBundle alloc] init];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一个就是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-(void) registeLibs&#123;</span><br><span class="line">    <span class="keyword">if</span>( !self.stateInited ) &#123;</span><br><span class="line">        self.stateInited = YES;</span><br><span class="line">        self.l =  lvL_newstate();//lv_open();  /* opens */</span><br><span class="line">        lvL_openlibs(self.l);</span><br><span class="line">        </span><br><span class="line">        [LVRegisterManager registryApi:self.l lView:self];</span><br><span class="line">        self.l-&gt;lView = (__bridge void *)(self);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们使用<strong>lvL_newstate()</strong>函数创建一个新的lua执行环境，但是这个函数中环境里什么都没有，因此需要使用<strong>lvL_openlibs(self.l);</strong>加载所有的标准库，之后可以使用。所有lua相关的东西都保存在lv_State这个结构中，通过<strong>lvL_newstate()</strong>创建一个新的 Lua 虚拟机时,第一块申请的内存将用来保存主线程和这个全局状态机。其实我个人感觉这就是一个内置在App中的运行环境，专门运行Lua脚本。</p>
+<p><strong>[LVRegisterManager registryApi:self.l lView:self];</strong></p>
+<p>这行代码，我就把它理解为扩展，对Lua API的一个扩展。上面我们提到过，使用Lua构建动态化方案的核心就在于将Android，iOS原生的UI、网络、存储、硬件控制等能力桥接到Lua层。他主要就是为了完成这里，在这里注册大量的API</p>
+<p>看源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">// 注册函数</span><br><span class="line">+(void) registryApi:(lv_State*)L  lView:(LView*)lView&#123;</span><br><span class="line">    //清理栈</span><br><span class="line">    lv_settop(L, <span class="number">0</span>);</span><br><span class="line">    lv_checkstack(L, <span class="number">128</span>);</span><br><span class="line">    </span><br><span class="line">    // 注册静态全局方法和常量</span><br><span class="line">    [LVRegisterManager registryStaticMethod:L lView:lView];</span><br><span class="line">    </span><br><span class="line">    // 注册System对象</span><br><span class="line">    [LVSystem classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // 基础数据结构data</span><br><span class="line">    [LVData classDefine:L];</span><br><span class="line">    [LVStruct classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // 注册UI类</span><br><span class="line">    lv_settop(L, <span class="number">0</span>);</span><br><span class="line">    [LVBaseView classDefine:L];</span><br><span class="line">    [LVButton    classDefine:L ];</span><br><span class="line">    [LVImage classDefine:L];</span><br><span class="line">    [LVLabel     classDefine:L ];</span><br><span class="line">    [LVScrollView classDefine:L];</span><br><span class="line">    [LVTableView classDefine:L];</span><br><span class="line">    [LVCollectionView classDefine:L];</span><br><span class="line">    [LVPagerView classDefine:L];</span><br><span class="line">    [LVTimer       classDefine:L];</span><br><span class="line">    [LVPagerIndicator classDefine:L];</span><br><span class="line">    [LVCustomPanel classDefine:L];</span><br><span class="line">    [LVTransform3D classDefine:L];</span><br><span class="line">    [LVAnimator classDefine:L];</span><br><span class="line">    [LVTextField classDefine:L];</span><br><span class="line">    [LVAnimate classDefine:L];</span><br><span class="line">    [LVDate classDefine:L];</span><br><span class="line">    [LVAlert classDefine:L];</span><br><span class="line">    // 注册DB</span><br><span class="line">    [LVDB classDefine:L];</span><br><span class="line">    </span><br><span class="line">    //清理栈</span><br><span class="line">    lv_settop(L, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    // 注册手势</span><br><span class="line">    [LVGestureRecognizer    classDefine:L];</span><br><span class="line">    [LVTapGestureRecognizer classDefine:L];</span><br><span class="line">    [LVPinchGestureRecognizer classDefine:L];</span><br><span class="line">    [LVRotationGestureRecognizer classDefine:L];</span><br><span class="line">    [LVSwipeGestureRecognizer classDefine:L];</span><br><span class="line">    [LVLongPressGestureRecognizer classDefine:L];</span><br><span class="line">    [LVPanGestureRecognizer classDefine:L];</span><br><span class="line">    </span><br><span class="line">    //清理栈</span><br><span class="line">    lv_settop(L, <span class="number">0</span>);</span><br><span class="line">    [LVLoadingIndicator classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // http</span><br><span class="line">    [LVHttp classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // 文件下载</span><br><span class="line">    [LVDownloader classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // 文件</span><br><span class="line">    [LVFile classDefine:L];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    // 声音播放</span><br><span class="line">    [LVAudioPlayer classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // 调试</span><br><span class="line">    [LVDebuger classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // attributedString</span><br><span class="line">    [LVStyledString classDefine:L];</span><br><span class="line">    </span><br><span class="line">    // 注册 系统对象window</span><br><span class="line">    [LVRegisterManager registryWindow:L lView:lView];</span><br><span class="line">    </span><br><span class="line">    // 导航栏按钮</span><br><span class="line">    [LVNavigation classDefine:L];</span><br><span class="line">    </span><br><span class="line">    //清理栈</span><br><span class="line">    lv_settop(L, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    //外链注册器</span><br><span class="line">    [LVExternalLinker classDefine:L];</span><br><span class="line">    </span><br><span class="line">    //清理栈</span><br><span class="line">    lv_settop(L, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单介绍下这两个函数的作用<strong>lv_settop(L, 0)</strong>,<strong>lv_checkstack(L, 128)</strong>,<strong>lv_settop(L, 0)</strong>设置栈顶索引，即设置栈中元素的个数，如果index&lt;0，则从栈顶往下数,<strong>lv_checkstack(L, 128)</strong>确保堆栈上至少有 extra 个空位.按照上面注释的解释就是为了做清理栈的工作。</p>
+<p>因为这里注册了太多的API，主要是为了弄清原理，那么我们就选择我们脚本中使用的Button来分析。也就是这行代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[LVButton    classDefine:L ];</span><br></pre></td></tr></table></figure>
+<p>LVButton继承自UIButton并且遵循LVProtocal协议。看一下classDefine:方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">+(int) classDefine:(lv_State *)L &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        lv_pushcfunction(L, lvNewButton);</span><br><span class="line">        lv_setglobal(L, <span class="string">"Button"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    const struct lvL_reg memberFunctions [] = &#123;</span><br><span class="line">        &#123;<span class="string">"image"</span>,    image&#125;,</span><br><span class="line">        </span><br><span class="line">        &#123;<span class="string">"font"</span>,    font&#125;,</span><br><span class="line">        &#123;<span class="string">"fontSize"</span>,    fontSize&#125;,</span><br><span class="line">        &#123;<span class="string">"textSize"</span>,    fontSize&#125;,</span><br><span class="line">        </span><br><span class="line">        &#123;<span class="string">"titleColor"</span>,    titleColor&#125;,</span><br><span class="line">        &#123;<span class="string">"title"</span>,    title&#125;,</span><br><span class="line">        &#123;<span class="string">"textColor"</span>,    titleColor&#125;,</span><br><span class="line">        &#123;<span class="string">"text"</span>,    title&#125;,</span><br><span class="line"></span><br><span class="line">        &#123;<span class="string">"selected"</span>,    selected&#125;,</span><br><span class="line">        &#123;<span class="string">"enabled"</span>,    enabled&#125;,</span><br><span class="line">        </span><br><span class="line">        //&#123;<span class="string">"showsTouchWhenHighlighted"</span>,    showsTouchWhenHighlighted&#125;,</span><br><span class="line">        &#123;NULL, NULL&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    lv_createClassMetaTable(L,META_TABLE_UIButton);</span><br><span class="line">    </span><br><span class="line">    lvL_openlib(L, NULL, [LVBaseView baseMemberFunctions], <span class="number">0</span>);</span><br><span class="line">    lvL_openlib(L, NULL, memberFunctions, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    const char* keys[] = &#123; <span class="string">"addView"</span>, NULL&#125;;// 移除多余API</span><br><span class="line">    lv_luaTableRemoveKeys(L, keys );</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中这段代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lv_pushcfunction(L, lvNewButton);</span><br><span class="line">lv_setglobal(L, <span class="string">"Button"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>lvNewButton</strong>是一个函数，我们上面说过，我们跟Lua环境的交互主要是通过一个虚拟的栈，<strong>lv_pushcfunction(L, lvNewButton)</strong>的作用就是将lvNewButton函数压入栈顶，然后使用<strong>lv_setglobal(L, “Button”)</strong>将栈顶的lvNewButton函数传入Lua环境中作为全局函数。这样就是扩展我们的Lua环境，现在我们就可以编写Lua脚本，通过Button()关键字来调用<strong>lvNewButton</strong>函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const struct lvL_reg memberFunctions [] = &#123;</span><br><span class="line">        &#123;<span class="string">"image"</span>,    image&#125;,</span><br><span class="line">        </span><br><span class="line">        &#123;<span class="string">"font"</span>,    font&#125;,</span><br><span class="line">        &#123;<span class="string">"fontSize"</span>,    fontSize&#125;,</span><br><span class="line">        &#123;<span class="string">"textSize"</span>,    fontSize&#125;,</span><br><span class="line">        </span><br><span class="line">        &#123;<span class="string">"titleColor"</span>,    titleColor&#125;,</span><br><span class="line">        &#123;<span class="string">"title"</span>,    title&#125;,</span><br><span class="line">        &#123;<span class="string">"textColor"</span>,    titleColor&#125;,</span><br><span class="line">        &#123;<span class="string">"text"</span>,    title&#125;,</span><br><span class="line"></span><br><span class="line">        &#123;<span class="string">"selected"</span>,    selected&#125;,</span><br><span class="line">        &#123;<span class="string">"enabled"</span>,    enabled&#125;,</span><br><span class="line">        </span><br><span class="line">        //&#123;<span class="string">"showsTouchWhenHighlighted"</span>,    showsTouchWhenHighlighted&#125;,</span><br><span class="line">        &#123;NULL, NULL&#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<p>来看下lvL_Reg的结构体</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct lvL_Reg &#123;</span><br><span class="line">  const char *name;</span><br><span class="line">  lv_CFunction func;</span><br><span class="line">&#125; lvL_Reg;</span><br></pre></td></tr></table></figure>
+<p>看到该结构体也可以看出，包含name，和func。name就是为了，在注册时用于通知Lua该函数的名字。结构体数组中的最后一个元素的两个字段均为NULL，用于提示Lua注册函数已经到达数组的末尾。</p>
+<p>这里我们其实可以理解为为Button添加库，像image，font这些在源码中可以看到，是一些静态的c函数</p>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">static int image (lv_State *L) &#123;</span><br><span class="line">    LVUserDataInfo * user = (LVUserDataInfo *)lv_touserdata(L, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>( user )&#123;</span><br><span class="line">        NSString* normalImage = lv_paramString(L, <span class="number">2</span>);// <span class="number">2</span></span><br><span class="line">        NSString* hightLightImage = lv_paramString(L, <span class="number">3</span>);// <span class="number">2</span></span><br><span class="line">        //NSString* <span class="built_in">disable</span>Image = lv_paramString(L, <span class="number">4</span>);// <span class="number">2</span></span><br><span class="line">        //NSString* selectedImage = lv_paramString(L, <span class="number">5</span>);// <span class="number">2</span></span><br><span class="line">        LVButton* button = (__bridge LVButton *)(user-&gt;object);</span><br><span class="line">        <span class="keyword">if</span>( [button isKindOfClass:[LVButton class]] )&#123;</span><br><span class="line">            [button <span class="built_in">set</span>ImageUrl:normalImage placeholder:nil state:UIControlStateNormal];</span><br><span class="line">            [button <span class="built_in">set</span>ImageUrl:hightLightImage placeholder:nil state:UIControlStateHighlighted];</span><br><span class="line">            //[button <span class="built_in">set</span>ImageUrl:<span class="built_in">disable</span>Image placeholder:nil state:UIControlStateDisabled];</span><br><span class="line">            //[button <span class="built_in">set</span>ImageUrl:selectedImage placeholder:nil state:UIControlStateSelected];</span><br><span class="line">            </span><br><span class="line">            lv_pushvalue(L, <span class="number">1</span>);</span><br><span class="line">            <span class="built_in">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在可以重新看一下我们原来写的Lua脚本了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">button = Button();</span><br><span class="line">button.frame(<span class="number">150</span>,<span class="number">250</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">button.image(<span class="string">"button0.png"</span>,<span class="string">"button1.png"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">button.callback(</span><br><span class="line">    <span class="keyword">function</span>()</span><br><span class="line">        Alert(<span class="string">"LatDays"</span>);</span><br><span class="line">    end</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>可以看到我么你的Button，还有image就是我们上面添加的标识。感兴趣可以下载demo做一些更改。就会发现两者是对应的。</p>
+<p>我个人理解原因就是像Lua源码解析中说的，global_State 里面有对主线程的引用,有注册表管理所有全局数据,有全局字符串表,有内存管理函数, 有 GC 需要的把所有对象串联起来的相关信息,以及一切 Lua 在工作时需要的工作内存。</p>
+<p>UI的扩展我们看完了，现在来分析下Lua脚本文件是如何运行的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    CGRect cg = self.view.bounds;</span><br><span class="line">    cg.origin = CGPointZero;</span><br><span class="line">    self.lview = [[LView alloc] initWithFrame:cg];</span><br><span class="line">    self.lview.viewController = self;</span><br><span class="line">    [self.view addSubview:self.lview];</span><br><span class="line">    [self.lview runFile:@<span class="string">"lastdays.lua"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码中我们可以看到<strong>[self.lview runFile:@”lastdays.lua”]</strong>做的Lua脚本文件的加载。接着放下看就可以发现我们利用前面介绍的bundle来读取脚本文件中的代码，并且存储为NSData类型。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSData* code = [self.bundle scriptWithName:fileName];</span><br></pre></td></tr></table></figure>
+<p>接着往下查看，就会看到这个函数:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">-(NSString*) runData:(NSData *)data fileName:(NSString*)fileName&#123;</span><br><span class="line">    <span class="keyword">if</span>( self.l==NULL )&#123;</span><br><span class="line">        LVError( @<span class="string">"Lua State is released !!!"</span>);</span><br><span class="line">        <span class="built_in">return</span> @<span class="string">"Lua State is released !!!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( fileName==nil )&#123;</span><br><span class="line">        static int i = <span class="number">0</span>;</span><br><span class="line">        fileName = [NSString stringWithFormat:@<span class="string">"%d.lua"</span>,i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( data.length&lt;=<span class="number">0</span> )&#123;</span><br><span class="line">        LVError(@<span class="string">"running chars == NULL, file: %@"</span>,fileName);</span><br><span class="line">        <span class="built_in">return</span> [NSString stringWithFormat:@<span class="string">"running chars == NULL, file: %@"</span>,fileName];</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">#ifdef DEBUG</span></span><br><span class="line">    [self checkDeuggerIsRunningToLoadDebugModel];</span><br><span class="line">    [self checkDebugOrNot:data.bytes length:data.length fileName:fileName];</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line">    </span><br><span class="line">    int error = -<span class="number">1</span>;</span><br><span class="line">    error = lvL_loadbuffer(self.l, data.bytes , data.length, fileName.UTF8String) ;</span><br><span class="line">    <span class="keyword">if</span> ( error ) &#123;</span><br><span class="line">        const char* s = lv_tostring(self.l, -<span class="number">1</span>);</span><br><span class="line">        LVError( @<span class="string">"%s"</span>, s );</span><br><span class="line"><span class="comment">#ifdef DEBUG</span></span><br><span class="line">        NSString* string = [NSString stringWithFormat:@<span class="string">"[LuaView][error]   %s\n"</span>,s];</span><br><span class="line">        lv_<span class="built_in">print</span>ToServer(self.l, string.UTF8String, <span class="number">0</span>);</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line">        <span class="built_in">return</span> [NSString stringWithFormat:@<span class="string">"%s"</span>,s];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">return</span> lv_runFunction(self.l);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lvL_loadbuffer(self.l, data.bytes , data.length, fileName.UTF8String) ;</span><br></pre></td></tr></table></figure>
+<p>lua相关的东西都保存在lv_State这个结构中，lvL_loadbuffer加载lua代码，加载之后就是运行，又是谁完成的运行呢？</p>
+<p>我猜测是<strong>lv_runFunction(self.l)</strong>，然后就顺着找下去，看到以下源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">NSString* lv_runFunctionWithArgs(lv_State* l, int nargs, int nret)&#123;</span><br><span class="line">    <span class="keyword">if</span>( l &amp;&amp; lv_<span class="built_in">type</span>(l, -<span class="number">1</span>) == LV_TFUNCTION ) &#123;</span><br><span class="line">        <span class="keyword">if</span>( nargs&gt;<span class="number">0</span> )&#123;</span><br><span class="line">            lv_insert(l, -nargs-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        int errorCode = lv_pcall( l, nargs, nret, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> ( errorCode != <span class="number">0</span> ) &#123;</span><br><span class="line">            const char* s = lv_tostring(l, -<span class="number">1</span>);</span><br><span class="line">            LVError( @<span class="string">"%s"</span>, s );</span><br><span class="line"><span class="comment">#ifdef DEBUG</span></span><br><span class="line">            NSString* string = [NSString stringWithFormat:@<span class="string">"[LuaView][error]   %s"</span>,s];</span><br><span class="line">            lv_<span class="built_in">print</span>ToServer(l, string.UTF8String, <span class="number">0</span>);</span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line">            <span class="built_in">return</span> [NSString stringWithFormat:@<span class="string">"%s"</span>,s];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> nil;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> @<span class="string">"function is nil error"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码中我找到了这个函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int errorCode = lv_pcall( l, nargs, nret, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>它的意思就是在lua保护模式下运行语句。如果运行出错，函数会把错误信息压到“栈”里。我们可以通过</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char* s = lv_tostring(l, -<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>来获取错误信息。在调用函数前，用户应该先把语句所需的参数都压到栈里，参数nargs说明有多少个参数，nresults表示返回值有多少个。如果msgh值为0表示“栈”里返回的是原始的错误信息。在函数执行完后，lua会把函数以及其使用的参数从栈里删掉，并且把结果压入栈里。lua函数并不会打印任何信息，它只会返回一个错误代码，然后由调用者对错误进行适当的处理。</p>
+<p>可以看到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lv_<span class="built_in">print</span>ToServer(l, string.UTF8String, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>这段代码就是将输出信息在控制台输出，具体的实现就不描述了。</p>
+<h3 id="u6E90_u7801_u5206_u6790_u603B_u7ED3"><a href="#u6E90_u7801_u5206_u6790_u603B_u7ED3" class="headerlink" title="源码分析总结"></a>源码分析总结</h3><p>LuaViewSDK 可以通过 Lua 脚本桥接所有 Native 的功能，所以具有与 Native 一样丰富的性能。以上这些就是我自己总结的LuaView调用原生UI的过程，我们如何扩展Lua，并且我们又是如何加载Lua脚本，并且调用Native UI。</p>
+<p>当然，LuaViewSDK当中还包含着包的管理和下载，还有更新的一些方案，我还没有仔细看，看了以后还会总结分享。</p>
+<p>这里看在聚划算团队分享的LuaView SDK整体架构</p>
+<p><img src="/image/Luaview/3.jpg" alt=""></p>
+<p>如图，以下为聚划算团队说明LuaView SDK的整体架构可以表示为五层。</p>
+<p>自下而上第一、二层依次是OS层和Framework层，分别表示了Android、iOS以及对应的框架层。</p>
+<p>紧接着是Lua虚拟机，在Android、iOS平台分别是LuaJ和LuaC，两个虚拟机都是目前两个语言中用的最广泛，最稳定的虚拟机。</p>
+<p>处在第三层的还有脚本管理模块以及安全控制模块，它们分别负责Lua本地脚本管理（包括脚本的解包、验证、加解密、解压缩等工作）和Lua脚本的安全校验工作（脚本完整性校验以及脚本安全校验等）。</p>
+<p>处在第四层的是LuaView的核心Lib库，包括两部分，一部分是Lua UI Lib，主要是所有的UI组件（如Button、Label、Image、TableView等）；一部分是Lua Non-UI Lib，主要是所有非UI组件（如Http、Json、Audio等）。</p>
+<p>处在最上层的是Lua业务脚本代码以及Lua层的Lib库（方便第三方使用的Lua写的Lib库）。</p>
+<p><strong>还有很多细节的地方，和经典的设计，因为能力和实践经验有限，没有发现，如果有更多的认知，希望告诉我，接下来就是自己尝试做桥接。</strong></p>
+<h2 id="u4F7F_u7528Lua_u5B9E_u73B0_u52A8_u6001_u5316"><a href="#u4F7F_u7528Lua_u5B9E_u73B0_u52A8_u6001_u5316" class="headerlink" title="使用Lua实现动态化"></a>使用Lua实现动态化</h2><p>首先还是引入我们LuaC的引擎，就引用LuaViewSDK的LuaC吧</p>
+<p>我们就自己实现一个Lable吧，其实实现也是在模仿LuaViewSDK进行实现，主要还是为了验证上面的分析</p>
+<p>首先创建我们的LDSView来承载我们的Lable</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//生成库</span><br><span class="line">-(void)generateLibs&#123;</span><br><span class="line">    self.lvState = lvL_newstate();</span><br><span class="line">    lvL_openlibs(self.lvState);</span><br><span class="line">    </span><br><span class="line">    [RegisterManager registerApiWithlvState:self.lvState];</span><br><span class="line">    self.lvState-&gt;lView = (__bridge void *)(self);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先就是创建我们的Lua脚本运行环境，并且以上语句的具体作用上面都有过讲解，<strong>self.lvState-&gt;lView</strong>这里主要是因为我们所需的运行东西都在lv_State结构体中，我们就在这个结构体中添加了一指针，来指向我们的当前LDSView。这样就在状态机中存在着lView了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-(NSString *)runScriptWithScriptName:(NSString *)scriptName&#123;</span><br><span class="line">    NSData *code = [self.bundle scriptWithName:scriptName];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSString *result = [[NSString alloc] initWithData:code  encoding:NSUTF8StringEncoding];</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,result);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span>[self runData:code fileName:scriptName];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就是copy了LuaViewSDK资源文件的管理代码，主要就是为了进行代码的读取，并且将本地脚本代码读取出来的代码传入下面的函数来运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-(NSString*) runData:(NSData *)data fileName:(NSString*)fileName&#123;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    lvL_loadbuffer(self.lvState, data.bytes , data.length, fileName.UTF8String) ;</span><br><span class="line">    <span class="built_in">return</span> lds_runFunctionWithArgs(self.lvState, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到运行的话就是利用lvL_loadbuffer来加载代码，然后就是调用<strong>lds_runFunctionWithArgs</strong>这个c函数来运行脚本代码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NSString* lds_runFunctionWithArgs(lv_State* l, int nargs, int nret)&#123;</span><br><span class="line">    lv_pcall( l, nargs, nret, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">return</span> nil;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的实现的关键就是<strong>lv_pcall</strong>，调用它，让Lua脚本在Lua运行环境中以安全的方式进行运行。</p>
+<p>上面这些就是代码的加载和运行。</p>
+<p>然后就是将UILabel桥接到Lua层，实现扩展，来让我们能够使用Lua脚本去调用原生的UI。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "RegisterManager.h"</span></span><br><span class="line"></span><br><span class="line">@implementation RegisterManager</span><br><span class="line"></span><br><span class="line">+(void)registerApiWithlvState:(lv_State*)lvState&#123;</span><br><span class="line">    [LDSLable classDefine:lvState];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>也就是这里，我们在这里进行注册，具体看一下<strong>classDefine:</strong>的实现</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+(void)classDefine:(lv_State *)lvState&#123;</span><br><span class="line">    lv_pushcfunction(lvState, ldsNewLabel);</span><br><span class="line">    lv_setglobal(lvState, <span class="string">"Label"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们上面提到过，Lua跟C的交互主要是通过一个虚拟的栈来实现的，<strong>lv_pushcfunction</strong>将函数ldsNewLabel压入栈中，然后利用lv_setglobal将栈顶的lvNewButton函数传入Lua环境中作为全局函数，并且实现让我们能够在Lua脚本中利用Label关键字调用ldsNewLabel函数。</p>
+<p>我们来看下ldsNewLabel函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">static int ldsNewLabel(lv_State *lvState)&#123;</span><br><span class="line">    NSString* text = @<span class="string">"成功调用"</span>;</span><br><span class="line">    LDSLable* label = [[LDSLable alloc] init:text lv_State:lvState];</span><br><span class="line">    LDSView* view = (__bridge LDSView *)(lvState-&gt;lView);</span><br><span class="line">    [view addSubview:label];</span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"进入label的创建"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是一个简单的c函数。其中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LDSLable* label = [[LDSLable alloc] init:text lv_State:lvState];</span><br></pre></td></tr></table></figure>
+<p>就是来生成UILabel控件的。我们的LDSLable其实是继承自UILabel的，看到以下代码，大家就能够明白了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-(id) init:(NSString*)text lv_State:(lv_State*) lvState&#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    <span class="keyword">if</span>( self )&#123;</span><br><span class="line">        self.text = text;</span><br><span class="line">        self.backgroundColor = [UIColor blueColor];</span><br><span class="line">        self.textAlignment = NSTextAlignmentLeft;</span><br><span class="line">        self.clipsToBounds = YES;</span><br><span class="line">        self.font = [UIFont systemFontOfSize:<span class="number">14</span>];</span><br><span class="line">        self.frame = CGRectMake(<span class="number">30</span>, <span class="number">30</span>, <span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里我们完成了很多基本属性的设置。</p>
+<p>另一段代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LDSView* view = (__bridge LDSView *)(lvState-&gt;lView);</span><br><span class="line">[view addSubview:label];</span><br></pre></td></tr></table></figure>
+<p>还记得我们在lv_State状态机中添加了什么吗？对，就是在这里用到了，让我们状态机中的LDSView添加了label控件。</p>
+<p>现在看一下Lua的脚本文件<strong>lastdays.lua</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">label = Label();</span><br></pre></td></tr></table></figure>
+<p>就这么一句话，就可以生成一个原生UILabel。</p>
+<p>看一下我们的调用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    [self LDSView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)LDSView&#123;</span><br><span class="line">    CGRect cg = self.view.bounds;</span><br><span class="line">    cg.origin = CGPointZero;</span><br><span class="line">    self.ldsView = [[LDSView alloc] initWithFrame:cg];</span><br><span class="line">    [self.view addSubview:self.ldsView];</span><br><span class="line">    [self.ldsView runScriptWithScriptName:@<span class="string">"lastdays.lua"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看下效果：</p>
+<p><img src="/image/luaView/4.gif" alt=""></p>
+<p>我没有编写其他控制属性的函数，直接就在init全部搞定了，就是简单的实现下证明下上面的思路，结果看来还是正确。如果你也感兴趣欢迎去文章的上面查看两个代码的源码。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>我个人感觉LuaView在聚划算中得到大量的使用，并且这么长时间，运行状态也很稳定说明LuaView还是有很多我值得学习的地方，上面的分析感觉也就是LuaView的一些皮毛，还有很多关键的点，和设计模式没有分析出来，并且Lua和C的交互扩展主要是依靠那个虚拟的”栈”，这里的原理我还没有看的太明白，后面还会大量的学习。并且还希望多交流，因为现在才大三，缺少很多实践经验，有很多地方理解的可能是错误的，希望能被指出，勿喷勿喷。</p>
+<p>我叫LastDays，一个90后iOS开发者。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/06/14/Lua/" data-title="利用Lua实现App动态化方案 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/05/29/lifecycle/"  title="从实践谈iOS生命周期">
+ <strong>下一篇：</strong><br/> 
+ <span>从实践谈iOS生命周期
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/06/14/Lua/" data-title="利用Lua实现App动态化方案" data-url="http://Lastdays.cn/2016/06/14/Lua/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u5229_u7528Lua_u5B9E_u73B0App_u52A8_u6001_u5316_u65B9_u6848"><span class="toc-number">1.</span> <span class="toc-text">利用Lua实现App动态化方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#App_u7684_u8BBE_u8BA1_u65B9_u6848"><span class="toc-number">1.1.</span> <span class="toc-text">App的设计方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u52A8_u6001_u5BF9_u6BD4"><span class="toc-number">1.2.</span> <span class="toc-text">动态对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u53D1_u73B0LuaView"><span class="toc-number">1.3.</span> <span class="toc-text">发现LuaView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5B66_u4E60Lua_u7684_u4F53_u4F1A"><span class="toc-number">1.4.</span> <span class="toc-text">学习Lua的体会</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5206_u6790LuaView"><span class="toc-number">1.5.</span> <span class="toc-text">分析LuaView</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u6E90_u7801_u5206_u6790"><span class="toc-number">1.5.1.</span> <span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6E90_u7801_u5206_u6790_u603B_u7ED3"><span class="toc-number">1.5.2.</span> <span class="toc-text">源码分析总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528Lua_u5B9E_u73B0_u52A8_u6001_u5316"><span class="toc-number">1.6.</span> <span class="toc-text">使用Lua实现动态化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试经验/" title="面试经验">面试经验<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/40e4dced948f/latest_articles" target="_blank" title="大V的博客">kuailejim</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/9c51a213b02e/latest_articles" target="_blank" title="好友">Martin_wjl</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://bestswifter.com" target="_blank" title="好友">bestswifter</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			感谢我有一个师傅</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
