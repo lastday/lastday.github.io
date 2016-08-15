@@ -80,78 +80,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/15/MessageDistribution/" title="iOS网络层消息分发架构" itemprop="url">iOS网络层消息分发架构</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-15T12:36:51.000Z" itemprop="datePublished"> 发表于 2016-08-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="iOS_u7F51_u7EDC_u5C42_u6D88_u606F_u5206_u53D1_u67B6_u6784"><a href="#iOS_u7F51_u7EDC_u5C42_u6D88_u606F_u5206_u53D1_u67B6_u6784" class="headerlink" title="iOS网络层消息分发架构"></a>iOS网络层消息分发架构</h1><h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p>很多人根据不同的业务模型分享过很多网络层的解决方案,实习期间，接触到了这种处理方案，因为实习，所有对所有的事情都很好奇，以前在学校的时候从来没有见过这么写，也不知道可以这么写，已经实习一个月，所以就记录下来，作为总结并分享出去，希望能与大家交流。</p>
-<p>最典型的例子就是聊天机器人，既然是机器人，他就需要根据消息流里面的特定指令做出对应的处理，例如<strong>我要打车</strong>，<strong>我要订餐</strong>，还有各种<strong>获取用户资料</strong>的指令，各种消息混杂在一起需要区分处理，我把这种能力理解为消息的分发(<strong>可能理解的不对，欢迎在下面提出来</strong>)。</p>
-<p>优点就是我刚来5天后，很多东西并不熟悉，就可以让我这个实习生这个框架下写业务了。自己很容易做扩展，还不影响其他业务。</p>
-<h2 id="u57FA_u672C_u6D41_u7A0B"><a href="#u57FA_u672C_u6D41_u7A0B" class="headerlink" title="基本流程"></a>基本流程</h2><ul>
-<li>BusinessEngine（业务引擎）</li>
-<li>BusinessMessage（业务消息）</li>
-</ul>
-<p>首先<strong>Controller</strong>层发发出<strong>Message</strong>,通过对应的<strong>Manage</strong>请求</p>
-<p>设计一个<strong>Engine</strong>来做消息分发，子<strong>Engine</strong>来做出对应的消息请求。接下来调用<strong>[某子Engine processRequest]</strong>来处理消息请求。接下来就是下面的流程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NetworkQueue ------------------&#62; &#20113;&#31471;&#10;                                 ||&#10;&#9;&#9;&#9;&#9;&#9;&#9;     &#22788;&#29702;HTTP&#35831;&#27714;&#10;                                 ||&#10;NetworkQueue &#60;------------------ &#20113;&#31471;</span><br></pre></td></tr></table></figure>
-<p>然后接着让我们的子<strong>Engine</strong>来处理网络数据的回应，成功响应<strong>[某子Engine processResponseSucceed]</strong> ，消息回应给<strong>Engine</strong>再由<strong>Engine</strong> 通过<strong>Responder</strong>回应，返回给<strong>Controller</strong></p>
-<p>整体的组织架构：</p>
-<p><img src="/image/MessageDistribution/MessageDistribution.jpg" alt=""></p>
-<p>下面就是尝试构建一个简单的Demo，主要就实验这种思路<br>项目地址：<a href="https://github.com/MrLoong/MessageDistributionDemo">MessageDistributionDemo</a></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/08/15/MessageDistribution/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/iOS/">iOS</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/08/15/MessageDistribution/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/08/15/MessageDistribution/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/06/14/Lua/" title="利用Lua实现App动态化方案" itemprop="url">利用Lua实现App动态化方案</a>
   </h1>
   <p class="article-author">By
@@ -733,6 +661,79 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/19/blog/" title="求博乐，求知遇" itemprop="url">求博乐，求知遇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-19T03:36:22.000Z" itemprop="datePublished"> 发表于 2016-03-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="u6C42_u535A_u4E50_uFF0C_u6C42_u77E5_u9047"><a href="#u6C42_u535A_u4E50_uFF0C_u6C42_u77E5_u9047" class="headerlink" title="求博乐，求知遇"></a>求博乐，求知遇</h1><p>博主现在大三下，正在找实习，如果觉得我写的东西还可以，对我认可，并且您的公司招实习生，求推荐，求知遇</p>
+<h1 id="u8054_u7CFB_u65B9_u5F0F"><a href="#u8054_u7CFB_u65B9_u5F0F" class="headerlink" title="联系方式"></a>联系方式</h1><ul>
+<li>邮箱：lastdays1122@icloud.com</li>
+<li>电话：15142320196</li>
+</ul>
+<p>简历地址：</p>
+<p>作品集：</p>
+<blockquote>
+<p><a href="https://github.com/MrLoong/LYModelData/tree/master/LYModelData/LYModel" target="_blank" rel="external">LYModelData</a></p>
+<p><a href="https://github.com/MrLoong/LyHttp" target="_blank" rel="external">LyHttp</a></p>
+<p><a href="https://github.com/MrLoong/CityBox2.1" target="_blank" rel="external">城院小助手</a></p>
+<p><a href="https://github.com/MrLoong/FigureLanguage" target="_blank" rel="external">书语</a> <a href="http://v.youku.com/v_show/id_XMTQ4MTk3ODkwNA==.html" target="_blank" rel="external">书语演示</a></p>
+<p><a href="https://github.com/MrLoong/UitCapacityreFrigerator" target="_blank" rel="external">物联网冰箱</a> <a href="http://v.youku.com/v_show/id_XMTI5MDQ2NDMxNg==.html" target="_blank" rel="external">物联网冰箱演示</a></p>
+<p><a href="https://github.com/MrLoong/Information-Home" target="_blank" rel="external">Information-Home</a>  <a href="http://v.youku.com/v_show/id_XMTQ4MjAxNDk3Mg==.html" target="_blank" rel="external">Information-Home演示</a></p>
+</blockquote>
+<h1 id="Active_Sharing"><a href="#Active_Sharing" class="headerlink" title="Active Sharing"></a>Active Sharing</h1><p>2014年6月至今，坚持作总结，经常维护自己的博客<a href="/lastdays.cn">lastdays</a>，原创文章分享至<a href="http://toutiao.io" target="_blank" rel="external">开发者头条</a>,文章被多次检索精选到首页,参与<a href="http://www.devtf.cn" target="_blank" rel="external">开发者技术前线</a>,翻译国外优秀的iOS技术文章,分享给大家，项目地址<a href="https://github.com/bboyfeiyu/iOS-tech-frontier" target="_blank" rel="external">iOS-tech-frontier</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/生活/">生活</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/19/blog/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/19/blog/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -763,7 +764,7 @@
 		  
 		
 		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>6</sup></a></li>
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>5</sup></a></li>
 		  
 		
 		  
