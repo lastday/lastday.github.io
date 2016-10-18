@@ -1,0 +1,582 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>NSOperation, NSOperationQueue原理探析 | Lastdays&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lastdays">
+    
+
+    
+    <meta name="description" content="NSOperation, NSOperationQueue原理探析通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue
+示例程序写一个简单的程序
+12345678910111213141516- (void)viewDidLoad &amp;#123;    [super viewDidLoad];    // Do any additional s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSOperation, NSOperationQueue原理探析">
+<meta property="og:url" content="http://Lastdays.cn/2016/10/18/NSOperation原理探析/index.html">
+<meta property="og:site_name" content="Lastdays's Blog">
+<meta property="og:description" content="NSOperation, NSOperationQueue原理探析通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue
+示例程序写一个简单的程序
+12345678910111213141516- (void)viewDidLoad &amp;#123;    [super viewDidLoad];    // Do any additional s">
+<meta property="og:updated_time" content="2016-10-18T15:10:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NSOperation, NSOperationQueue原理探析">
+<meta name="twitter:description" content="NSOperation, NSOperationQueue原理探析通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue
+示例程序写一个简单的程序
+12345678910111213141516- (void)viewDidLoad &amp;#123;    [super viewDidLoad];    // Do any additional s">
+
+    
+    <link rel="alternative" href="feed://lastdays.cn/atom.xml" title="Lastdays&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Lastdays&#39;s Blog" title="Lastdays&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Lastdays&#39;s Blog">Lastdays&#39;s Blog</a></h1>
+				<h2 class="blog-motto">我叫LastDays，我有一个心爱的白菜。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About Me</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= null ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/10/18/NSOperation原理探析/" title="NSOperation, NSOperationQueue原理探析" itemprop="url">NSOperation, NSOperationQueue原理探析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-10-18T15:10:36.000Z" itemprop="datePublished"> 发表于 2016-10-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NSOperation_2C_NSOperationQueue_u539F_u7406_u63A2_u6790"><span class="toc-number">1.</span> <span class="toc-text">NSOperation, NSOperationQueue原理探析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u793A_u4F8B_u7A0B_u5E8F"><span class="toc-number">1.1.</span> <span class="toc-text">示例程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u521D_u63A2"><span class="toc-number">1.2.</span> <span class="toc-text">初探</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6700_u540E"><span class="toc-number">1.4.</span> <span class="toc-text">最后</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="NSOperation_2C_NSOperationQueue_u539F_u7406_u63A2_u6790"><a href="#NSOperation_2C_NSOperationQueue_u539F_u7406_u63A2_u6790" class="headerlink" title="NSOperation, NSOperationQueue原理探析"></a>NSOperation, NSOperationQueue原理探析</h1><p>通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue</p>
+<h2 id="u793A_u4F8B_u7A0B_u5E8F"><a href="#u793A_u4F8B_u7A0B_u5E8F" class="headerlink" title="示例程序"></a>示例程序</h2><p>写一个简单的程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    </span><br><span class="line">    [self configurationQueue];</span><br><span class="line">    LDNSOperation *operation = [[LDNSOperation alloc] init];</span><br><span class="line">    [self.operationQueue addOperation:operation];</span><br><span class="line">    [NSThread sleepForTimeInterval:<span class="number">3</span>];</span><br><span class="line">    [operation cancel];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)configurationQueue&#123;</span><br><span class="line">    self.operationQueue = [[NSOperationQueue alloc] init];</span><br><span class="line">    self.operationQueue.maxConcurrentOperationCount = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LDNSOperation为NSOperation的子类，重写strat方法</p>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(void)start&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(self.cancelled)&#123;</span><br><span class="line">            NSLog(@<span class="string">"已经取消"</span>);</span><br><span class="line">            <span class="built_in">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        NSLog(@<span class="string">"start"</span>);</span><br><span class="line">        [NSThread sleepForTimeInterval:<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现的效果很简单，打印三个strat，然后结束operation。</p>
+<h2 id="u521D_u63A2"><a href="#u521D_u63A2" class="headerlink" title="初探"></a>初探</h2><p>根据阅读GNU的源码，也只能是猜想，但是尝试了很多方法，没有找到可以验证的方案，但是实现原理上还是有很多相似处的。</p>
+<p>NSOperation有三种状态，isReady, isExecuting, isFinished.</p>
+<p>很多其他的参数也会随着NSOperationQueue的addOperation操作而变化着。</p>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.operationQueue addOperation:operation];</span><br></pre></td></tr></table></figure>
+<p>添加一个未完成的NSOperation，其实就是将NSOperation添加到一个动态数组当中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">- (void) addOperation: (NSOperation *)op</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (op == nil || NO == [op isKindOfClass: [NSOperation class]])</span><br><span class="line">    &#123;</span><br><span class="line">      [NSException raise: NSInvalidArgumentException</span><br><span class="line">		  format: @<span class="string">"[%@-%@] object is not an NSOperation"</span>,</span><br><span class="line">	NSStringFromClass([self class]), NSStringFromSelector(_cmd)];</span><br><span class="line">    &#125;</span><br><span class="line">  [internal-&gt;lock lock];</span><br><span class="line">  <span class="keyword">if</span> (NSNotFound == [internal-&gt;operations indexOfObjectIdenticalTo: op]</span><br><span class="line">    &amp;&amp; NO == [op isFinished])</span><br><span class="line">    &#123;</span><br><span class="line">      [op addObserver: self</span><br><span class="line">	   <span class="keyword">for</span>KeyPath: @<span class="string">"isReady"</span></span><br><span class="line">	      options: NSKeyValueObservingOptionNew</span><br><span class="line">	      context: NULL];</span><br><span class="line">      [self willChangeValueForKey: @<span class="string">"operations"</span>];</span><br><span class="line">      [self willChangeValueForKey: @<span class="string">"operationCount"</span>];</span><br><span class="line">      [internal-&gt;operations addObject: op];</span><br><span class="line">      [self didChangeValueForKey: @<span class="string">"operationCount"</span>];</span><br><span class="line">      [self didChangeValueForKey: @<span class="string">"operations"</span>];</span><br><span class="line">      <span class="keyword">if</span> (YES == [op isReady])</span><br><span class="line">      &#123;</span><br><span class="line">          [self observeValueForKeyPath: @<span class="string">"isReady"</span></span><br><span class="line">			      ofObject: op</span><br><span class="line">				change: nil</span><br><span class="line">			       context: nil];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  [internal-&gt;lock unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>internal就是一个内部类，指代的就是NSOperationQueue，这里也是一个KVO的手动通知，进行operations，与operationCount的改变通知。</p>
+<p>这里lock是NSRecursiveLock（递归锁），原因我猜测是因为递归锁的特性是可以被同一线程多次请求，而不会引起死锁。同一线程的多次addOperation操做情况还是很多的。</p>
+<p>每一次属性的变化，都伴随着其他属性的改变</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">- (void) observeValueForKeyPath: (NSString *)keyPath</span><br><span class="line">		       ofObject: (id)object</span><br><span class="line">                         change: (NSDictionary *)change</span><br><span class="line">                        context: (void *)context</span><br><span class="line">&#123;</span><br><span class="line">  [internal-&gt;lock lock];</span><br><span class="line">  <span class="keyword">if</span> (YES == [object isFinished])</span><br><span class="line">    &#123;</span><br><span class="line">      internal-&gt;executing--;</span><br><span class="line">      [object removeObserver: self</span><br><span class="line">		  <span class="keyword">for</span>KeyPath: @<span class="string">"isFinished"</span>];</span><br><span class="line">      [internal-&gt;lock unlock];</span><br><span class="line">      [self willChangeValueForKey: @<span class="string">"operations"</span>];</span><br><span class="line">      [self willChangeValueForKey: @<span class="string">"operationCount"</span>];</span><br><span class="line">      [internal-&gt;lock lock];</span><br><span class="line">      [internal-&gt;operations removeObjectIdenticalTo: object];</span><br><span class="line">      [internal-&gt;lock unlock];</span><br><span class="line">      [self didChangeValueForKey: @<span class="string">"operationCount"</span>];</span><br><span class="line">      [self didChangeValueForKey: @<span class="string">"operations"</span>];</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (YES == [object isReady])</span><br><span class="line">    &#123;</span><br><span class="line">      [object removeObserver: self</span><br><span class="line">		  <span class="keyword">for</span>KeyPath: @<span class="string">"isReady"</span>];</span><br><span class="line">      [internal-&gt;waiting addObject: object];</span><br><span class="line">      [internal-&gt;lock unlock];</span><br><span class="line">    &#125;</span><br><span class="line">  [self _execute];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">其实在maxConcurrentOperationCount和suspended的setter方法里面都会调用_execute方法,以及在其他属性如operationCount、operations、值发生变化的时候都会调用它。</span><br><span class="line"></span><br><span class="line">那么_execute究竟是什么？</span><br><span class="line"></span><br><span class="line">整个源码都拿上来</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">- (void) _execute</span><br><span class="line">&#123;</span><br><span class="line">  NSInteger	max;</span><br><span class="line"></span><br><span class="line">  [internal-&gt;lock lock];</span><br><span class="line"></span><br><span class="line">  max = [self maxConcurrentOperationCount];</span><br><span class="line">  <span class="keyword">if</span> (NSOperationQueueDefaultMaxConcurrentOperationCount == max)</span><br><span class="line">    &#123;</span><br><span class="line">      max = maxConcurrent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (NO == [self isSuspended]</span><br><span class="line">    &amp;&amp; max &gt; internal-&gt;executing</span><br><span class="line">    &amp;&amp; [internal-&gt;waiting count] &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      NSOperation	*op;</span><br><span class="line">      op = [internal-&gt;waiting objectAtIndex: <span class="number">0</span>];</span><br><span class="line">      [internal-&gt;waiting removeObjectAtIndex: <span class="number">0</span>];</span><br><span class="line">      [op addObserver: self</span><br><span class="line">	   <span class="keyword">for</span>KeyPath: @<span class="string">"isFinished"</span></span><br><span class="line">	      options: NSKeyValueObservingOptionNew</span><br><span class="line">	      context: NULL];</span><br><span class="line">      internal-&gt;executing++;</span><br><span class="line">      <span class="keyword">if</span> (YES == [op isConcurrent])</span><br><span class="line">	&#123;</span><br><span class="line">          [op start];</span><br><span class="line">	&#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">	  NSUInteger	pending;</span><br><span class="line"></span><br><span class="line">	  [internal-&gt;cond lock];</span><br><span class="line">	  pending = [internal-&gt;starting count];</span><br><span class="line">	  [internal-&gt;starting addObject: op];</span><br><span class="line">	  <span class="keyword">if</span> (<span class="number">0</span> == internal-&gt;threadCount</span><br><span class="line">	    || (pending &gt; <span class="number">0</span> &amp;&amp; internal-&gt;threadCount &lt; POOL))</span><br><span class="line">	    &#123;</span><br><span class="line">	      internal-&gt;threadCount++;</span><br><span class="line">	      [NSThread detachNewThreadSelector: @selector(_thread)</span><br><span class="line">				       toTarget: self</span><br><span class="line">				     withObject: nil];</span><br><span class="line">	    &#125;</span><br><span class="line">	  /* Tell the thread pool that there is an operation to start.</span><br><span class="line">	   */</span><br><span class="line">	  [internal-&gt;cond unlockWithCondition: <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  [internal-&gt;lock unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从源码中可以看到，根据isConcurrent分为直接执行，和非直接执行，isConcurrent为YES的话可以直接执行start操作，但是如果isConcurrent为NO，那么这里使用detachNewThreadSelector来创建新的线程去执行start。</p>
+<p>总结下来：</p>
+<ul>
+<li>所有的线程都很忙，并且没有达到threadCount的最大值的时候会创建新的线程，这代表queue并不是一个线程，也有可能有几个</li>
+<li>_execute就是一个执行队列，依次将等待队列里面的所有operation进行start。</li>
+</ul>
+<p>其实对于start函数来说的话，一个NSOperation并没有新创建一条线程，依然操作在[NSThread currentThread]中，感兴趣可以去做一下测试。从源码中也是可以看出来的，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">- (void) start</span><br><span class="line">&#123;</span><br><span class="line">  NSAutoreleasePool	*pool = [NSAutoreleasePool new];</span><br><span class="line">  double		prio = [NSThread  threadPriority];</span><br><span class="line"></span><br><span class="line">  [internal-&gt;lock lock];</span><br><span class="line">  NS_DURING</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (YES == [self isConcurrent])</span><br><span class="line">	&#123;</span><br><span class="line">	  [NSException raise: NSInvalidArgumentException</span><br><span class="line">		      format: @<span class="string">"[%@-%@] called on concurrent operation"</span>,</span><br><span class="line">	    NSStringFromClass([self class]), NSStringFromSelector(_cmd)];</span><br><span class="line">	&#125;</span><br><span class="line">      <span class="keyword">if</span> (YES == [self isExecuting])</span><br><span class="line">	&#123;</span><br><span class="line">	  [NSException raise: NSInvalidArgumentException</span><br><span class="line">		      format: @<span class="string">"[%@-%@] called on executing operation"</span>,</span><br><span class="line">	    NSStringFromClass([self class]), NSStringFromSelector(_cmd)];</span><br><span class="line">	&#125;</span><br><span class="line">      <span class="keyword">if</span> (YES == [self isFinished])</span><br><span class="line">	&#123;</span><br><span class="line">	  [NSException raise: NSInvalidArgumentException</span><br><span class="line">		      format: @<span class="string">"[%@-%@] called on finished operation"</span>,</span><br><span class="line">	    NSStringFromClass([self class]), NSStringFromSelector(_cmd)];</span><br><span class="line">	&#125;</span><br><span class="line">      <span class="keyword">if</span> (NO == [self isReady])</span><br><span class="line">	&#123;</span><br><span class="line">	  [NSException raise: NSInvalidArgumentException</span><br><span class="line">		      format: @<span class="string">"[%@-%@] called on operation which is not ready"</span>,</span><br><span class="line">	    NSStringFromClass([self class]), NSStringFromSelector(_cmd)];</span><br><span class="line">	&#125;</span><br><span class="line">      <span class="keyword">if</span> (NO == internal-&gt;executing)</span><br><span class="line">	&#123;</span><br><span class="line">	  [self willChangeValueForKey: @<span class="string">"isExecuting"</span>];</span><br><span class="line">	  internal-&gt;executing = YES;</span><br><span class="line">	  [self didChangeValueForKey: @<span class="string">"isExecuting"</span>];</span><br><span class="line">	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  NS_HANDLER</span><br><span class="line">    &#123;</span><br><span class="line">      [internal-&gt;lock unlock];</span><br><span class="line">      [<span class="built_in">local</span>Exception raise];</span><br><span class="line">    &#125;</span><br><span class="line">  NS_ENDHANDLER</span><br><span class="line">  [internal-&gt;lock unlock];</span><br><span class="line"></span><br><span class="line">  NS_DURING</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (NO == [self isCancelled])</span><br><span class="line">	&#123;</span><br><span class="line">	  [NSThread <span class="built_in">set</span>ThreadPriority: internal-&gt;threadPriority];</span><br><span class="line">	  [self main];</span><br><span class="line">	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  NS_HANDLER</span><br><span class="line">    &#123;</span><br><span class="line">      [NSThread <span class="built_in">set</span>ThreadPriority:  prio];</span><br><span class="line">      [<span class="built_in">local</span>Exception raise];</span><br><span class="line">    &#125;</span><br><span class="line">  NS_ENDHANDLER;</span><br><span class="line"></span><br><span class="line">  [self _finish];</span><br><span class="line">  [pool release];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>整个过程伴随着很多属性的变化，同步这些属性，KVO在其中起着举足轻重的作用，通过源码也可以发现，NSOperationQueue对NSOperation的处理分为并发和非并发的情况。如果不想采用非并发的形式，我们可以直接自定义子类化，在NSOperationQueue中添加，并且管理就可以了，功能类似线程池的用法。</p>
+<p>但是如果想要自定义的NSOperation是并发的仅仅是重写isExecuting、isFinished、isConcurrent、isAsynchronous 这四个方法，isAsynchronous反回YES就可以了吗？</p>
+<p>从源码中我们可以看到，NSOperation的start依然使用的[NSThread currentThread]。所以依然需要自己创建，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSThread detachNewThreadSelector:@selector(start) toTarget:self withObject:nil];</span><br></pre></td></tr></table></figure>
+<p>现在来思考下，也就明白了为什么NSOperationQueue要有两种处理方式了，如果NSOperation支持并发，然后NSOperationQueue在为其分配线程，那就是线程里面又跑了一条线程，这样就很尴尬了，通过isConcurrent可以避免这种现象。</p>
+<p>通常在大多数时候我们并不会直接去使用自定义的 NSOperation ，如果操作不复杂，可以直接使用 NSInvocationOperation 和 NSBlockOperation 这两个子类。</p>
+<p>如果真的需要使用多线程，通常都会用 NSOperationQueue来处理就可以了。</p>
+<p>这里也是仅仅简单的探索了一下，封装的NSThread，还是有很多细节的，例如依赖，暂停的实现。</p>
+<h2 id="u6700_u540E"><a href="#u6700_u540E" class="headerlink" title="最后"></a>最后</h2><p>我相信GNU的Foundation与Apple的Foundation的实现还是有一些相似处的，以上就是一些对应的猜想，但是有一些地方还没有验证</p>
+<p>例如：源码中看出一个队列里对于非并发操作最多允许8个线程，但是我自己试了试，貌似不是这个样子。可能是我的方法不对</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/GNUstep/">GNUstep</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://Lastdays.cn/2016/10/18/NSOperation原理探析/" data-title="NSOperation, NSOperationQueue原理探析 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/09/20/SiriKit/"  title="SiriKit描述">
+ <strong>下一篇：</strong><br/> 
+ <span>SiriKit描述
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/10/18/NSOperation原理探析/" data-title="NSOperation, NSOperationQueue原理探析" data-url="http://Lastdays.cn/2016/10/18/NSOperation原理探析/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NSOperation_2C_NSOperationQueue_u539F_u7406_u63A2_u6790"><span class="toc-number">1.</span> <span class="toc-text">NSOperation, NSOperationQueue原理探析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u793A_u4F8B_u7A0B_u5E8F"><span class="toc-number">1.1.</span> <span class="toc-text">示例程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u521D_u63A2"><span class="toc-number">1.2.</span> <span class="toc-text">初探</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6700_u540E"><span class="toc-number">1.4.</span> <span class="toc-text">最后</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/GNUstep/" title="GNUstep">GNUstep<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Runtime/" title="Runtime">Runtime<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WebKit/" title="WebKit">WebKit<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/控件设计优化/" title="控件设计优化">控件设计优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试经验/" title="面试经验">面试经验<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Objective—C消息发送与转发/" title="Objective—C消息发送与转发">Objective—C消息发送与转发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C类和对象的实现原理/" title="Objective-C类和对象的实现原理">Objective-C类和对象的实现原理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.devtf.cn" target="_blank" title="高质量技术文章的聚合网站">开发者技术前线</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/40e4dced948f/latest_articles" target="_blank" title="大V的博客">kuailejim</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/9c51a213b02e/latest_articles" target="_blank" title="好友">Martin_wjl</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://bestswifter.com" target="_blank" title="好友">bestswifter</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="feed://lastdays.cn/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5848341536&verifier=b03f6446&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 我叫Lastdays，一个喜欢iOS的90后，单线程的iOS开发男孩. <br/>
+			感谢我有一个师傅</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5848341536" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/MrLoong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lastdays1122@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Lastdays">Lastdays</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lastdayss"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?cf7f851be66540259af32ff62b1cda71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

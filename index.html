@@ -80,6 +80,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/10/18/NSOperation原理探析/" title="NSOperation, NSOperationQueue原理探析" itemprop="url">NSOperation, NSOperationQueue原理探析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
+		
+  <p class="article-time">
+    <time datetime="2016-10-18T15:10:36.000Z" itemprop="datePublished"> 发表于 2016-10-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="NSOperation_2C_NSOperationQueue_u539F_u7406_u63A2_u6790"><a href="#NSOperation_2C_NSOperationQueue_u539F_u7406_u63A2_u6790" class="headerlink" title="NSOperation, NSOperationQueue原理探析"></a>NSOperation, NSOperationQueue原理探析</h1><p>通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue</p>
+<h2 id="u793A_u4F8B_u7A0B_u5E8F"><a href="#u793A_u4F8B_u7A0B_u5E8F" class="headerlink" title="示例程序"></a>示例程序</h2><p>写一个简单的程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view, typically from a nib.</span><br><span class="line">    </span><br><span class="line">    [self configurationQueue];</span><br><span class="line">    LDNSOperation *operation = [[LDNSOperation alloc] init];</span><br><span class="line">    [self.operationQueue addOperation:operation];</span><br><span class="line">    [NSThread sleepForTimeInterval:<span class="number">3</span>];</span><br><span class="line">    [operation cancel];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)configurationQueue&#123;</span><br><span class="line">    self.operationQueue = [[NSOperationQueue alloc] init];</span><br><span class="line">    self.operationQueue.maxConcurrentOperationCount = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LDNSOperation为NSOperation的子类，重写strat方法</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/10/18/NSOperation原理探析/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/GNUstep/">GNUstep</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/10/18/NSOperation原理探析/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/10/18/NSOperation原理探析/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/09/20/SiriKit/" title="SiriKit描述" itemprop="url">SiriKit描述</a>
   </h1>
   <p class="article-author">By
@@ -658,67 +720,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/17/ex/" title="面试前的准备" itemprop="url">面试前的准备</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-17T02:27:44.000Z" itemprop="datePublished"> 发表于 2016-05-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="u9762_u8BD5_u524D_u7684_u51C6_u5907"><a href="#u9762_u8BD5_u524D_u7684_u51C6_u5907" class="headerlink" title="面试前的准备"></a>面试前的准备</h1><p>目前拿到的知名公司的offer是腾讯和新美大（大众点评、美团）</p>
-<p>一直想写一篇面经，分享给大家，但是一直因为一些琐碎的事情，就一直耽误着。今天就特意拿出一些时间去写它。很多人都分享了很多的面经，而且还有好多面试题目在很多社区都有相关的资料。很多面试题也都有相关的解析，但是仅仅是刷这些面试题其实并不一定可以找到自己心仪的工作。下面就主要介绍下我是如何在面试前做准备工作的</p>
-<h2 id="u6211_u7ECF_u5386_u7684_u4E00_u4E9B_u9762_u8BD5"><a href="#u6211_u7ECF_u5386_u7684_u4E00_u4E9B_u9762_u8BD5" class="headerlink" title="我经历的一些面试"></a>我经历的一些面试</h2><p>因为大三了从今年3月份开始，自己开始找工作，开始也不明白该怎么做，就简单写了一了一份简历，简历上就是一些自己相关的学习经历。最开始的时候选择了一些自己觉得可以的小公司，并且获得了一些面试机会，第一次面试很紧张，不知道该跟面试官说什么，不知道该如何去介绍自己，不知道该怎么做，就是傻傻的一顿被问，正如你所想的，我不可能所有的问题答的都很好，因为基本上面试官是想到什么就问什么(他可能是准备好的问题，但是我真的觉得我的第一次面试是他想到什么就问什么)。面试结束后，我就好好总结了下，然后又开始了第二家。这么经历了几次就发现，自己不在那么紧张了，自己开始占据主动权，引领着面试官走。所以现在回忆一下，多面一些还是能增长很多经验的。不管是你表达能力的提升，我所经历的面试官人都非常好，开始可能会很紧张，但是后来感觉就像是在聊天，两个志同道合的人聊着同一个话题，从这个聊天的过程当中也收获了很多自己不知道的东西。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/05/17/ex/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/面试经验/">面试经验</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/17/ex/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/17/ex/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -738,6 +739,10 @@
 		
 		  
 			<li><a href="/categories/Blocks/" title="Blocks">Blocks<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/GNUstep/" title="GNUstep">GNUstep<sup>1</sup></a></li>
 		  
 		
 		  
