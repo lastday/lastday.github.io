@@ -16,12 +16,12 @@
 12345678910111213141516- (void)viewDidLoad &amp;#123;    [super viewDidLoad];    // Do any additional s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NSOperation, NSOperationQueue原理探析">
-<meta property="og:url" content="http://Lastdays.cn/2016/10/18/NSOperation原理探析/index.html">
+<meta property="og:url" content="http://Lastdays.cn/2016/10/21/NSOperation原理探析/index.html">
 <meta property="og:site_name" content="Lastdays's Blog">
 <meta property="og:description" content="NSOperation, NSOperationQueue原理探析通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue
 示例程序写一个简单的程序
 12345678910111213141516- (void)viewDidLoad &amp;#123;    [super viewDidLoad];    // Do any additional s">
-<meta property="og:updated_time" content="2016-10-18T15:15:27.000Z">
+<meta property="og:updated_time" content="2016-10-21T03:25:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSOperation, NSOperationQueue原理探析">
 <meta name="twitter:description" content="NSOperation, NSOperationQueue原理探析通过GNUstep的Foundation来尝试探索下NSOperation，NSOperationQueue
@@ -85,14 +85,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/10/18/NSOperation原理探析/" title="NSOperation, NSOperationQueue原理探析" itemprop="url">NSOperation, NSOperationQueue原理探析</a>
+      <a href="/2016/10/21/NSOperation原理探析/" title="NSOperation, NSOperationQueue原理探析" itemprop="url">NSOperation, NSOperationQueue原理探析</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lastdays" target="_blank" itemprop="author">Lastdays</a>
 		
   <p class="article-time">
-    <time datetime="2016-10-18T15:15:27.000Z" itemprop="datePublished"> 发表于 2016-10-18</time>
+    <time datetime="2016-10-21T03:25:57.000Z" itemprop="datePublished"> 发表于 2016-10-21</time>
     
   </p>
 </header>
@@ -142,7 +142,7 @@
 <p>现在来思考下，也就明白了为什么NSOperationQueue要有两种处理方式了，如果NSOperation支持并发，然后NSOperationQueue在为其分配线程，那就是线程里面又跑了一条线程，这样就很尴尬了，通过isConcurrent可以避免这种现象。</p>
 <p>通常在大多数时候我们并不会直接去使用自定义的 NSOperation ，如果操作不复杂，可以直接使用 NSInvocationOperation 和 NSBlockOperation 这两个子类。</p>
 <p>如果真的需要使用多线程，通常都会用 NSOperationQueue来处理就可以了。</p>
-<p>这里也是仅仅简单的探索了一下，封装的NSThread，还是有很多细节的，例如依赖，暂停的实现。</p>
+<p>这里也是仅仅简单的探索了一下，上面的源码是封装的NSThread，但是Apple的实现可能封装的不是NSThread，因为断点后并没有看到跟NSThread相关的东西，还是有很多细节需要去推敲。</p>
 <h2 id="u6700_u540E"><a href="#u6700_u540E" class="headerlink" title="最后"></a>最后</h2><p>我相信GNU的Foundation与Apple的Foundation的实现还是有一些相似处的，以上就是一些对应的猜想，但是有一些地方还没有验证</p>
 <p>例如：源码中看出一个队列里对于非并发操作最多允许8个线程，但是我自己试了试，貌似不是这个样子。可能是我的方法不对</p>
   
@@ -162,7 +162,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://Lastdays.cn/2016/10/18/NSOperation原理探析/" data-title="NSOperation, NSOperationQueue原理探析 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
+	  <div data-url="http://Lastdays.cn/2016/10/21/NSOperation原理探析/" data-title="NSOperation, NSOperationQueue原理探析 | Lastdays&#39;s Blog" data-tsina="5848341536" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -188,7 +188,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/10/18/NSOperation原理探析/" data-title="NSOperation, NSOperationQueue原理探析" data-url="http://Lastdays.cn/2016/10/18/NSOperation原理探析/"></div>
+	<div class="ds-thread" data-thread-key="2016/10/21/NSOperation原理探析/" data-title="NSOperation, NSOperationQueue原理探析" data-url="http://Lastdays.cn/2016/10/21/NSOperation原理探析/"></div>
 </section>
 
 
